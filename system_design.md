@@ -1,18 +1,15 @@
 ```mermaid
 flowchart TD
-    User --> WA[WhatsApp]
-    WA --> OR
-    OR --> SS
-    SS --> TE
-    TE --> MU
-    MU --> R[Response]
-    R --> User
-
+    U_input[User]
+    U_output[User]
+    WA[WhatsApp]
+    R[Response]
 
     subgraph OR[OpenClaw Runtime]
         O[orchestrator]
         S[sessions]
     end
+
 
     subgraph SS[Skill Selector]
         PS[propretySearch]
@@ -21,13 +18,23 @@ flowchart TD
     end
 
     subgraph TE[Tool Execution]
-        A[async functions]
+        TAF[typed async functions]
     end
 
     subgraph MU[Memory Update]
-        ST[shortTerm]
-        LT[longTerm]
+        ST[shortTerm: session state]
+        LT[longTerm: vector store]
     end
+
+
+    U_input --> WA
+    WA --> OR
+    OR --> SS
+    SS --> TE
+    TE --> MU
+    MU --> R
+    R --> U_output
+
 
 
 ```
