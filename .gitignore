@@ -1,7 +1,7 @@
 # api keys & local variables
 .env
-.env.example
 *.env
+!.env.example   # template (no secrets) — keep this one tracked
 
 # ceo rule: no raw data or dumps in repo
 *.csv
