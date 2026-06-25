@@ -1,0 +1,11 @@
+# Python dependencies for the IDX multi-agent project (rigor / data layer).
+# OpenClaw itself is installed separately via npm (see README).
+# Install:  pip install -r requirements.txt
+
+pandas==2.3.1
+numpy==2.4.3
+SQLAlchemy==2.0.43
+mysql-connector-python==9.7.0
+python-dotenv==1.0.1
+openai==2.30.0
+scikit-learn==1.8.0
