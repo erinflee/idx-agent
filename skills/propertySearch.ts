@@ -1,5 +1,7 @@
 // natural language property search
 
+import cities from "./cities.json";
+
 // structured filter we extract -> each variable maps to a real rets_property field
 export interface PropertyFilter {
   city?: string;
@@ -13,12 +15,20 @@ export interface PropertyFilter {
   maxHoa?: number;
 }
 
+function replaceAsLiteral(s: string): string {
+  return s.replace(/[.*+?^${}()|[\][\\]]/g, "\\$&");
+}
+
+function findCity(query: string): string | undefined {
+  return cities.find((c) => new RegExp(`\\b${replaceAsLiteral(c)}\\b`, "i").test(query));
+}
+
 // turn free-text query into structured filter object
 export function parsePropertyQuery(query: string): PropertyFilter {
   const filter: PropertyFilter = {};
 
   // define patterns to be used for extracting info
-  const cityMatch = query.match(/\bin\s+([a-z][a-z\s]*?)(?=\s+(?:under|with|over|and|\$|\d)\b|[,.?!]|$)/i);
+  const city = findCity(query);
   const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|≤|cheaper\s+than)\s*\$?([\d,.]+)(k|m)?/i);
   const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms)/i);
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms)/i);
@@ -43,7 +53,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const propertyMatch = Object.keys(propertyMap).find((k) => query.toLowerCase().includes(k));
 
   // use patterns from above and find all matches with query
-  if (cityMatch) filter.city = cityMatch[1].trim();
+  if (city) filter.city = city;
   if (priceMatch) {
     let maxPrice = Number(priceMatch[1].replace(/,/g, ""));
     const suffix = priceMatch[2]?.toLowerCase();
@@ -63,4 +73,38 @@ export function parsePropertyQuery(query: string): PropertyFilter {
 }
 
 // quick test
-console.log(parsePropertyQuery("Show me 3-bedroom condos in Irvine under $1.5M with a pool."));
+function main() {
+  const testQueries = [
+    // single field
+    "place in Stanford",
+    "home under 900k",
+    "2.5 bath listings",
+    "1,800 sq ft properties",
+    "home with a pool",
+
+    // multiple field
+    "3 bed 2.5 bath single family in Pasadena under $1.2M with a pool",
+    "2 bedroom condo in Long Beach under $600k",
+    "condo in San Francisco under $1.2M with pool and view",
+
+    // no match -> should return {}
+    "hello there",
+    "show me something nice",
+
+    // weak spots
+    "homes in Walnut Creek below $500k",
+    "warehouse loft in Santa Cruz",
+    "condo in Berkeley with HOA under $500",
+    "condo without a pool",
+    "$1,200,000 home in Irvine",
+  ];
+
+  console.log("=== NLP Parser Test Results ===\n");
+  for (const query of testQueries) {
+    console.log(`Query: "${query}"`);
+    console.log("Parsed:", JSON.stringify(parsePropertyQuery(query), null, 2));
+    console.log("---");
+  }
+}
+
+main();
