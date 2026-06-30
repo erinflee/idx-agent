@@ -24,7 +24,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms)/i)
   const sqftMatch = query.match(/\b(\d[\d,]*)[\s-]*(?:sqft|sq\s+ft|square\s+feet|sq\.\s+ft\.|sf)/i);
   const poolMatch = query.match(/\b(?:swimming\s+)?pools?\b/i);
-  const viewMatch = 
+  const viewMatch = query.match(/\bviews?\b/i)
   const hoaMatch = 
 
   
@@ -61,6 +61,11 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   if (poolMatch) {
     filter.pool = 1;
   }
+
+  if (viewMatch) {
+    filter.view = 1;
+  }
+
   return filter;
 }
 
