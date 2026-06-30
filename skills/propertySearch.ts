@@ -50,7 +50,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
     house: "SingleFamilyResidence",
   };
 
-  const propertyMatch = Object.keys(propertyMap).find((k) => query.toLowerCase().includes(k));
+  const propertyMatch = Object.keys(propertyMap).find((k) => new RegExp(`\\b${replaceAsLiteral(k)}\\b`, "i").test(query));
 
   // use patterns from above and find all matches with query
   if (city) filter.city = city;
