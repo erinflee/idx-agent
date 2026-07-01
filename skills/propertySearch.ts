@@ -1,6 +1,6 @@
 // natural language property search
 
-import cities from "./cities.json";
+import cities from "./cities.json" with { type: "json" };
 
 // map user-facing property-type words to rets_property L_Type_ values
 const propertyMap: Record<string, string> = {
@@ -69,40 +69,3 @@ export function parsePropertyQuery(query: string): PropertyFilter {
 
   return filter;
 }
-
-// quick test
-function main() {
-  const testQueries = [
-    // single field
-    "place in Stanford",
-    "home under 900k",
-    "2.5 bath listings",
-    "1,800 sq ft properties",
-    "home with a pool",
-
-    // multiple field
-    "3 bed 2.5 bath single family in Pasadena under $1.2M with a pool",
-    "2 bedroom townhouse in Long Beach under $600k",
-    "condo in San Francisco under $1.2M with pool and view",
-
-    // no match -> should return {}
-    "hello there",
-    "show me something nice",
-
-    // weak spots
-    "homes in Walnut Creek below $500k",
-    "warehouse loft in Santa Cruz",
-    "condo in Berkeley under 300k with HOA under $500",
-    "condo without a pool",
-    "$1,200,000 home in Irvine",
-  ];
-
-  console.log("=== NLP Parser Test Results ===\n");
-  for (const query of testQueries) {
-    console.log(`Query: "${query}"`);
-    console.log("Parsed:", JSON.stringify(parsePropertyQuery(query), null, 2));
-    console.log("---");
-  }
-}
-
-main();
