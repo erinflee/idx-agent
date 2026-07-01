@@ -2,6 +2,19 @@
 
 import cities from "./cities.json";
 
+// map user-facing property-type words to rets_property L_Type_ values
+const propertyMap: Record<string, string> = {
+  condo: "Condominium",
+  condominium: "Condominium",
+  townhome: "Townhouse",
+  townhouse: "Townhouse",
+  "single family residence": "SingleFamilyResidence",
+  "single family": "SingleFamilyResidence",
+  sfr: "SingleFamilyResidence",
+  house: "SingleFamilyResidence",
+  land: "UnimprovedLand",
+};
+
 // structured filter we extract -> each variable maps to a real rets_property field
 export interface PropertyFilter {
   city?: string;
@@ -15,25 +28,12 @@ export interface PropertyFilter {
   maxHoa?: number;
 }
 
-function replaceAsLiteral(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function findCity(query: string): string | undefined {
-  return cities.find((c) => {
-    const literalCity = replaceAsLiteral(c);
-    const checkA = new RegExp(`\\b(?:in|around|near|within)\\s+${literalCity}\\b`, "i").test(query);
-    const checkB = new RegExp(`\\b${literalCity}\\b`).test(query);
-    return checkA || checkB;
-  });
-}
-
 // turn free-text query into structured filter object
 export function parsePropertyQuery(query: string): PropertyFilter {
   const filter: PropertyFilter = {};
 
-  // define patterns to be used for extracting info
-  const city = findCity(query);
+  const replaceAsLiteral = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const city = cities.find((c) => new RegExp(`\\b(?:in|around|near|within)\\s+${replaceAsLiteral(c)}\\b`, "i").test(query));
   const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|≤|cheaper\s+than)\s*\$?([\d,.]+)(k|m)?/i);
   const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(k|m)?\b/i);
   const priceSource = priceMatch ?? priceFallback;
@@ -47,18 +47,6 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const hoaBefore = query.match(/(?:under|below|max|up\s+to|no\s+more\s+than)\s*\$?(\d[\d,]*)\s*(?:\/\s*mo(?:nth)?)?\s*(?:hoa|association\s+(?:fees?|dues?)|hoa\s+fees?)/i);
   const hoaAfter = query.match(/(?:hoa|association(?:\s+fees?|\s+dues?)?)\s*(?:fees?|dues?)?\s*(?:under|below|max|up\s+to|no\s+more\s+than|≤)\s*\$?(\d[\d,]*)/i);
   const hoaMatch = hoaBefore ?? hoaAfter;
-
-  const propertyMap: Record<string, string> = {
-    condo: "Condominium",
-    condominium: "Condominium",
-    townhome: "Townhouse",
-    townhouse: "Townhouse",
-    "single family residence": "SingleFamilyResidence",
-    "single family": "SingleFamilyResidence",
-    sfr: "SingleFamilyResidence",
-    house: "SingleFamilyResidence",
-    land: "UnimprovedLand",
-  };
 
   const propertyMatch = Object.keys(propertyMap).find((k) => new RegExp(`\\b${replaceAsLiteral(k)}\\b`, "i").test(query));
 
