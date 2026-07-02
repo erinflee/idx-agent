@@ -36,7 +36,7 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | 0    | Env setup · DB import · WhatsApp · keys | infra (`~/.openclaw`)          | done        |
 | 1    | Architecture diagram                    | `docs/architecture.md` · `.d2` | done        |
 | 2    | NL property-search parser               | `skills/propertySearch.ts`     | done        |
-| 3    | Parameterized MySQL query layer         | `db.py`                        | —           |
+| 3    | Parameterized MySQL query layer         | `db.py`                        | in progress |
 | 4    | Multi-turn conversational agent         | `skills/`                      | —           |
 | 5    | Market analytics                        | `skills/marketStats.ts`        | —           |
 | 6    | Embeddings & vector search              | local `sentence-transformers`  | —           |
