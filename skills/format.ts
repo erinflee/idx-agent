@@ -9,7 +9,10 @@ import type { ListingRow } from "./listingSearch";
 export function formatListing(row: ListingRow): string {
 
   return `${row.address}, ${row.city}
-$${row.price}, ${row.beds} bd / ${row.baths} ba, ${row.sqft} sqft
+$${row.price.toLocaleString()} • ${row.beds} bd / ${row.baths} ba • ${row.sqft.toLocaleString()} sqft
 ${row.property}`;
   
 }
+
+
+
