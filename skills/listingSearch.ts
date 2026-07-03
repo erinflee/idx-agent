@@ -11,6 +11,7 @@ export interface ListingRow {
   id: string;
   address: string;
   city: string;
+  zip: number;
   price: number;
   beds: number;
   baths: number;
@@ -28,6 +29,7 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       L_ListingID as id,
       L_Address as address,
       L_City as city, 
+      L_Zip as zip, 
       L_SystemPrice as price,
       L_Keyword2 as beds, 
       LM_DEC_3 as baths, 
