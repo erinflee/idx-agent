@@ -4,7 +4,7 @@
   "type": "module",
   "description": "TypeScript OpenClaw skills for the MLS assistant (parser tests run via tsx).",
   "scripts": {
-    "test": "tsx skills/propertySearch.test.ts"
+    "test": "tsx skills/propertySearch/parse.test.ts"
   },
   "devDependencies": {
     "tsx": "^4.22.4"
