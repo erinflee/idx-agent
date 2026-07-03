@@ -1,5 +1,5 @@
-// validation for parsePropertyQuery — run directly to check the parser against known queries
-import { parsePropertyQuery, type PropertyFilter } from "./propertySearch.ts";
+// validation for parsePropertyQuery —> run directly to check the parser against known queries
+import { parsePropertyQuery, type PropertyFilter } from "./parse.ts";
 
 // each query paired with the filter parsePropertyQuery must produce
 const testCases: [string, PropertyFilter][] = [
@@ -33,6 +33,7 @@ function main() {
     const actual = JSON.stringify(parsePropertyQuery(query));
     const want = JSON.stringify(expected);
     if (actual !== want) throw new Error(`FAIL "${query}"\n  expected ${want}\n  got      ${actual}`);
+    console.log(`PASS  ${query}`);
   }
   console.log(`All ${testCases.length} cases passed`);
 }

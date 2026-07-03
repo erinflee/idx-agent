@@ -3,8 +3,8 @@
 // take the PropertyFilter (imported from Week 2's parsePropertyQuery) and turns it
 // into a parameterized SQL query against the active listings -> returns the matching rows
 
-import { query } from "./db";
-import type { PropertyFilter } from "./propertySearch";
+import { query } from "../shared/db";
+import type { PropertyFilter } from "./parse";
 
 // One row coming back from rets_property -> fields line up with SELECT
 export interface ListingRow {

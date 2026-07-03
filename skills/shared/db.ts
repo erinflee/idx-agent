@@ -20,7 +20,7 @@ const pool = mysql.createPool({
 });
 
 // Run a parameterized query and return the rows typed as T.
-// `params` fills the `?` placeholders in order.
+// callers put ? placeholders in their SQL -> params fills them in order
 export async function query<T>(sql: string, params: unknown[] = []): Promise<T[]> {
   const [rows] = await pool.execute(sql, params);
   return rows as T[];
