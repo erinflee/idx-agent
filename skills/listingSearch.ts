@@ -43,13 +43,13 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
   const params: any[] = []; // what to be matched on
   const offset = (page - 1) * limit; // how many rows to skip before starting
 
-  if (filter.city) {sql += " city = ?"; params.push(filter.city)};
-  if (filter.maxPrice) {sql += " price <= ?"; params.push(filter.maxPrice)};
-  if (filter.beds) {sql += " beds >= ?"; params.push(filter.beds)};
-  if (filter.baths) {sql += " baths >= ?"; params.push(filter.baths)};
-  if (filter.sqft) {sql += " sqrt ?= ?"; params.push(filter.sqft)};
-  if (filter.type) {sql += " type = ?"; params.push(filter.type)};
-  if (filter.pool) {sql += " pool = ?"; params.push(filter.pool)};
-  if (filter.hasView) {sql += " view = ?"; params.push(filter.hasView)};
-  if (filter.maxHoa) {sql += " hoa <= ?"; params.push(filter.maxHoa)};
+  if (filter.city) {sql += " AND L_CITY = ?"; params.push(filter.city)};
+  if (filter.maxPrice) {sql += " AND L_SystemPrice <= ?"; params.push(filter.maxPrice)};
+  if (filter.beds) {sql += " AND L_Keyword2 >= ?"; params.push(filter.beds)};
+  if (filter.baths) {sql += " AND LM_DEC_3 >= ?"; params.push(filter.baths)};
+  if (filter.sqft) {sql += " AND LM_Int2_3 >= ?"; params.push(filter.sqft)};
+  if (filter.type) {sql += " AND L_Type_ = ?"; params.push(filter.type)};
+  if (filter.pool) {sql += " AND PoolPrivateYN = ?"; params.push(filter.pool)};
+  if (filter.hasView) {sql += " AND ViewYN = ?"; params.push(filter.hasView)};
+  if (filter.maxHoa) {sql += " AND AssociationFee <= ?"; params.push(filter.maxHoa)};
 }
