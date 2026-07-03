@@ -1,4 +1,4 @@
-// natural language property search
+// Week 2 - natural language property search
 
 import cities from "./cities.json" with { type: "json" };
 
@@ -22,7 +22,7 @@ export interface PropertyFilter {
   beds?: number;
   baths?: number;
   sqft?: number;
-  type?: string;
+  property?: string;
   pool?: string;
   hasView?: string;
   maxHoa?: number;
@@ -65,7 +65,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   if (poolMatch && !poolNegated) filter.pool = "1";
   if (viewMatch && !viewNegated) filter.hasView = "1";
   if (hoaMatch) filter.maxHoa = Number(hoaMatch[1].replace(/,/g, ""));
-  if (propertyMatch) filter.type = propertyMap[propertyMatch];
+  if (propertyMatch) filter.property = propertyMap[propertyMatch];
 
   return filter;
 }
