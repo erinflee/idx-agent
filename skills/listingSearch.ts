@@ -52,4 +52,8 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
   if (filter.pool) {sql += " AND PoolPrivateYN = ?"; params.push(filter.pool)};
   if (filter.hasView) {sql += " AND ViewYN = ?"; params.push(filter.hasView)};
   if (filter.maxHoa) {sql += " AND AssociationFee <= ?"; params.push(filter.maxHoa)};
+  sql += ` ORDER BY L_SystemPrice ASC LIMIT ? AND OFFSET ?`;
+  params.push(limit, offset)
+  
+  return query<ListingRow>(sql, params);
 }
