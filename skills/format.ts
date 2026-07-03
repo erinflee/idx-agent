@@ -15,13 +15,10 @@ ${row.property}`;
 }
 
 
-
-
-
-// Format a whole result set. Handle the empty case (return a "no matches"
-// message) and otherwise join each formatted card.
-// TODO: implement using formatListing above.
+// format entire result set and handle the empty case 
+// otherwise join each formatted card
 export function formatResults(rows: ListingRow[]): string {
-  throw new Error("not implemented yet");
+  if (rows.length == 0) {return "No matching listings found"};
+  return rows.map(formatListing).join("\n\n");
 }
 
