@@ -45,11 +45,11 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
 
   if (filter.city) {sql + " city = ?"; params.push(filter.city)};
   if (filter.maxPrice) {sql + " price = ?"; params.push(filter.maxPrice)};
-  if (filter.beds) {}
-  if (filter.baths)
-  if (filter.sqft)
-  if (filter.type)
-  if (filter.pool)
-  if (filter.hasView)
-  if (filter.maxHoa)
+  if (filter.beds) {sql + " beds = ?"; params.push(filter.beds)};
+  if (filter.baths) {sql + " baths = ?"; params.push(filter.baths)};
+  if (filter.sqft) {sql + " sqrt = ?"; params.push(filter.sqft)};
+  if (filter.type) {sql + " type = ?"; params.push(filter.type)};
+  if (filter.pool) {sql + " pool = ?"; params.push(filter.pool)};
+  if (filter.hasView) {sql + " view = ?"; params.push(filter.hasView)};
+  if (filter.maxHoa) {sql + " hoa = ?"; params.push(filter.maxHoa)};
 }
