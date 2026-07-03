@@ -50,12 +50,11 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
   if (filter.beds) {sql += " AND L_Keyword2 >= ?"; params.push(filter.beds)};
   if (filter.baths) {sql += " AND LM_DEC_3 >= ?"; params.push(filter.baths)};
   if (filter.sqft) {sql += " AND LM_Int2_3 >= ?"; params.push(filter.sqft)};
-  if (filter.type) {sql += " AND L_Type_ = ?"; params.push(filter.type)};
+  if (filter.property) {sql += " AND L_Type_ = ?"; params.push(filter.property)};
   if (filter.pool) {sql += " AND PoolPrivateYN = ?"; params.push(filter.pool)};
   if (filter.hasView) {sql += " AND ViewYN = ?"; params.push(filter.hasView)};
   if (filter.maxHoa) {sql += " AND AssociationFee <= ?"; params.push(filter.maxHoa)};
-  sql += ` ORDER BY L_SystemPrice ASC LIMIT ? OFFSET ?`;
-  params.push(limit, offset)
+  sql += ` ORDER BY L_SystemPrice ASC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`; // can't add limit/offset into params
 
   return query<ListingRow>(sql, params);
 }
