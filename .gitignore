@@ -14,7 +14,7 @@
 !package-lock.json
 !baseline.json
 # city lookup table the property-search parser depends on
-!skills/cities.json
+!skills/propertySearch/cities.json
 
 # node / typescript deps
 node_modules/
