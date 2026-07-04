@@ -49,7 +49,6 @@ export async function getSoldComps(city: string, months = 12): Promise<SoldRow[]
     LIMIT 50
   `;
 
-
-
+  return await query<SoldRow>(sql, [city, months]);
 }
 
