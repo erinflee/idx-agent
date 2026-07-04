@@ -17,6 +17,7 @@ async function main() {
   const rows = await searchActiveListings(filter, 1, 5);
   const cards = await propertySearchSkill(query);
 
+  assert(rows.length > 0, "no rows returned - search matched nothing");
   assert(rows.length <= 5, `expected <= 5 rows, got ${rows.length}`);
   for (const r of rows) {
     assert(r.city === "Irvine", `${r.id}: city ${r.city} is not Irvine`)
