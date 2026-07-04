@@ -4,10 +4,16 @@
   "type": "module",
   "description": "TypeScript OpenClaw skills for the MLS assistant (parser tests run via tsx).",
   "scripts": {
-    "test": "tsx skills/propertySearch/parse.test.ts"
+    "test": "sh scripts/test-all.sh",
+    "test-property-parse": "tsx skills/propertySearch/parse.test.ts",
+    "test-property-search": "npx tsx skills/propertySearch/search.test.ts",
+    "test-property-format": "npx tsx skills/propertySearch/format.test.ts",
+    "test-property-index": "npx tsx skills/propertySearch/index.test.ts",
+    "test-market-comps": "npx tsx skills/marketComps/comps.test.ts"
   },
   "devDependencies": {
-    "tsx": "^4.22.4"
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
