@@ -5,9 +5,24 @@
 
 import { query } from "../shared/db";
 
+export interface SoldRow {
+  closePrice: number;
+  closeDate: number;
+  originalListPrice: number;
+  dom: number;
+  sqft: number;
+  beds: number;
+  baths: number;
+  city: string;
+  zip: string;
+  address: string;
+  property: string;
+  pool: string;
+  view: string;
+  hoa: number;
+}
 
 export async function getSoldComps(city: string, months = 12): Promise<SoldRow[]> {
-
   let sql = `
     SELECT
       ClosePrice as closePrice,
@@ -33,6 +48,7 @@ export async function getSoldComps(city: string, months = 12): Promise<SoldRow[]
     ORDER BY CloseDate DESC
     LIMIT 50
   `;
+
 
 
 }
