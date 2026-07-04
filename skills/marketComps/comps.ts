@@ -23,7 +23,7 @@ export interface SoldRow {
 }
 
 export async function getSoldComps(city: string, months = 12): Promise<SoldRow[]> {
-  let sql = `
+  const sql = `
     SELECT
       ClosePrice as closePrice,
       CloseDate as closeDate,
