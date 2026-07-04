@@ -42,9 +42,10 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
     WHERE L_Status = 'Active'
     `;
 
+  limit = Math.min(Number(limit), 50) // clamp off max 50
   const params: any[] = []; // what to be matched on
   const offset = (page - 1) * limit; // how many rows to skip before starting
-  
+
   if (filter.city) {sql += " AND L_CITY = ?"; params.push(filter.city)};
   if (filter.maxPrice) {sql += " AND L_SystemPrice <= ?"; params.push(filter.maxPrice)};
   if (filter.beds) {sql += " AND L_Keyword2 >= ?"; params.push(filter.beds)};
