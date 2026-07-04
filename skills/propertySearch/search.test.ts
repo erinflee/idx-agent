@@ -1,8 +1,6 @@
 // Week 3 — smoke test for searchActiveListings against the live DB
 //
-// Run from repo root:  npx tsx skills/propertySearch/search.test.ts
-// (This hits the real MySQL, so it needs your .env + the DB running.)
-
+// npm run "test-property-search": "npx tsx skills/propertySearch/search.test.ts"
 import { searchActiveListings } from "./search";
 import { formatResults } from "./format";
 import { propertySearchSkill } from "./index";
@@ -14,8 +12,6 @@ function assert(condition: boolean, message: string): void {
 }
 
 async function main() {
-  // TODO: build a filter by hand (or import parsePropertyQuery and parse a
-  //       sentence like "3 bed houses in Irvine under 1.2m").
   const query = "at least 3 bed condo in Irvine under 1.2m";
   const filter = { city: "Irvine", maxPrice: 1200000, beds: 3, property: "Condominium" };
   const rows = await searchActiveListings(filter, 1, 5);
@@ -30,7 +26,8 @@ async function main() {
   }
   assert(typeof cards === "string" && cards.length > 0, "skill returned empty");
   console.log("PASS - all checks passed");
-  // Always close the pool at the end so the script can exit (see db.ts).
+
+  // Always close the pool at the end so the script can exit (see db.ts)
   await closePool();
 }
 
