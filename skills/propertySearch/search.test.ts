@@ -25,6 +25,7 @@ async function main() {
     assert(r.property == "Condominium", `${r.id}: ${r.property} is not Condominium`)
   }
   assert(typeof cards === "string" && cards.length > 0, "skill returned empty");
+  console.log(cards)
   console.log("PASS - all checks passed");
 
   // Always close the pool at the end so the script can exit (see db.ts)
