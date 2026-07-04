@@ -7,7 +7,7 @@ import { query } from "../shared/db";
 
 export interface SoldRow {
   closePrice: number;
-  closeDate: number;
+  closeDate: string;
   originalListPrice: number;
   dom: number;
   sqft: number;
