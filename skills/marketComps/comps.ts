@@ -17,13 +17,13 @@ export async function getSoldComps(city: string, months = 12): Promise<SoldRow[]
       LivingArea as sqft,
       BedroomsTotal as beds,
       BathroomsTotalInteger as baths,
-      City as city,
+      CITY as city,
       PostalCode as zip,
       UnparsedAddress as address,
       PropertySubType as property,
       PoolPrivateYN as pool,
       ViewYN as view,
-      AssociateFee as hoa,
+      AssociationFee as hoa
     FROM california_sold
     WHERE 
       CITY = ?
