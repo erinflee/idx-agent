@@ -1,7 +1,6 @@
 // Week 3 — turn ListingRow results into readable property cards
 //
-// DB layer returns raw rows -> this is presentation step the agent uses
-// before sending results back to the user
+// DB layer returns raw rows -> agent uses this step before sending results back to the user
 
 import type { ListingRow } from "./search";
 
@@ -9,11 +8,10 @@ import type { ListingRow } from "./search";
 export function formatListing(row: ListingRow): string {
 
   return `${row.address}, ${row.city}, CA ${row.zip}
-$${row.price.toLocaleString()} • ${row.beds} bd / ${row.baths} ba • ${row.sqft.toLocaleString()} sqft
+$${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths ?? "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft
 ${row.property}`;
   
 }
-
 
 // format entire result set and handle the empty case 
 // otherwise join each formatted card
