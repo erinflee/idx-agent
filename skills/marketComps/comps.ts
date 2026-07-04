@@ -27,11 +27,13 @@ export async function getSoldComps(city: string, months = 12): Promise<SoldRow[]
     FROM california_sold
     WHERE 
       CITY = ?
-      AND PropertySubType = "SingleFamilyResidence"
+      AND PropertySubType = 'SingleFamilyResidence'
       AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
       AND CloseDate <= CURDATE()
+    ORDER BY CloseDate DESC
     LIMIT 50
   `;
 
 
 }
+
