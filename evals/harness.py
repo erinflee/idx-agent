@@ -24,37 +24,37 @@ class CaseResult:
     reasons: list[str]  # why it failed (empty when passed)
 
 
-def score_case(case: EvalCase, output: dict) -> CaseResult:
+def score_case(expected: EvalCase, actual: dict) -> CaseResult:
     """Decide pass/fail for one case. This is THE definition of task success.
 
     Rules:
       - for search/recommend: fail if expected filters are not all present
-        in output["filters"] (subset match).
-      - if case.expect has "min_results": fail if too few results.
+        in actual["filters"] (subset match).
+      - if expected.expect has "min_results": fail if too few results.
     Collect failure reasons into CaseResult.reasons.
     """
     reasons = []
-    if case.must_error:
-        if not output.get("errored"):
+    if expected.must_error:
+        if not actual.get("errored"):
             reasons.append("expected to fail, but none was raised")
-        return CaseResult(case, passed=not reasons, reasons=reasons)
-    
-    if output.get("errored"):
+        return CaseResult(expected, passed=not reasons, reasons=reasons)
+
+    if actual.get("errored"):
         reasons.append("system errored on a valid case")
-        return CaseResult(case, passed=not reasons, reasons=reasons)
-    
-    if output.get('intent') != case.intent:
-        reasons.append(f"intent {output.get('intent')!r} != expected {case.intent!r}")
-        return CaseResult(case, passed=not reasons, reasons=reasons)
-    
-    if case.intent in ("search", "recommend"):
-        out_filters = output.get("filters", {})
-        for key, expected in case.filters.items():
-            if out_filters.get(key) != expected:
-                reasons.append(f"filter {key}: expected {expected!r}, got {out_filters.get(key)!r}")
+        return CaseResult(expected, passed=not reasons, reasons=reasons)
+
+    if actual.get("intent") != expected.intent:
+        reasons.append(f"intent {actual.get('intent')!r} != expected {expected.intent!r}")
+        return CaseResult(expected, passed=not reasons, reasons=reasons)
+
+    if expected.intent in ("search", "recommend"):
+        actual_filters = actual.get("filters", {})
+        for key, want in expected.filters.items():
+            if actual_filters.get(key) != want:
+                reasons.append(f"filter {key}: expected {want!r}, got {actual_filters.get(key)!r}")
 
 
-    return CaseResult(case, passed=not reasons, reasons=reasons)
+    return CaseResult(expected, passed=not reasons, reasons=reasons)
 
 
 
