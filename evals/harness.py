@@ -72,7 +72,15 @@ def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None) -> list[
 
 def task_success_rate(results: list[CaseResult]) -> float:
     """Fraction of cases that passed (0.0 .. 1.0). The headline Week-12 number."""
-    raise NotImplementedError
+    
+    if not results:
+        return 0.0
+    passed = 0
+    for result in results:   
+        if result.passed:
+            passed += 1
+    
+    return passed / len(results)
 
 
 
