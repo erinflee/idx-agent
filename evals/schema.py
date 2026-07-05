@@ -95,6 +95,9 @@ class SchemaValidator:
         """
         f = PropertyFilters.from_dict(filters)
         errors = []
+
+        if f.city is not None and f.city not in self.known_cities:
+            errors.append(f"unknown city: {f.city!r}")
         return errors
     
     def is_valid(self, filters) -> bool:
