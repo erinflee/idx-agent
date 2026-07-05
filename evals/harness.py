@@ -1,4 +1,4 @@
-"""The grader: pass/fail scoring of an agent's output against the answer key.
+"""The grader - pass/fail scoring of an agent's output against the answer key
 
 This defines end-to-end task success NOW (Week 1) even though no agent exists
 yet. Later weeks plug a real system in; Week 12 reports the aggregate rate.
@@ -25,18 +25,16 @@ class CaseResult:
 
 
 def score_case(expected: EvalCase, actual: dict) -> CaseResult:
-    """Decide pass/fail for one case. This is THE definition of task success.
+    """Decide pass/fail for one case. This is THE definition of task success
 
-    Rules:
-      - if expected.expect has "min_results": fail if too few results.
-    Collect failure reasons into CaseResult.reasons.
+    Collect failure reasons into CaseResult.reasons
     """
     reasons = []
     if expected.must_error:
         if not actual.get("errored"):
             reasons.append("expected to fail, but none was raised")
         return CaseResult(expected, passed=not reasons, reasons=reasons)
-
+    
     if actual.get("errored"):
         reasons.append("system errored on a valid case")
         return CaseResult(expected, passed=not reasons, reasons=reasons)
@@ -59,14 +57,25 @@ def score_case(expected: EvalCase, actual: dict) -> CaseResult:
 
 
 
+
+
 def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None) -> list[CaseResult]:
     """Run every case through `system` and score it."""
-    raise NotImplementedError
+    if cases is None:
+        cases = load_cases()
+    return [score_case(case, system(case.query)) for case in cases]
+
+
+
+
 
 
 def task_success_rate(results: list[CaseResult]) -> float:
     """Fraction of cases that passed (0.0 .. 1.0). The headline Week-12 number."""
     raise NotImplementedError
+
+
+
 
 
 def oracle_system(validator) -> SystemFn:
