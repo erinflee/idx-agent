@@ -93,7 +93,9 @@ class SchemaValidator:
         Accept either a PropertyFilters or a plain dict (use
         PropertyFilters.from_dict to normalize).
         """
-        raise NotImplementedError
-
+        f = PropertyFilters.from_dict(filters)
+        errors = []
+        return errors
+    
     def is_valid(self, filters) -> bool:
         return not self.validate(filters)
