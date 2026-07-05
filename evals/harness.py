@@ -28,8 +28,6 @@ def score_case(case: EvalCase, output: dict) -> CaseResult:
     """Decide pass/fail for one case. This is THE definition of task success.
 
     Rules:
-
-      - fail if output["intent"] != case.intent.
       - for search/recommend: fail if expected filters are not all present
         in output["filters"] (subset match).
       - if case.expect has "min_results": fail if too few results.
@@ -49,6 +47,13 @@ def score_case(case: EvalCase, output: dict) -> CaseResult:
         reasons.append(f"intent {output.get('intent')!r} != expected {case.intent!r}")
         return CaseResult(case, passed=not reasons, reasons=reasons)
     
+    if case.intent in ("search", "recommend"):
+        out_filters = output.get("filters", {})
+        for key, expected in case.filters.items():
+            if out_filters.get(key) != expected:
+                reasons.append(f"filter {key}: expected {expected!r}, got {out_filters.get(key)!r}")
+
+
     return CaseResult(case, passed=not reasons, reasons=reasons)
 
 
