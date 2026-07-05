@@ -108,6 +108,8 @@ class SchemaValidator:
             errors.append(f"baths out of range: {f.baths}")
         if f.sqft is not None and not (0 <= f.sqft <= MAX_REASONABLE_SQFT):
             errors.append(f"sqft out of range: {f.sqft}")
+        if f.property is not None and f.property not in PROPERTY_TYPES:
+            errors.append(f"unknown property type: {f.property!r}")
 
         
         return errors
