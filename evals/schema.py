@@ -98,6 +98,12 @@ class SchemaValidator:
 
         if f.city is not None and f.city not in self.known_cities:
             errors.append(f"unknown city: {f.city!r}")
+        if f.maxPrice is not None and not (0 <= f.maxPrice <= MAX_REASONABLE_PRICE):
+            errors.append(f"maxPrice out of range: {f.maxPrice}")
+        if f.maxHoa is not None and not (0 <= f.maxHoa <= MAX_REASONABLE_HOA):
+            errors.append(f"maxHoa out of range: {f.maxHoa}")
+
+        
         return errors
     
     def is_valid(self, filters) -> bool:
