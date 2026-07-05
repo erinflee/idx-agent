@@ -18,30 +18,30 @@ SystemFn = Callable[[str], dict]
 
 
 @dataclass
-class CaseResult:
-    case: EvalCase
+class ScoreResult:
+    expected: EvalCase
     passed: bool
     reasons: list[str]  # why it failed (empty when passed)
 
 
-def score_case(expected: EvalCase, actual: dict) -> CaseResult:
+def score_case(expected: EvalCase, actual: dict) -> ScoreResult:
     """Decide pass/fail for one case. This is THE definition of task success
 
-    Collect failure reasons into CaseResult.reasons
+    Collect failure reasons into ScoreResult.reasons
     """
     reasons = []
     if expected.must_error:
         if not actual.get("errored"):
             reasons.append("expected to fail, but none was raised")
-        return CaseResult(expected, passed=not reasons, reasons=reasons)
+        return ScoreResult(expected, passed=not reasons, reasons=reasons)
     
     if actual.get("errored"):
         reasons.append("system errored on a valid case")
-        return CaseResult(expected, passed=not reasons, reasons=reasons)
+        return ScoreResult(expected, passed=not reasons, reasons=reasons)
 
     if actual.get("intent") != expected.intent:
         reasons.append(f"intent {actual.get('intent')!r} != expected {expected.intent!r}")
-        return CaseResult(expected, passed=not reasons, reasons=reasons)
+        return ScoreResult(expected, passed=not reasons, reasons=reasons)
 
     if expected.intent in ("search", "recommend"):
         actual_filters = actual.get("filters", {})
@@ -53,24 +53,17 @@ def score_case(expected: EvalCase, actual: dict) -> CaseResult:
     if min_results is not None and len(actual.get("results", [])) < min_results:
         reasons.append(f"expected >= {min_results} results, got {len(actual.get('results', []))}")
 
-    return CaseResult(expected, passed=not reasons, reasons=reasons)
+    return ScoreResult(expected, passed=not reasons, reasons=reasons)
 
 
-
-
-
-def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None) -> list[CaseResult]:
+def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None) -> list[ScoreResult]:
     """Run every case through `system` and score it."""
     if cases is None:
         cases = load_cases()
-    return [score_case(case, system(case.query)) for case in cases]
+    return [score_case(expected, system(expected.query)) for expected in cases]
 
 
-
-
-
-
-def task_success_rate(results: list[CaseResult]) -> float:
+def task_success_rate(results: list[ScoreResult]) -> float:
     """Fraction of cases that passed (0.0 .. 1.0). The headline Week-12 number."""
     
     if not results:
@@ -79,11 +72,7 @@ def task_success_rate(results: list[CaseResult]) -> float:
     for result in results:   
         if result.passed:
             passed += 1
-    
     return passed / len(results)
-
-
-
 
 
 def oracle_system(validator) -> SystemFn:
@@ -94,4 +83,18 @@ def oracle_system(validator) -> SystemFn:
     system, task_success_rate(...) must be 1.0 — if it isn't, the scorer or
     validator has a bug (not the agent, since there is no agent yet).
     """
-    raise NotImplementedError
+
+    queries = {expected.query: expected for expected in load_cases()}
+
+    def run(query: str):
+        expected = queries[query]
+        if validator.validate(expected.filters):
+            return {"errored": True, "intent": expected.intent, "filters": {}, "results": []}
+        return {
+            'intent': expected.intent,
+            'filters': expected.filters,
+            'errored': False,
+            'results': [{}] * expected.expect.get("min_results", 0),
+        }
+
+    return run
