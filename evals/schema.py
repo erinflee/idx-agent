@@ -74,6 +74,7 @@ def load_known_cities(path: Path = CITIES_FILE) -> set[str]:
         cities.add(city)
     return cities
 
+
 class SchemaValidator:
     """Reject structurally-invalid filter objects before they reach DB/API.
 
@@ -115,8 +116,7 @@ class SchemaValidator:
         if f.hasView is not None and f.hasView not in BOOL_FLAGS:
             errors.append(f'hasView must be "1", got {f.hasView!r}')
 
-        
         return errors
-    
+
     def is_valid(self, filters) -> bool:
         return not self.validate(filters)
