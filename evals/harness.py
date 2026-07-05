@@ -28,8 +28,6 @@ def score_case(expected: EvalCase, actual: dict) -> CaseResult:
     """Decide pass/fail for one case. This is THE definition of task success.
 
     Rules:
-      - for search/recommend: fail if expected filters are not all present
-        in actual["filters"] (subset match).
       - if expected.expect has "min_results": fail if too few results.
     Collect failure reasons into CaseResult.reasons.
     """
@@ -52,7 +50,10 @@ def score_case(expected: EvalCase, actual: dict) -> CaseResult:
         for key, want in expected.filters.items():
             if actual_filters.get(key) != want:
                 reasons.append(f"filter {key}: expected {want!r}, got {actual_filters.get(key)!r}")
-
+    
+    min_results = expected.expect.get("min_results")
+    if min_results is not None and len(actual.get("results", [])) < min_results:
+        reasons.append(f"expected >= {min_results} results, got {len(actual.get('results', []))}")
 
     return CaseResult(expected, passed=not reasons, reasons=reasons)
 
