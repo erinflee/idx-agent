@@ -45,6 +45,10 @@ def score_case(case: EvalCase, output: dict) -> CaseResult:
         reasons.append("system errored on a valid case")
         return CaseResult(case, passed=not reasons, reasons=reasons)
     
+    if output.get('intent') != case.intent:
+        reasons.append(f"intent {output.get('intent')!r} != expected {case.intent!r}")
+        return CaseResult(case, passed=not reasons, reasons=reasons)
+    
     return CaseResult(case, passed=not reasons, reasons=reasons)
 
 
