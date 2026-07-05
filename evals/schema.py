@@ -62,8 +62,17 @@ class PropertyFilters:
 
 def load_known_cities(path: Path = CITIES_FILE) -> set[str]:
     """Return the set of valid CA city names (skip blank/`#` lines)."""
-    raise NotImplementedError
+    text = path.read_text()
+    lines = text.splitlines()
+    cities = set()
 
+    for city in lines:
+        city = city.strip()
+        if not city or city.startswith("#"):
+            continue
+
+        cities.add(city)
+    return cities
 
 class SchemaValidator:
     """Reject structurally-invalid filter objects before they reach DB/API.
