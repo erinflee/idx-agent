@@ -36,7 +36,14 @@ def score_case(case: EvalCase, output: dict) -> CaseResult:
       - if case.expect has "min_results": fail if too few results.
     Collect failure reasons into CaseResult.reasons.
     """
-    raise NotImplementedError
+    reasons = []
+    if case.must_error:
+        if not output.get("errored"):
+            reasons.append("expected to fail, but none was raised")
+        return CaseResult(case, passed=not reasons, reasons=reasons)
+    
+    return CaseResult(case, passed=not reasons, reasons=reasons)
+
 
 
 def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None) -> list[CaseResult]:
