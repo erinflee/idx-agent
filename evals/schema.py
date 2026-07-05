@@ -110,6 +110,10 @@ class SchemaValidator:
             errors.append(f"sqft out of range: {f.sqft}")
         if f.property is not None and f.property not in PROPERTY_TYPES:
             errors.append(f"unknown property type: {f.property!r}")
+        if f.pool is not None and f.pool not in BOOL_FLAGS:
+            errors.append(f'pool must be "1", got {f.pool!r}')
+        if f.hasView is not None and f.hasView not in BOOL_FLAGS:
+            errors.append(f'hasView must be "1", got {f.hasView!r}')
 
         
         return errors
