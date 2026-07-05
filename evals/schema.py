@@ -102,6 +102,12 @@ class SchemaValidator:
             errors.append(f"maxPrice out of range: {f.maxPrice}")
         if f.maxHoa is not None and not (0 <= f.maxHoa <= MAX_REASONABLE_HOA):
             errors.append(f"maxHoa out of range: {f.maxHoa}")
+        if f.beds is not None and not (0 <= f.beds <= MAX_REASONABLE_BEDS):
+            errors.append(f"beds out of range: {f.beds}")
+        if f.baths is not None and not (0 <= f.baths <= MAX_REASONABLE_BATHS):
+            errors.append(f"baths out of range: {f.baths}")
+        if f.sqft is not None and not (0 <= f.sqft <= MAX_REASONABLE_SQFT):
+            errors.append(f"sqft out of range: {f.sqft}")
 
         
         return errors
