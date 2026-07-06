@@ -1,6 +1,6 @@
-"""Loader for the labeled query dataset (the "answer key")
+"""loader for the labeled query dataset ("answer key")
 
-Turns each line of answers.jsonl into an EvalCase object the harness can grade against
+turns each line of answers.jsonl into an EvalCase object the grader can grade against
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ CASES_FILE = Path(__file__).with_name("answers.jsonl")
 
 @dataclass
 class EvalCase:
-    """One labeled example. Mirrors one JSON line in answers.jsonl.
+    """one labeled example -> mirrors one JSON line in answers.jsonl
 
     - id:      unique short id, e.g. "s001"
     - query:   the raw user question
@@ -38,7 +38,7 @@ class EvalCase:
 
 
 def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
-    """Read answers.jsonl into a list of EvalCase"""
+    """read answers.jsonl into a list of EvalCase"""
 
     errors = []
     cases = []
@@ -75,8 +75,8 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
                 errors.append(f"line {n} ({d['id']!r}): unknown filter keys {bad_keys}")
                 continue
 
-            # Semantic checks only for cases meant to be valid. must_error cases
-            # (e.g. unknown city + negative price) are *supposed* to fail these.
+            # Semantic checks only for cases meant to be valid must_error cases
+            # (e.g. unknown city + negative price) are supposed to fail these
             if not d.get('expect', {}).get('must_error'):
                 msgs = validator.validate(filters)
                 if msgs:
