@@ -23,3 +23,7 @@ class EvalCase:
     filters: dict = field(default_factory=dict)
     expect: dict = field(default_factory=dict)
     note: str = ""
+
+    @property
+    def must_error(self) -> bool:
+        return bool(self.expect.get("must_error", False))
