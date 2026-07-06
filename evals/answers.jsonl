@@ -5,7 +5,7 @@
 #   id       unique short id ("s"=search, "m"=market, "r"=recommend, "k"=knowledge, "x"=bad-input that must be rejected)
 #   query    the raw user question
 #   intent   correct intent: search | market | recommend | knowledge | mixed
-#   filters  correct extracted filters (see evals/schema.py PropertyFilters)
+#   filters  correct extracted filters (see evals/rulebook.py PropertyFilters)
 #   expect   grading hints: {"min_results": N} or {"must_error": true}
 #   note     optional free-text reminder to yourself
 
