@@ -3,10 +3,10 @@
 Use a small injected city set so these don't depend on ca_cities.txt:
     V = SchemaValidator(known_cities={"Concord", "Berkeley"})
 
-Run: pytest tests/test_schema.py -v
+Run: pytest tests/test_rulebook.py -v
 """
 
-from evals.schema import SchemaValidator
+from evals.rulebook import SchemaValidator
 
 def test_valid_filters_pass():
     # A well-formed filter object should produce zero errors

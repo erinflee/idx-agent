@@ -6,8 +6,8 @@ If the oracle does not score 1.0, the bug is in your scorer/validator — there
 is no agent yet to blame.
 """
 
-from evals.harness import run_suite, task_success_rate, oracle_system
-from evals.schema import SchemaValidator
+from evals.grader import run_suite, task_success_rate, oracle_system
+from evals.rulebook import SchemaValidator
 
 
 def test_oracle_scores_perfect():

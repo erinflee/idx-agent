@@ -1,10 +1,10 @@
-"""Tests that guard the answer key itself (cases.jsonl) against typos. 
+"""Tests that guard the answer key itself (answers.jsonl) against typos. 
 
-Run: pytest tests/test_dataset.py -v 
+Run: pytest tests/test_load_answers.py -v 
 """
 
-from evals.dataset import load_cases
-from evals.schema import INTENTS, SchemaValidator
+from evals.load_answers import load_cases
+from evals.rulebook import INTENTS, SchemaValidator
 
 
 def test_cases_load():
