@@ -3,6 +3,7 @@
 Turns each line of cases.jsonl into an EvalCase object the harness can grade against
 """
 
+import json
 from __future__ import annotations
 
 from dataclasses import dataclass, field
