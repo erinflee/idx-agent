@@ -49,6 +49,13 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
             except json.JSONDecodeError as e:
                 errors.append(f"line {n}: invalid JSON ({e.msg})")
                 continue
+            if not isinstance(d, dict):
+                errors.append(f"line {n}: expected a JSON object, got {type(d).__name__}")
+                continue
+            missing = [k for k in ("id", "query", "intent") if k not in d]
+            if missing:
+                errors.append(f"line {n}: missing required key(s) {', '.join(missing)}")
+                continue
             if d["id"] in ids:
                 errors.append(f"line {n} ({d.get('id')!r}): duplicate id")
                 continue
