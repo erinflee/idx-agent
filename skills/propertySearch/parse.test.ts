@@ -18,7 +18,7 @@ const testCases: [string, PropertyFilter][] = [
   ["home that has a pool", { pool: "1" }],
 
   // multiple field
-  ["3 bd 2.5 ba single family in Pasadena under $1.2M with a pool", { city: "Pasadena", maxPrice: 1200000, beds: 3, baths: 2.5, pool: "1", property: "SingleFamilyResidence" }],
+  ["3 bd 2.5ba house in pasadena under 1.2 mil with a pool", { city: "Pasadena", maxPrice: 1200000, beds: 3, baths: 2.5, pool: "1", property: "SingleFamilyResidence" }],
   ["2 bedroom townhouse in Long Beach under $600k", { city: "Long Beach", maxPrice: 600000, beds: 2, property: "Townhouse" }],
   ["condo in San Francisco under $1.2M with pool and view", { city: "San Francisco", maxPrice: 1200000, pool: "1", hasView: "1", property: "Condominium" }],
   
@@ -27,10 +27,10 @@ const testCases: [string, PropertyFilter][] = [
   ["show me something nice", {}],
 
   // weak spots
-  ["homes in walnut creek below $500k", { city: "Walnut Creek", maxPrice: 500000 }],
+  ["homes in walnut creek below 500k", { city: "Walnut Creek", maxPrice: 500000 }],
   ["warehouse loft in santa Cruz", { city: "Santa Cruz" }],
   ["condo in Berkeley under 300k with HOA under $500", { city: "Berkeley", maxPrice: 300000, maxHoa: 500, property: "Condominium" }],
-  ["condo w/o a pool", { property: "Condominium" }],
+  ["sfr w/o a pool", { property: "SingleFamilyResidence" }],
   ["$1,200,000 home in Irvine", { city: "Irvine", maxPrice: 1200000 }],
 ];
 
