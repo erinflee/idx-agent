@@ -65,8 +65,11 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
             # Semantic checks only for cases meant to be valid. must_error cases
             # (e.g. unknown city + negative price) are *supposed* to fail these.
             if not d.get('expect', {}).get('must_error'):
-                for msg in validator.validate(filters):
-                    errors.append(f"line {n} ({d['id']!r}): {msg}")
+                msgs = validator.validate(filters)
+                if msgs:
+                    for msg in msgs:
+                        errors.append(f"line {n} ({d['id']!r}): {msg}")
+                    continue
 
             ids.add(d["id"])
             cases.append(EvalCase(
