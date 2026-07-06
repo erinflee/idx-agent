@@ -9,3 +9,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 CASES_FILE = Path(__file__).with_name("cases.jsonl")
+
+
+@dataclass
+class EvalCase:
+    """One labeled example. Mirrors one JSON line in cases.jsonl.
+    ...docstring...
+    """
+
+    id: str
+    query: str
+    intent: str
+    filters: dict = field(default_factory=dict)
+    expect: dict = field(default_factory=dict)
+    note: str = ""
