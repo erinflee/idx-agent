@@ -27,3 +27,21 @@ class EvalCase:
     @property
     def must_error(self) -> bool:
         return bool(self.expect.get("must_error", False))
+
+
+def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
+    """Read cases.jsonl into a list of EvalCase"""
+
+    cases = []
+    with open(path, 'r', encoding='utf-8') as file:
+        for line in file:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            d = json.loads(line)
+            cases.append(EvalCase(
+                id=d['id'], query=d['query'], intent=d['intent'],
+                filters=d.get('filters', {}), expect=d.get('expect', {}),
+                note=d.get('note', ""),
+            ))
+    return cases
