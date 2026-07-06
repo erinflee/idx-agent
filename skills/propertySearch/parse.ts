@@ -34,8 +34,8 @@ export function parsePropertyQuery(query: string): PropertyFilter {
 
   const replaceAsLiteral = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const city = cities.find((c) => new RegExp(`\\b(?:in|around|near|nearby|within|close\\s+to)\\s+${replaceAsLiteral(c)}\\b`, "i").test(query));
-  const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)(k|m)?/i);
-  const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(k|m)?\b/i);
+  const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)\s*(million|mil|m|thousand|k|grand)?\b/i);
+  const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b/i);
   const priceSource = priceMatch ?? priceFallback;
   const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms)/i);
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba\b)/i);
@@ -55,8 +55,8 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   if (priceSource) {
     let maxPrice = Number(priceSource[1].replace(/,/g, ""));
     const suffix = priceSource[2]?.toLowerCase();
-    if (suffix === "k") maxPrice *= 1000;
-    if (suffix === "m") maxPrice *= 1000000;
+    if (suffix === "thousand" || suffix === "grand" || suffix === "k") maxPrice *= 1000;
+    if (suffix === "million" || suffix === "mil" || suffix === "m") maxPrice *= 1000000;
     if (suffix || maxPrice >= 10000) filter.maxPrice = maxPrice;
   }
   if (bedMatch) filter.beds = Number(bedMatch[1]);
