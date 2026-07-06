@@ -33,19 +33,19 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const filter: PropertyFilter = {};
 
   const replaceAsLiteral = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const city = cities.find((c) => new RegExp(`\\b(?:in|around|near|within)\\s+${replaceAsLiteral(c)}\\b`, "i").test(query));
-  const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|≤|cheaper\s+than)\s*\$?([\d,.]+)(k|m)?/i);
+  const city = cities.find((c) => new RegExp(`\\b(?:in|around|near|nearby|within|close\\s+to)\\s+${replaceAsLiteral(c)}\\b`, "i").test(query));
+  const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)(k|m)?/i);
   const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(k|m)?\b/i);
   const priceSource = priceMatch ?? priceFallback;
-  const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms)/i);
-  const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms)/i);
-  const sqftMatch = query.match(/\b(\d[\d,]*)[\s-]*(?:sqft|sq\s+ft|square\s+feet|sq\.\s+ft\.|sf)/i);
+  const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms)/i);
+  const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba\b)/i);
+  const sqftMatch = query.match(/\b(\d[\d,]*)[\s-]*(?:sqft|sq\s+ft|square\s+(feet|foot)|sq\.\s+ft\.)/i);
   const poolMatch = query.match(/\b(?:swimming\s+)?pools?\b/i);
-  const poolNegated = /\b(?:no|without|not)\s+(?:a\s+|an\s+)?(?:swimming\s+)?pools?\b/i.test(query);
+  const poolNegated = /\b(?:no|without|not|w\/o|sans)\s+(?:a\s+|an\s+)?(?:swimming\s+)?pools?\b/i.test(query);
   const viewMatch = query.match(/\bviews?\b/i);
-  const viewNegated = /\b(?:no|without|not)\s+(?:a\s+|an\s+)?views?\b/i.test(query);
-  const hoaBefore = query.match(/(?:under|below|max|up\s+to|no\s+more\s+than)\s*\$?(\d[\d,]*)\s*(?:\/\s*mo(?:nth)?)?\s*(?:hoa|association\s+(?:fees?|dues?)|hoa\s+fees?)/i);
-  const hoaAfter = query.match(/(?:hoa|association(?:\s+fees?|\s+dues?)?)\s*(?:fees?|dues?)?\s*(?:under|below|max|up\s+to|no\s+more\s+than|≤)\s*\$?(\d[\d,]*)/i);
+  const viewNegated = /\b(?:no|without|not|w\/o|sans)\s+(?:a\s+|an\s+)?views?\b/i.test(query);
+  const hoaBefore = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?(\d[\d,]*)\s*(?:\/\s*mo(?:nth)?)?\s*(?:hoa|association\s+(?:fees?|dues?)|hoa\s+fees?)/i);
+  const hoaAfter = query.match(/(?:hoa|association(?:\s+fees?|\s+dues?)?)\s*(?:fees?|dues?)?\s*(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?(\d[\d,]*)/i);
   const hoaMatch = hoaBefore ?? hoaAfter;
 
   const propertyMatch = Object.keys(propertyMap).find((k) => new RegExp(`\\b${replaceAsLiteral(k)}\\b`, "i").test(query));
