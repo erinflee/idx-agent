@@ -1,0 +1,129 @@
+# answers.jsonl — labeled answer key 
+# One JSON object per line -> lines starting with '#' and blank lines are skipped
+#
+# Fields:
+#   id       unique short id ("s"=search, "m"=market, "r"=recommend, "k"=knowledge, "x"=bad-input that must be rejected)
+#   query    the raw user question
+#   intent   correct intent: search | market | recommend | knowledge | mixed
+#   filters  correct extracted filters (see evals/schema.py PropertyFilters)
+#   expect   grading hints: {"min_results": N} or {"must_error": true}
+#   note     optional free-text reminder to yourself
+
+{"id": "k001", "query": "what does days on market mean?", "intent": "knowledge", "filters": {}, "expect": {}, "note": "RAG/definitional, answered from MLS field docs"}
+{"id": "k002", "query": "wut is dom?", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "k003", "query": "what columns are in california_sold?", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "k004", "query": "what is a comp in real estate?", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "k005", "query": "what is price per square foot?", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "k006", "query": "good family area in la", "intent": "knowledge", "filters": {}, "expect": {}, "note": "FLAG intent: knowledge(advice) vs search"}
+{"id": "k007", "query": "whats escrow", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional"}
+{"id": "k008", "query": "whats a contingency", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional"}
+{"id": "k009", "query": "explain cap rate", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional"}
+{"id": "k010", "query": "explain pending", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional"}
+{"id": "k011", "query": "difference between condo and townhouse", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional"}
+{"id": "k012", "query": "whats a good cap rate", "intent": "knowledge", "filters": {}, "expect": {}, "note": "FLAG: borderline knowledge vs market/advice"}
+{"id": "k013", "query": "whats a good family neighborhood in san jose?", "intent": "knowledge", "filters": {}, "expect": {}, "note": "FLAG intent: knowledge(advice) vs market/search"}
+{"id": "k014", "query": "explain diff between preapproval and escrow", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional comparison"}
+{"id": "k015", "query": "my family is three-person family. is condo or sfr better?", "intent": "knowledge", "filters": {}, "expect": {}, "note": "advisory: condo vs sfr suitability"}
+{"id": "m001", "query": "is now a good time to buy in San Diego?", "intent": "market", "filters": {"city": "San Diego"}, "expect": {}, "note": "market question, only city matters"}
+{"id": "m002", "query": "what's the average home price in Encino?", "intent": "market", "filters": {"city": "Encino"}, "expect": {}, "note": ""}
+{"id": "m003", "query": "average price per square foot in Fremont", "intent": "market", "filters": {"city": "Fremont"}, "expect": {}, "note": ""}
+{"id": "m004", "query": "are prices rising in Santa Monica?", "intent": "market", "filters": {"city": "Santa Monica"}, "expect": {}, "note": ""}
+{"id": "m005", "query": "list to close price ratio in Rancho Cucamonga", "intent": "market", "filters": {"city": "Rancho Cucamonga"}, "expect": {}, "note": ""}
+{"id": "m006", "query": "how much have prices changed in Hesperia this year?", "intent": "market", "filters": {"city": "Hesperia"}, "expect": {}, "note": ""}
+{"id": "m007", "query": "avg condo price in Moreno Valley", "intent": "market", "filters": {"city": "Moreno Valley"}, "expect": {}, "note": ""}
+{"id": "m008", "query": "are homes selling above asking in Santa Ana?", "intent": "market", "filters": {"city": "Santa Ana"}, "expect": {}, "note": ""}
+{"id": "m009", "query": "how much r homes going for in glendale", "intent": "market", "filters": {"city": "Glendale"}, "expect": {}, "note": "typo 'r'"}
+{"id": "m010", "query": "is the 3-bed in pasadena a good deal?", "intent": "market", "filters": {"city": "Pasadena", "beds": 3}, "expect": {}, "note": "FLAG intent: market(value) vs recommend"}
+{"id": "m011", "query": "should i buy in irvine right now?", "intent": "market", "filters": {"city": "Irvine"}, "expect": {}, "note": "FLAG intent: market(timing) vs knowledge"}
+{"id": "m012", "query": "how much are 2 bed condos going for in oakland?", "intent": "market", "filters": {"city": "Oakland", "beds": 2, "property": "Condominium"}, "expect": {}, "note": "FLAG intent: market(price) vs search"}
+{"id": "m013", "query": "how much r homes in sc", "intent": "market", "filters": {"city": "Santa Clara"}, "expect": {}, "note": "FLAG: 'sc'=Santa Clara (or Santa Cruz?) + typo 'r'"}
+{"id": "m014", "query": "is the palo alto condo a good deal?", "intent": "market", "filters": {"city": "Palo Alto", "property": "Condominium"}, "expect": {}, "note": "FLAG intent: market(value) vs recommend"}
+{"id": "m015", "query": "should i buy now?", "intent": "market", "filters": {}, "expect": {}, "note": "FLAG intent: market(timing), no city"}
+{"id": "m016", "query": "irvine vs pasadena which is cheaper", "intent": "market", "filters": {}, "expect": {}, "note": "FLAG: comparison - schema holds one city; left empty"}
+{"id": "m017", "query": "are condo prices dropping in san diego", "intent": "market", "filters": {"city": "San Diego", "property": "Condominium"}, "expect": {}, "note": ""}
+{"id": "m018", "query": "whats the going rate per sqft in fresno", "intent": "market", "filters": {"city": "Fresno"}, "expect": {}, "note": ""}
+{"id": "m019", "query": "how fast do houses sell in oakland", "intent": "market", "filters": {"city": "Oakland"}, "expect": {}, "note": "DOM question"}
+{"id": "m020", "query": "is temecula overpriced rn", "intent": "market", "filters": {"city": "Temecula"}, "expect": {}, "note": "slang 'rn'"}
+{"id": "m021", "query": "avg price 3 bed sacramento", "intent": "market", "filters": {"city": "Sacramento", "beds": 3}, "expect": {}, "note": "shorthand"}
+{"id": "m022", "query": "did prices go up in long beach last year", "intent": "market", "filters": {"city": "Long Beach"}, "expect": {}, "note": ""}
+{"id": "m023", "query": "market trends glendale", "intent": "market", "filters": {"city": "Glendale"}, "expect": {}, "note": ""}
+{"id": "mx001", "query": "find homes in oroville and tell me if prices are rising", "intent": "mixed", "filters": {"city": "Oroville"}, "expect": {}, "note": "search + market"}
+{"id": "mx002", "query": "show me condos in Lake Forest and avg price there", "intent": "mixed", "filters": {"city": "Lake Forest", "property": "Condominium"}, "expect": {}, "note": "search + market"}
+{"id": "mx003", "query": "affordable homes in Oxnard and is it a good time to buy?", "intent": "mixed", "filters": {"city": "Oxnard"}, "expect": {}, "note": "search + market"}
+{"id": "mx004", "query": "listings in Beaumont and how's the market?", "intent": "mixed", "filters": {"city": "Beaumont"}, "expect": {}, "note": "search + market"}
+{"id": "mx005", "query": "homes in Laguna Woods under $500k with price trend", "intent": "mixed", "filters": {"city": "Laguna Woods", "maxPrice": 500000}, "expect": {}, "note": "search + market"}
+{"id": "mx006", "query": "show me condos in irvine and tell me if its a good time to buy", "intent": "mixed", "filters": {"city": "Irvine", "property": "Condominium"}, "expect": {}, "note": "search+market"}
+{"id": "mx007", "query": "find 3 bed homes in fresno and whats the average price there", "intent": "mixed", "filters": {"city": "Fresno", "beds": 3}, "expect": {}, "note": "search+market"}
+{"id": "mx008", "query": "cheap houses in sacramento and are prices rising", "intent": "mixed", "filters": {"city": "Sacramento"}, "expect": {}, "note": "search+market"}
+{"id": "mx009", "query": "homes under 800k in oakland and how fast they sell", "intent": "mixed", "filters": {"city": "Oakland", "maxPrice": 800000}, "expect": {}, "note": "search+market(DOM)"}
+{"id": "mx010", "query": "sfr in temecula with pool and comps for the area", "intent": "mixed", "filters": {"city": "Temecula", "property": "SingleFamilyResidence", "pool": "1"}, "expect": {}, "note": "search+market"}
+{"id": "mx011", "query": "listings in glendale and what does dom mean", "intent": "mixed", "filters": {"city": "Glendale"}, "expect": {}, "note": "search+knowledge"}
+{"id": "mx012", "query": "find condos in san diego and explain hoa fees", "intent": "mixed", "filters": {"city": "San Diego", "property": "Condominium"}, "expect": {}, "note": "search+knowledge"}
+{"id": "mx013", "query": "4 bed homes in riverside and is it a buyers market", "intent": "mixed", "filters": {"city": "Riverside", "beds": 4}, "expect": {}, "note": "search+market"}
+{"id": "mx014", "query": "whats available in pasadena under 1M and price trends", "intent": "mixed", "filters": {"city": "Pasadena", "maxPrice": 1000000}, "expect": {}, "note": "search+market"}
+{"id": "mx015", "query": "homes with a view in long beach and avg price per sqft", "intent": "mixed", "filters": {"city": "Long Beach", "hasView": "1"}, "expect": {}, "note": "search+market"}
+{"id": "mx016", "query": "townhomes in burbank and how the market looks", "intent": "mixed", "filters": {"city": "Burbank", "property": "Townhouse"}, "expect": {}, "note": "search+market"}
+{"id": "mx017", "query": "show me stuff in anaheim and should i buy now", "intent": "mixed", "filters": {"city": "Anaheim"}, "expect": {}, "note": "search+market"}
+{"id": "r001", "query": "find me more listings like the last one", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state, no filters in the query itself"}
+{"id": "r002", "query": "show me similar listings", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state"}
+{"id": "r003", "query": "what else do you have like this?", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state"}
+{"id": "r004", "query": "anything comparable to the one I liked?", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state"}
+{"id": "r005", "query": "similar homes but a bit cheaper", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state"}
+{"id": "r006", "query": "find comparable properties", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state"}
+{"id": "r007", "query": "give me recommendations based on what I've seen", "intent": "recommend", "filters": {}, "expect": {}, "note": "depends on session state"}
+{"id": "r008", "query": "find me something like that but cheaper", "intent": "recommend", "filters": {}, "expect": {}, "note": "session-dependent"}
+{"id": "r009", "query": "anything cheaper than what you showed", "intent": "recommend", "filters": {}, "expect": {}, "note": "session-dependent"}
+{"id": "r010", "query": "similar but with a bigger yard", "intent": "recommend", "filters": {}, "expect": {}, "note": "session-dependent"}
+{"id": "r011", "query": "same thing different city", "intent": "recommend", "filters": {}, "expect": {}, "note": "session-dependent"}
+{"id": "r012", "query": "show me the next best option", "intent": "recommend", "filters": {}, "expect": {}, "note": "session-dependent"}
+{"id": "r013", "query": "can you show similar homes but in berkeley", "intent": "recommend", "filters": {"city": "Berkeley"}, "expect": {}, "note": "recommend + explicit location override"}
+{"id": "r014", "query": "give me more recs", "intent": "recommend", "filters": {}, "expect": {}, "note": "slang 'recs'"}
+{"id": "r015", "query": "dont recommend this type of property", "intent": "recommend", "filters": {}, "expect": {}, "note": "FLAG: negative/exclusion not expressible"}
+{"id": "s001", "query": "Show me 3-bedroom condos in Irvine under $1.5M", "intent": "search", "filters": {"city": "Irvine", "beds": 3, "property": "Condominium", "maxPrice": 1500000}, "expect": {"min_results": 1}, "note": "classic multi-filter search"} # 106 results back
+{"id": "s002", "query": "single family homes in Pasadena with at least 4 beds and a view", "intent": "search", "filters": {"city": "Pasadena", "beds": 4, "property": "SingleFamilyResidence", "hasView": "1"}, "expect": {}, "note": ""}
+{"id": "s003", "query": "2 bedroom condos in Los Angeles under $800k", "intent": "search", "filters": {"city": "Los Angeles", "beds": 2, "property": "Condominium", "maxPrice": 800000}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s004", "query": "townhouses in Palm Desert under $1M with a pool", "intent": "search", "filters": {"city": "Palm Desert", "property": "Townhouse", "maxPrice": 1000000, "pool": "1"}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s005", "query": "homes in Long Beach with an ocean view", "intent": "search", "filters": {"city": "Long Beach", "hasView": "1"}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s006", "query": "at least 2000 sqft homes in La Quinta", "intent": "search", "filters": {"city": "La Quinta", "sqft": 2000}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s007", "query": "condos in Murrieta under $700k with HOA below $400", "intent": "search", "filters": {"city": "Murrieta", "property": "Condominium", "maxPrice": 700000, "maxHoa": 400}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s008", "query": "homes in Temecula with at least 3 beds and 2.5 baths", "intent": "search", "filters": {"city": "Temecula", "beds": 3, "baths": 2.5}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s009", "query": "properties in Rancho Mirage with a pool", "intent": "search", "filters": {"city": "Rancho Mirage", "pool": "1"}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s010", "query": "3 bed 2 bath condos in Fontana under $1M", "intent": "search", "filters": {"city": "Fontana", "beds": 3, "baths": 2, "property": "Condominium", "maxPrice": 1000000}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s011", "query": "single family in Big Bear Lake with a pool under $1.4M", "intent": "search", "filters": {"city": "Big Bear Lake", "property": "SingleFamilyResidence", "pool": "1", "maxPrice": 1400000}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s012", "query": "homes in El Cajon over 2500 sqft with a view", "intent": "search", "filters": {"city": "El Cajon", "sqft": 2500, "hasView": "1"}, "expect": {"min_results": 1}, "note": ""}
+{"id": "s013", "query": "3bd 2ba condo in irvine under 800k", "intent": "search", "filters": {"city": "Irvine", "beds": 3, "baths": 2, "property": "Condominium", "maxPrice": 800000}, "expect": {"min_results": 1}, "note": "shorthand"}
+{"id": "s014", "query": "sfr temecula ~600k w/ pool", "intent": "search", "filters": {"city": "Temecula", "property": "SingleFamilyResidence", "maxPrice": 600000, "pool": "1"}, "expect": {"min_results": 1}, "note": "shorthand"}
+{"id": "s015", "query": "4br house w/ view in long beach", "intent": "search", "filters": {"city": "Long Beach", "beds": 4, "property": "SingleFamilyResidence", "hasView": "1"}, "expect": {"min_results": 1}, "note": "shorthand"}
+{"id": "s016", "query": "homes in fresno under half a million", "intent": "search", "filters": {"city": "Fresno", "maxPrice": 500000}, "expect": {"min_results": 1}, "note": "natural number phrasing"}
+{"id": "s017", "query": "anything below 750k in oakland", "intent": "search", "filters": {"city": "Oakland", "maxPrice": 750000}, "expect": {"min_results": 1}, "note": "natural number phrasing"}
+{"id": "s018", "query": "cheap starter home near pasadena", "intent": "search", "filters": {"city": "Pasadena"}, "expect": {"min_results": 1}, "note": "vague: 'cheap' not numeric"}
+{"id": "s019", "query": "somewhere quiet with good schools in sacramento", "intent": "search", "filters": {"city": "Sacramento"}, "expect": {"min_results": 1}, "note": "vague: no extractable filters beyond city"}
+{"id": "s020", "query": "3 bedroom hosue in san diego", "intent": "search", "filters": {"city": "San Diego", "beds": 3, "property": "SingleFamilyResidence"}, "expect": {"min_results": 1}, "note": "typo 'hosue'"}
+{"id": "s021", "query": "3bd 2 ba sf under 800k", "intent": "search", "filters": {"city": "San Francisco", "beds": 3, "baths": 2, "maxPrice": 800000}, "expect": {}, "note": "FLAG: 'sf'=San Francisco assumed; SF 3/2<800k unrealistic -> no min_results"}
+{"id": "s022", "query": "apartment < $60000", "intent": "search", "filters": {"maxPrice": 60000}, "expect": {}, "note": "FLAG: 'apartment' not a supported subtype -> dropped; unrealistic price -> no min_results"}
+{"id": "s023", "query": "sfr < $90000 no pool", "intent": "search", "filters": {"property": "SingleFamilyResidence", "maxPrice": 90000}, "expect": {}, "note": "FLAG: 'no pool' not expressible (pool only encodes presence); low price -> no min_results"}
+{"id": "s024", "query": "is there a cheap condo near walnut creek?", "intent": "search", "filters": {"city": "Walnut Creek", "property": "Condominium"}, "expect": {"min_results": 1}, "note": "question-phrased search"}
+{"id": "s025", "query": "sfr w/ pool san fran", "intent": "search", "filters": {"city": "San Francisco", "property": "SingleFamilyResidence", "pool": "1"}, "expect": {}, "note": "FLAG: 'san fran'=San Francisco; SFR+pool in SF rare -> no min_results"}
+{"id": "s026", "query": "homes under half a mil in sj", "intent": "search", "filters": {"city": "San Jose", "maxPrice": 500000}, "expect": {}, "note": "FLAG: 'sj'=San Jose; SJ<500k unrealistic -> no min_results"}
+{"id": "s027", "query": "cheap starter home near the beach", "intent": "search", "filters": {}, "expect": {}, "note": "FLAG: vague, no city/price extractable -> routing test"}
+{"id": "s028", "query": "hosue in sd", "intent": "search", "filters": {"city": "San Diego", "property": "SingleFamilyResidence"}, "expect": {"min_results": 1}, "note": "typo 'hosue'; 'sd'=San Diego"}
+{"id": "x001", "query": "homes in Atlantis for negative five dollars", "intent": "search", "filters": {"city": "Atlantis", "maxPrice": -5}, "expect": {"must_error": true}, "note": "unknown city AND negative price -> validator must reject"}
+{"id": "x002", "query": "homes in Gotham", "intent": "search", "filters": {"city": "Gotham"}, "expect": {"must_error": true}, "note": "unknown city"}
+{"id": "x003", "query": "houses in Brentwood under negative 100k", "intent": "search", "filters": {"city": "Brentwood", "maxPrice": -100000}, "expect": {"must_error": true}, "note": "negative price"}
+{"id": "x004", "query": "99 bedroom homes in Paso Robles", "intent": "search", "filters": {"city": "Paso Robles", "beds": 99}, "expect": {"must_error": true}, "note": "absurd beds"}
+{"id": "x005", "query": "castles in La Jolla", "intent": "search", "filters": {"city": "La Jolla", "property": "Castle"}, "expect": {"must_error": true}, "note": "bad property type"}
+{"id": "x006", "query": "homes over 999999 sqft in Ventura", "intent": "search", "filters": {"city": "Ventura", "sqft": 999999}, "expect": {"must_error": true}, "note": "absurd sqft"}
+{"id": "x007", "query": "homes in Laguna Beach with pool set to yes", "intent": "search", "filters": {"city": "Laguna Beach", "pool": "yes"}, "expect": {"must_error": true}, "note": "pool not '1'"}
+{"id": "x008", "query": "homes in San Ramon with 50000 HOA", "intent": "search", "filters": {"city": "San Ramon", "maxHoa": 50000}, "expect": {"must_error": true}, "note": "HOA above max"}
+{"id": "x009", "query": "homes in san fransisco under 900k", "intent": "search", "filters": {"city": "San Fransisco", "maxPrice": 900000}, "expect": {"must_error": true}, "note": "FLAG: misspelled city -> strict validator rejects"}
+{"id": "x010", "query": "40 bds in santa calara", "intent": "search", "filters": {"city": "Santa Calara", "beds": 40}, "expect": {"must_error": true}, "note": "typo city + 40 beds > max"}
+{"id": "x011", "query": "box in idaho", "intent": "search", "filters": {"city": "Idaho"}, "expect": {"must_error": true}, "note": "out-of-state / unknown city"}
+{"id": "x012", "query": "200 bd -2 ba home in la", "intent": "search", "filters": {"city": "Los Angeles", "beds": 200, "baths": -2}, "expect": {"must_error": true}, "note": "absurd beds + negative baths"}
+{"id": "x013", "query": "homes in irvine with 25 bedrooms", "intent": "search", "filters": {"city": "Irvine", "beds": 25}, "expect": {"must_error": true}, "note": "beds > max"}
+{"id": "x014", "query": "condo in fake city xyz", "intent": "search", "filters": {"city": "Xyz", "property": "Condominium"}, "expect": {"must_error": true}, "note": "unknown city"}
+{"id": "x015", "query": "house for -50000 in fresno", "intent": "search", "filters": {"city": "Fresno", "maxPrice": -50000}, "expect": {"must_error": true}, "note": "negative price"}
+{"id": "x016", "query": "500 bathroom mansion in oakland", "intent": "search", "filters": {"city": "Oakland", "baths": 500, "property": "Mansion"}, "expect": {"must_error": true}, "note": "absurd baths + bad type"}
+{"id": "x017", "query": "igloo in san diego", "intent": "search", "filters": {"city": "San Diego", "property": "Igloo"}, "expect": {"must_error": true}, "note": "bad property type"}
+{"id": "x018", "query": "home with 2 million sqft in la", "intent": "search", "filters": {"city": "Los Angeles", "sqft": 2000000}, "expect": {"must_error": true}, "note": "sqft > max"}
+{"id": "x019", "query": "condo in springfield", "intent": "search", "filters": {"city": "Springfield", "property": "Condominium"}, "expect": {"must_error": true}, "note": "unknown city"}
+{"id": "x020", "query": "10000 dollar hoa condo in glendale", "intent": "search", "filters": {"city": "Glendale", "maxHoa": 15000, "property": "Condominium"}, "expect": {"must_error": true}, "note": "HOA > max"}
