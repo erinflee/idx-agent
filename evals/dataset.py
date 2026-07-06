@@ -16,7 +16,13 @@ CASES_FILE = Path(__file__).with_name("cases.jsonl")
 @dataclass
 class EvalCase:
     """One labeled example. Mirrors one JSON line in cases.jsonl.
-    ...docstring...
+
+    - id:      unique short id, e.g. "s001"
+    - query:   the raw user question
+    - intent:  the correct intent label (one of schema.INTENTS)
+    - filters: the correct extracted filters (dict; {} if none)
+    - expect:  grading hints, e.g. {"min_results": 1} or {"must_error": true}
+    - note:    free-text annotation for your own reference
     """
 
     id: str
