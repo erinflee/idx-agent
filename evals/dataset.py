@@ -6,9 +6,9 @@ Turns each line of cases.jsonl into an EvalCase object the harness can grade aga
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from pathlib import Path
-from .schema import INTENTS
+from .schema import INTENTS, PropertyFilters
 
 CASES_FILE = Path(__file__).with_name("cases.jsonl")
 
@@ -37,6 +37,7 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
     errors = []
     cases = []
     ids = set()
+    known_keys = {f.name for f in fields(PropertyFilters)}
     with open(path, 'r', encoding='utf-8') as file:
         for n, line in enumerate(file, start=1):
             line = line.strip()
@@ -53,6 +54,13 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
             if d['intent'] not in INTENTS:
                 errors.append(f"line {n} ({d['id']}): bad intent {d['intent']!r}")
                 continue
+
+            filters = d.get('filters', {})
+            bad_keys = set(filters) - known_keys
+            if bad_keys:
+                errors.append(f"line {n} ({d['id']!r}): unknown filter keys {bad_keys}")
+                continue
+
             ids.add(d["id"])
             cases.append(EvalCase(
                 id=d['id'],
