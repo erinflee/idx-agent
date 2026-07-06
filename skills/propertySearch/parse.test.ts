@@ -1,5 +1,12 @@
-// validation for parsePropertyQuery —> run directly to check the parser against known queries
-import { parsePropertyQuery, type PropertyFilter } from "./parse.ts";
+// Week 3 — unit test for parsePropertyQuery against queries
+//
+// PARSE layer ONLY: query goes in -> parsed properties come out
+// (full parse -> search -> format chain is tested in index.test.ts)
+//
+// Run:  npm run test-property-parse
+
+
+import { parsePropertyQuery, type PropertyFilter } from "./parse";
 
 // each query paired with the filter parsePropertyQuery must produce
 const testCases: [string, PropertyFilter][] = [
@@ -19,7 +26,7 @@ const testCases: [string, PropertyFilter][] = [
   ["show me something nice", {}],
 
   // weak spots
-  ["homes in Walnut Creek below $500k", { city: "Walnut Creek", maxPrice: 500000 }],
+  ["homes in walnut creek below $500k", { city: "Walnut Creek", maxPrice: 500000 }],
   ["warehouse loft in Santa Cruz", { city: "Santa Cruz" }],
   ["condo in Berkeley under 300k with HOA under $500", { city: "Berkeley", maxPrice: 300000, maxHoa: 500, property: "Condominium" }],
   ["condo without a pool", { property: "Condominium" }],
@@ -28,13 +35,21 @@ const testCases: [string, PropertyFilter][] = [
 
 // compare by stringifying: parser adds keys in interface order, so expected must too
 function main() {
+  let failed = 0
   for (const [query, expected] of testCases) {
     const actual = JSON.stringify(parsePropertyQuery(query));
-    const want = JSON.stringify(expected);
-    if (actual !== want) throw new Error(`FAIL "${query}"\n  expected ${want}\n  got      ${actual}`);
-    console.log(`PASS  ${query}`);
+    if (actual === JSON.stringify(expected)) {
+      console.log(`PASS  ${query}`);
+    }
+    else {
+      failed++;
+      console.error(`FAIL  ${query}\n\texpected:  ${JSON.stringify(expected)}\n\tgot:\t   ${actual}`);
+    }
+  } 
+  if (failed) { 
+    console.error(`\n${failed} failed`);
+    process.exit(1);
   }
-  console.log(`All ${testCases.length} cases passed`);
 }
 
 main();
