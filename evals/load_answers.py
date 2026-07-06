@@ -1,6 +1,6 @@
 """Loader for the labeled query dataset (the "answer key")
 
-Turns each line of cases.jsonl into an EvalCase object the harness can grade against
+Turns each line of answers.jsonl into an EvalCase object the harness can grade against
 """
 
 from __future__ import annotations
@@ -8,18 +8,18 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field, fields
 from pathlib import Path
-from .schema import INTENTS, PropertyFilters, SchemaValidator
+from .rulebook import INTENTS, PropertyFilters, SchemaValidator
 
-CASES_FILE = Path(__file__).with_name("cases.jsonl")
+CASES_FILE = Path(__file__).with_name("answers.jsonl")
 
 
 @dataclass
 class EvalCase:
-    """One labeled example. Mirrors one JSON line in cases.jsonl.
+    """One labeled example. Mirrors one JSON line in answers.jsonl.
 
     - id:      unique short id, e.g. "s001"
     - query:   the raw user question
-    - intent:  the correct intent label (one of schema.INTENTS)
+    - intent:  the correct intent label (one of rulebook.INTENTS)
     - filters: the correct extracted filters (dict; {} if none)
     - expect:  grading hints, e.g. {"min_results": 1} or {"must_error": true}
     - note:    free-text annotation for your own reference
@@ -38,7 +38,7 @@ class EvalCase:
 
 
 def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
-    """Read cases.jsonl into a list of EvalCase"""
+    """Read answers.jsonl into a list of EvalCase"""
 
     errors = []
     cases = []

@@ -12,7 +12,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Callable, Optional
 
-from .dataset import EvalCase, load_cases
+from .load_answers import EvalCase, load_cases
 
 SystemFn = Callable[[str], dict]
 
