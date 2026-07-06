@@ -3,7 +3,7 @@
 import "dotenv/config"; 
 import mysql from "mysql2/promise";
 
-// One shared pool for the whole process. pool.execute() uses prepared statements
+// one shared pool for the whole process -> pool.execute() uses prepared statements
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST ?? "localhost",
   user: process.env.MYSQL_USER ?? "root",
@@ -14,7 +14,7 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-// Run a parameterized query and return the rows typed as T
+// run a parameterized query and return the rows typed as T
 export async function query<T>(sql: string, params: any[] = []): Promise<T[]> {
   const [rows] = await pool.execute(sql, params);
   return rows as T[];
