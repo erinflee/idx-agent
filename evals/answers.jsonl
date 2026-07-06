@@ -79,7 +79,7 @@
 {"id": "r013", "query": "can you show similar homes but in berkeley", "intent": "recommend", "filters": {"city": "Berkeley"}, "expect": {}, "note": "recommend + explicit location override"}
 {"id": "r014", "query": "give me more recs", "intent": "recommend", "filters": {}, "expect": {}, "note": "slang 'recs'"}
 {"id": "r015", "query": "dont recommend this type of property", "intent": "recommend", "filters": {}, "expect": {}, "note": "FLAG: negative/exclusion not expressible"}
-{"id": "s001", "query": "Show me 3-bedroom condos in Irvine under $1.5M", "intent": "search", "filters": {"city": "Irvine", "beds": 3, "property": "Condominium", "maxPrice": 1500000}, "expect": {"min_results": 1}, "note": "classic multi-filter search"} # 106 results back
+{"id": "s001", "query": "Show me 3-bedroom condos in Irvine under $1.5M", "intent": "search", "filters": {"city": "Irvine", "beds": 3, "property": "Condominium", "maxPrice": 1500000}, "expect": {"min_results": 1}, "note": "classic multi-filter search (106 results back)"}
 {"id": "s002", "query": "single family homes in Pasadena with at least 4 beds and a view", "intent": "search", "filters": {"city": "Pasadena", "beds": 4, "property": "SingleFamilyResidence", "hasView": "1"}, "expect": {}, "note": ""}
 {"id": "s003", "query": "2 bedroom condos in Los Angeles under $800k", "intent": "search", "filters": {"city": "Los Angeles", "beds": 2, "property": "Condominium", "maxPrice": 800000}, "expect": {"min_results": 1}, "note": ""}
 {"id": "s004", "query": "townhouses in Palm Desert under $1M with a pool", "intent": "search", "filters": {"city": "Palm Desert", "property": "Townhouse", "maxPrice": 1000000, "pool": "1"}, "expect": {"min_results": 1}, "note": ""}
