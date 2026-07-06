@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field, fields
 from pathlib import Path
-from .schema import INTENTS, PropertyFilters
+from .schema import INTENTS, PropertyFilters, SchemaValidator
 
 CASES_FILE = Path(__file__).with_name("cases.jsonl")
 
@@ -38,6 +38,7 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
     cases = []
     ids = set()
     known_keys = {f.name for f in fields(PropertyFilters)}
+    validator = SchemaValidator()
     with open(path, 'r', encoding='utf-8') as file:
         for n, line in enumerate(file, start=1):
             line = line.strip()
@@ -60,6 +61,12 @@ def load_cases(path: Path = CASES_FILE) -> list[EvalCase]:
             if bad_keys:
                 errors.append(f"line {n} ({d['id']!r}): unknown filter keys {bad_keys}")
                 continue
+
+            # Semantic checks only for cases meant to be valid. must_error cases
+            # (e.g. unknown city + negative price) are *supposed* to fail these.
+            if not d.get('expect', {}).get('must_error'):
+                for msg in validator.validate(filters):
+                    errors.append(f"line {n} ({d['id']!r}): {msg}")
 
             ids.add(d["id"])
             cases.append(EvalCase(
