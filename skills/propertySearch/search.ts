@@ -25,6 +25,8 @@ export interface ListingRow {
   lotSqft: number | null;
   halfBaths: number | null;
   hoaFreq: string | null;
+  prevPrice: number | null;
+  priceChange: string | null;
 }
 
 // Search active listings matching the filter, with pagination.
@@ -47,7 +49,9 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       YearBuilt as yearBuilt,
       LotSizeSquareFeet as lotSqft,
       BathroomsHalf as halfBaths,
-      AssociationFeeFrequency as hoaFreq
+      AssociationFeeFrequency as hoaFreq,
+      PreviousListPrice as prevPrice,
+      PriceChangeTimestamp as priceChange
     FROM rets_property
     WHERE L_Status = 'Active'
     `;
