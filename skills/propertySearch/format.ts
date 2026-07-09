@@ -8,7 +8,7 @@ import type { ListingRow } from "./search";
 export function formatListing(row: ListingRow): string {
 
   return `${row.address}, ${row.city}, CA ${row.zip}
-$${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths ?? "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${row.lotSqft ? Number(row.lotSqft).toLocaleString() : "N/A"} sqft lot
+$${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${row.lotSqft ? Number(row.lotSqft).toLocaleString() : "N/A"} sqft lot
 ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market`;
   
 }
