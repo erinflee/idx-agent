@@ -31,6 +31,9 @@ const cityAbbreviations: Record<string, string> = {
   noho: "North Hollywood",
 }
 
+// common-word cities: only match with a preposition, never bare (avoids "orange county" -> Orange)
+const AMBIGUOUS = new Set(["Orange", "Commerce", "Industry", "Lincoln", "Weed", "Ceres", "Corning", "Hercules", "Rialto"]);
+
 // structured filter we extract -> each variable maps to a real rets_property field
 export interface PropertyFilter {
   city?: string;
@@ -51,7 +54,8 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const replaceAsLiteral = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const cityMatch = cities.find((c) => new RegExp(`\\b(?:in|around|near|nearby|within|close\\s+to)\\s+${replaceAsLiteral(c)}\\b`, "i").test(query));
   const abbrev = Object.keys(cityAbbreviations).find((k) => new RegExp(`\\b${replaceAsLiteral(k)}\\b`, "i").test(query));
-  const city = cityMatch ?? (abbrev ? cityAbbreviations[abbrev] : undefined);
+  const bare = cities.filter((c) => !AMBIGUOUS.has(c) && new RegExp(`\\b${replaceAsLiteral(c)}\\b`, "i").test(query)).sort((a, b) => b.length - a.length)[0];
+  const city = cityMatch ?? (abbrev ? cityAbbreviations[abbrev] : bare);
   const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)\s*(million|mil|m|thousand|k|grand)?\b/i);
   const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b/i);
   const priceSource = priceMatch ?? priceFallback;
