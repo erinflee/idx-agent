@@ -17,6 +17,7 @@ const sample: ListingRow = {
   id: "PW001", address: "1 Main St", city: "Irvine", zip: "92604",
   price: 750000, beds: 3, baths: 2, sqft: 1500,
   property: "Condominium", hoa: 300, view: "", pool: "",
+  dom: 12,
 };
 
 function main() {
@@ -27,6 +28,7 @@ function main() {
   assert(card.includes("3 bd / 2 ba"), "beds/baths wrong");
   assert(card.includes("1,500 sqft"), "sqft should be comma-formatted");
   assert(card.includes("Condominium"), "property missing");
+  assert(card.includes("12 days on market"), "days on market missing");
 
   // null fields must fall back to N/A, not crash or print "null"
   const partial: ListingRow = { ...sample, beds: null, sqft: null, property: null };
