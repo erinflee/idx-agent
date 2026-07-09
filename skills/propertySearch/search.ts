@@ -24,6 +24,7 @@ export interface ListingRow {
   yearBuilt: number | null;
   lotSqft: number | null;
   halfBaths: number | null;
+  hoaFreq: string | null;
 }
 
 // Search active listings matching the filter, with pagination.
@@ -45,7 +46,8 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       DaysOnMarket as dom,
       YearBuilt as yearBuilt,
       LotSizeSquareFeet as lotSqft,
-      BathroomsHalf as halfBaths
+      BathroomsHalf as halfBaths,
+      AssociationFeeFrequency as hoaFreq
     FROM rets_property
     WHERE L_Status = 'Active'
     `;
@@ -62,7 +64,12 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
   if (filter.property) {sql += " AND L_Type_ = ?"; params.push(filter.property)};
   if (filter.pool) {sql += " AND PoolPrivateYN = ?"; params.push(filter.pool)};
   if (filter.hasView) {sql += " AND ViewYN = ?"; params.push(filter.hasView)};
-  if (filter.maxHoa) {sql += " AND AssociationFee <= ?"; params.push(filter.maxHoa)};
+  if (filter.maxHoa) {sql += ` AND (CASE AssociationFeeFrequency
+      WHEN 'Annually'     THEN AssociationFee / 12
+      WHEN 'SemiAnnually' THEN AssociationFee / 6
+      WHEN 'Quarterly'    THEN AssociationFee / 3
+      ELSE AssociationFee
+    END) <= ?`; params.push(filter.maxHoa)}; // normalize fee to monthly before comparing
   sql += ` ORDER BY L_SystemPrice ASC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`; // can't add limit/offset into params
 
   return query<ListingRow>(sql, params);
