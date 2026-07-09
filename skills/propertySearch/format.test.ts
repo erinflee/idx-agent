@@ -17,7 +17,7 @@ const sample: ListingRow = {
   id: "PW001", address: "1 Main St", city: "Irvine", zip: "92604",
   price: 750000, beds: 3, baths: 2, sqft: 1500,
   property: "Condominium", hoa: 300, view: "", pool: "",
-  dom: 12, yearBuilt: 1998, lotSqft: 6000,
+  dom: 12, yearBuilt: 1998, lotSqft: 6000, halfBaths: 1,
 };
 
 function main() {
@@ -25,7 +25,7 @@ function main() {
   const card = formatListing(sample);
   assert(card.includes("1 Main St, Irvine, CA 92604"), "address line wrong");
   assert(card.includes("$750,000"), "price should be comma-formatted");
-  assert(card.includes("3 bd / 2 ba"), "beds/baths wrong");
+  assert(card.includes("3 bd / 2.5 ba"), "beds/baths wrong (2 full + 1 half = 2.5)");
   assert(card.includes("1,500 sqft"), "sqft should be comma-formatted");
   assert(card.includes("Condominium"), "property missing");
   assert(card.includes("12 days on market"), "days on market missing");
