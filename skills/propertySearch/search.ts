@@ -20,6 +20,7 @@ export interface ListingRow {
   hoa: number | null;
   view: string | null;
   pool: string | null;
+  dom: number | null;
 }
 
 // Search active listings matching the filter, with pagination.
@@ -37,7 +38,8 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       L_Type_ as property,
       AssociationFee as hoa,
       ViewYN as view,
-      PoolPrivateYN as pool
+      PoolPrivateYN as pool,
+      DaysOnMarket as dom
     FROM rets_property
     WHERE L_Status = 'Active'
     `;
