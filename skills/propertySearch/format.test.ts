@@ -19,6 +19,7 @@ const sample: ListingRow = {
   property: "Condominium", hoa: 300, view: "", pool: "",
   dom: 12, yearBuilt: 1998, lotSqft: 6000, halfBaths: 1,
   hoaFreq: "Quarterly", // $300 quarterly -> should render as $100/mo
+  prevPrice: 800000, priceChange: "2026-06-01", // carried in the row, not shown on the card
 };
 
 function main() {
