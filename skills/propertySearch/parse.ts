@@ -13,12 +13,15 @@ const propertyMap: Record<string, string> = {
   townhouse: "Townhouse",
   townhouses: "Townhouse",
   "single family residence": "SingleFamilyResidence",
+  "single family residences": "SingleFamilyResidence",
   "single family": "SingleFamilyResidence",
   sfr: "SingleFamilyResidence",
   house: "SingleFamilyResidence",
+  houses: "SingleFamilyResidence",
   land: "UnimprovedLand",
 };
 
+// map common city abbreviations to full city names
 const cityAbbreviations: Record<string, string> = {
   sf: "San Francisco",
   "san fran": "San Francisco",
@@ -31,7 +34,8 @@ const cityAbbreviations: Record<string, string> = {
   noho: "North Hollywood",
 }
 
-// common-word cities: only match with a preposition, never bare (avoids "orange county" -> Orange)
+// common-word cities
+// only match with a preposition, never bare (avoids "orange county" -> Orange)
 const AMBIGUOUS = new Set(["Orange", "Commerce", "Industry", "Lincoln", "Weed", "Ceres", "Corning", "Hercules", "Rialto"]);
 
 // structured filter we extract -> each variable maps to a real rets_property field
