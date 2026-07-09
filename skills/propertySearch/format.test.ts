@@ -18,6 +18,7 @@ const sample: ListingRow = {
   price: 750000, beds: 3, baths: 2, sqft: 1500,
   property: "Condominium", hoa: 300, view: "", pool: "",
   dom: 12, yearBuilt: 1998, lotSqft: 6000, halfBaths: 1,
+  hoaFreq: "Quarterly", // $300 quarterly -> should render as $100/mo
 };
 
 function main() {
@@ -31,6 +32,7 @@ function main() {
   assert(card.includes("12 days on market"), "days on market missing");
   assert(card.includes("Built 1998"), "year built missing");
   assert(card.includes("6,000 sqft lot"), "lot size missing");
+  assert(card.includes("HOA $100/mo"), "quarterly $300 HOA should normalize to $100/mo");
 
   // null fields must fall back to N/A, not crash or print "null"
   const partial: ListingRow = { ...sample, beds: null, sqft: null, property: null };
