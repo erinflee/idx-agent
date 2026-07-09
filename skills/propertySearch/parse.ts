@@ -59,12 +59,15 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const cityMatch = cities.find((c) => new RegExp(`\\b(?:in|around|near|nearby|within|close\\s+to)\\s+${replaceAsLiteral(c)}\\b`, "i").test(query));
   const abbrev = Object.keys(cityAbbreviations).find((k) => new RegExp(`\\b${replaceAsLiteral(k)}\\b`, "i").test(query));
   const bare = cities.filter((c) => !AMBIGUOUS.has(c) && new RegExp(`\\b${replaceAsLiteral(c)}\\b`, "i").test(query)).sort((a, b) => b.length - a.length)[0];
+  
+  // bare before abbrev so a real city with "La" gets pulled instead "la" -> Los Angeles alias
   const city = cityMatch ?? (abbrev ? cityAbbreviations[abbrev] : bare);
   const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)\s*(million|mil|m|thousand|k|grand)?\b/i);
   const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b/i);
   const priceSource = priceMatch ?? priceFallback;
   const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms|br|brs)/i);
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba\b)/i);
+  const slashMatch = query.match(/\b(\d{1,2})\s*\/\s*(\d{1,2}(?:\.\d)?)\b(?!\s*(?:million|mil|thousand|grand))/i); // "3/2" -> 3 bed / 2 bath
   const sqftMatch = query.match(/\b(\d[\d,]*)[\s-]*(?:sqft|sq\s+ft|square\s+(feet|foot)|sq\.\s+ft\.)/i);
   const poolMatch = query.match(/\b(?:swimming\s+)?pools?\b/i);
   const poolNegated = /\b(?:no|without|not|w\/o|sans)\s+(?:a\s+|an\s+)?(?:swimming\s+)?pools?\b/i.test(query);
@@ -86,7 +89,9 @@ export function parsePropertyQuery(query: string): PropertyFilter {
     if (suffix || maxPrice >= 10000) filter.maxPrice = maxPrice;
   }
   if (bedMatch) filter.beds = Number(bedMatch[1]);
+  else if (slashMatch) filter.beds = Number(slashMatch[1]);
   if (bathMatch) filter.baths = Number(bathMatch[1]);
+  else if (slashMatch) filter.baths = Number(slashMatch[2]);
   if (sqftMatch) filter.sqft = Number(sqftMatch[1].replace(/,/g, ""));
   if (poolMatch && !poolNegated) filter.pool = "1";
   if (viewMatch && !viewNegated) filter.hasView = "1";
