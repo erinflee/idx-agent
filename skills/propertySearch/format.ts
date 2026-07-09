@@ -19,10 +19,10 @@ function monthlyHoa(fee: number | null, freq: string | null): number | null {
 // format a single listing into a one-block string card
 export function formatListing(row: ListingRow): string {
   const hoa = monthlyHoa(row.hoa, row.hoaFreq);
-
+  const lot = row.lotSqft == null ? null : Number(row.lotSqft);
 
   return `${row.address}, ${row.city}, CA ${row.zip}
-$${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${row.lotSqft ? Number(row.lotSqft).toLocaleString() : "N/A"} sqft lot
+$${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${lot ? lot.toLocaleString() : "N/A"} sqft lot
 ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market${hoa != null ? ` • HOA $${Math.round(hoa).toLocaleString()}/mo` : ""}`;
   
 }
