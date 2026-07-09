@@ -23,6 +23,7 @@ export interface ListingRow {
   dom: number | null;
   yearBuilt: number | null;
   lotSqft: number | null;
+  halfBaths: number | null;
 }
 
 // Search active listings matching the filter, with pagination.
@@ -43,7 +44,8 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       PoolPrivateYN as pool,
       DaysOnMarket as dom,
       YearBuilt as yearBuilt,
-      LotSizeSquareFeet as lotSqft
+      LotSizeSquareFeet as lotSqft,
+      BathroomsHalf as halfBaths
     FROM rets_property
     WHERE L_Status = 'Active'
     `;
@@ -55,7 +57,7 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
   if (filter.city) {sql += " AND L_CITY = ?"; params.push(filter.city)};
   if (filter.maxPrice) {sql += " AND L_SystemPrice <= ?"; params.push(filter.maxPrice)};
   if (filter.beds) {sql += " AND L_Keyword2 >= ?"; params.push(filter.beds)};
-  if (filter.baths) {sql += " AND LM_DEC_3 >= ?"; params.push(filter.baths)};
+  if (filter.baths) {sql += " AND (LM_DEC_3 + 0.5 * COALESCE(BathroomsHalf, 0)) >= ?"; params.push(filter.baths)};
   if (filter.sqft) {sql += " AND LM_Int2_3 >= ?"; params.push(filter.sqft)};
   if (filter.property) {sql += " AND L_Type_ = ?"; params.push(filter.property)};
   if (filter.pool) {sql += " AND PoolPrivateYN = ?"; params.push(filter.pool)};
