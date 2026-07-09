@@ -17,7 +17,7 @@ const sample: ListingRow = {
   id: "PW001", address: "1 Main St", city: "Irvine", zip: "92604",
   price: 750000, beds: 3, baths: 2, sqft: 1500,
   property: "Condominium", hoa: 300, view: "", pool: "",
-  dom: 12, yearBuilt: 1998,
+  dom: 12, yearBuilt: 1998, lotSqft: 6000,
 };
 
 function main() {
@@ -30,6 +30,7 @@ function main() {
   assert(card.includes("Condominium"), "property missing");
   assert(card.includes("12 days on market"), "days on market missing");
   assert(card.includes("Built 1998"), "year built missing");
+  assert(card.includes("6,000 sqft lot"), "lot size missing");
 
   // null fields must fall back to N/A, not crash or print "null"
   const partial: ListingRow = { ...sample, beds: null, sqft: null, property: null };
