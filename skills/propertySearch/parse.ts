@@ -37,7 +37,7 @@ const cityAbbreviations: Record<string, string> = {
 
 // common-word cities
 // only match with a preposition, never bare (avoids "orange county" -> Orange)
-const AMBIGUOUS = new Set(["Orange", "Commerce", "Industry", "Lincoln", "Weed", "Ceres", "Corning", "Hercules", "Rialto"]);
+const AMBIGUOUS = new Set(["Orange", "Commerce", "Industry", "Lincoln", "Weed", "Ceres", "Corning", "Hercules", "Rialto", "Nice"]);
 
 // structured filter we extract -> each variable maps to a real rets_property field
 export interface PropertyFilter {
