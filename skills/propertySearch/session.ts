@@ -28,5 +28,5 @@ export function getSession(userId: string): UserSession {
 
 export function updateSession(userId: string, updates: Partial<UserSession>) {
   const session = getSession(userId);
-  return sessions.set(userId, { ...session, ...updates });
+  sessions.set(userId, { ...session, ...updates });
 }
