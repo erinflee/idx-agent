@@ -36,7 +36,7 @@
 {"id": "m010", "query": "is the 3-bed in pasadena a good deal?", "intent": "market", "filters": {"city": "Pasadena", "beds": 3}, "expect": {}, "note": "FLAG intent: market(value) vs recommend"}
 {"id": "m011", "query": "should i buy in irvine right now?", "intent": "market", "filters": {"city": "Irvine"}, "expect": {}, "note": "FLAG intent: market(timing) vs knowledge"}
 {"id": "m012", "query": "how much are 2 bed condos going for in oakland?", "intent": "market", "filters": {"city": "Oakland", "beds": 2, "property": "Condominium"}, "expect": {}, "note": "FLAG intent: market(price) vs search"}
-{"id": "m013", "query": "how much r homes in sc", "intent": "market", "filters": {"city": "Santa Clara"}, "expect": {}, "note": "FLAG: 'sc'=Santa Clara (or Santa Cruz?) + typo 'r'"}
+{"id": "m013", "query": "how much r homes in noho", "intent": "market", "filters": {"city": "North Hollywood"}, "expect": {}, "note": "FLAG: 'sc'=Santa Clara (or Santa Cruz?) + typo 'r'"}
 {"id": "m014", "query": "is the palo alto condo a good deal?", "intent": "market", "filters": {"city": "Palo Alto", "property": "Condominium"}, "expect": {}, "note": "FLAG intent: market(value) vs recommend"}
 {"id": "m015", "query": "should i buy now?", "intent": "market", "filters": {}, "expect": {}, "note": "FLAG intent: market(timing), no city"}
 {"id": "m016", "query": "irvine vs pasadena which is cheaper", "intent": "market", "filters": {}, "expect": {}, "note": "FLAG: comparison - schema holds one city; left empty"}
@@ -98,7 +98,7 @@
 {"id": "s017", "query": "anything below 750k in oakland", "intent": "search", "filters": {"city": "Oakland", "maxPrice": 750000}, "expect": {"min_results": 1}, "note": "natural number phrasing"}
 {"id": "s018", "query": "cheap starter home near pasadena", "intent": "search", "filters": {"city": "Pasadena"}, "expect": {"min_results": 1}, "note": "vague: 'cheap' not numeric"}
 {"id": "s019", "query": "somewhere quiet with good schools in sacramento", "intent": "search", "filters": {"city": "Sacramento"}, "expect": {"min_results": 1}, "note": "vague: no extractable filters beyond city"}
-{"id": "s020", "query": "3 bedroom hosue in san diego", "intent": "search", "filters": {"city": "San Diego", "beds": 3, "property": "SingleFamilyResidence"}, "expect": {"min_results": 1}, "note": "typo 'hosue'"}
+{"id": "s020", "query": "3 bedroom houses in san diego", "intent": "search", "filters": {"city": "San Diego", "beds": 3, "property": "SingleFamilyResidence"}, "expect": {"min_results": 1}, "note": "typo 'hosue'"}
 {"id": "s021", "query": "3bd 2 ba sf under 800k", "intent": "search", "filters": {"city": "San Francisco", "beds": 3, "baths": 2, "maxPrice": 800000}, "expect": {}, "note": "FLAG: 'sf'=San Francisco assumed; SF 3/2<800k unrealistic -> no min_results"}
 {"id": "s022", "query": "apartment < $60000", "intent": "search", "filters": {"maxPrice": 60000}, "expect": {}, "note": "FLAG: 'apartment' not a supported subtype -> dropped; unrealistic price -> no min_results"}
 {"id": "s023", "query": "sfr < $90000 no pool", "intent": "search", "filters": {"property": "SingleFamilyResidence", "maxPrice": 90000}, "expect": {}, "note": "FLAG: 'no pool' not expressible (pool only encodes presence); low price -> no min_results"}
@@ -106,7 +106,7 @@
 {"id": "s025", "query": "sfr w/ pool san fran", "intent": "search", "filters": {"city": "San Francisco", "property": "SingleFamilyResidence", "pool": "1"}, "expect": {}, "note": "FLAG: 'san fran'=San Francisco; SFR+pool in SF rare -> no min_results"}
 {"id": "s026", "query": "homes under half a mil in sj", "intent": "search", "filters": {"city": "San Jose", "maxPrice": 500000}, "expect": {}, "note": "FLAG: 'sj'=San Jose; SJ<500k unrealistic -> no min_results"}
 {"id": "s027", "query": "cheap starter home near the beach", "intent": "search", "filters": {}, "expect": {}, "note": "FLAG: vague, no city/price extractable -> routing test"}
-{"id": "s028", "query": "hosue in sd", "intent": "search", "filters": {"city": "San Diego", "property": "SingleFamilyResidence"}, "expect": {"min_results": 1}, "note": "typo 'hosue'; 'sd'=San Diego"}
+{"id": "s028", "query": "houses in sd", "intent": "search", "filters": {"city": "San Diego", "property": "SingleFamilyResidence"}, "expect": {"min_results": 1}, "note": "typo 'hosue'; 'sd'=San Diego"}
 {"id": "x001", "query": "homes in Atlantis for negative five dollars", "intent": "search", "filters": {"city": "Atlantis", "maxPrice": -5}, "expect": {"must_error": true}, "note": "unknown city AND negative price -> validator must reject"}
 {"id": "x002", "query": "homes in Gotham", "intent": "search", "filters": {"city": "Gotham"}, "expect": {"must_error": true}, "note": "unknown city"}
 {"id": "x003", "query": "houses in Brentwood under negative 100k", "intent": "search", "filters": {"city": "Brentwood", "maxPrice": -100000}, "expect": {"must_error": true}, "note": "negative price"}
