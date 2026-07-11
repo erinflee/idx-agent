@@ -30,3 +30,7 @@ export function updateSession(userId: string, updates: Partial<UserSession>): vo
   const session = getSession(userId);
   sessions.set(userId, { ...session, ...updates });
 }
+
+export function clearSession(userId: string): void {
+  sessions.delete(userId);
+}
