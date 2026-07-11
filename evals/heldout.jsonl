@@ -1,0 +1,32 @@
+# HELD-OUT set — queries LLM-generated (NOT authored/tuned against), labeled by meaning
+# Measures parser generalization -> DO NOT tune the parser to pass these
+{"id": "h001", "query": "3bd 2ba house sacramento w pool < 600k", "intent": "search", "filters": {"city": "Sacramento", "beds": 3, "baths": 2, "property": "SingleFamilyResidence", "pool": "1", "maxPrice": 600000}, "expect": {}}
+{"id": "h002", "query": "la condo 1bd 1ba under 500k no hoa", "intent": "search", "filters": {"city": "Los Angeles", "property": "Condominium", "beds": 1, "baths": 1, "maxPrice": 500000}, "expect": {}}
+{"id": "h003", "query": "fresno homes for sale 4 bed 3 bath big yard", "intent": "search", "filters": {"city": "Fresno", "beds": 4, "baths": 3}, "expect": {}}
+{"id": "h004", "query": "buy house bakersfield cheap 3/2", "intent": "search", "filters": {"city": "Bakersfield", "property": "SingleFamilyResidence", "beds": 3, "baths": 2}, "expect": {}}
+{"id": "h005", "query": "riverside ca 4br home safe area under 700k", "intent": "search", "filters": {"city": "Riverside", "beds": 4, "maxPrice": 700000}, "expect": {}}
+{"id": "h006", "query": "long beach beach house 2br 2ba view", "intent": "search", "filters": {"city": "Long Beach", "property": "SingleFamilyResidence", "beds": 2, "baths": 2, "hasView": "1"}, "expect": {}}
+{"id": "h007", "query": "san diego condo w ocean view under 800k", "intent": "search", "filters": {"city": "San Diego", "property": "Condominium", "hasView": "1", "maxPrice": 800000}, "expect": {}}
+{"id": "h008", "query": "stockton ca homes 3bd 2ba fenced yard", "intent": "search", "filters": {"city": "Stockton", "beds": 3, "baths": 2}, "expect": {}}
+{"id": "h009", "query": "3 bed 2 bath house san jose under 1.5m", "intent": "search", "filters": {"city": "San Jose", "beds": 3, "baths": 2, "property": "SingleFamilyResidence", "maxPrice": 1500000}, "expect": {}}
+{"id": "h010", "query": "sunnyvale home for sale 4br 3ba near tech", "intent": "search", "filters": {"city": "Sunnyvale", "beds": 4, "baths": 3}, "expect": {}}
+{"id": "h011", "query": "sacramento house w pool midtown", "intent": "search", "filters": {"city": "Sacramento", "property": "SingleFamilyResidence", "pool": "1"}, "expect": {}}
+{"id": "h012", "query": "4 bedroom home ontario ca 3 car garage", "intent": "search", "filters": {"city": "Ontario", "beds": 4}, "expect": {}}
+{"id": "h013", "query": "modesto houses 3bd 1ba under 400k", "intent": "search", "filters": {"city": "Modesto", "property": "SingleFamilyResidence", "beds": 3, "baths": 1, "maxPrice": 400000}, "expect": {}}
+{"id": "h014", "query": "san francisco condo 1bed 1ba view city", "intent": "search", "filters": {"city": "San Francisco", "property": "Condominium", "beds": 1, "baths": 1, "hasView": "1"}, "expect": {}}
+{"id": "h015", "query": "oakland home 3/2 fixer upper", "intent": "search", "filters": {"city": "Oakland", "beds": 3, "baths": 2}, "expect": {}}
+{"id": "h016", "query": "redding ca house big lot cheap", "intent": "search", "filters": {"city": "Redding", "property": "SingleFamilyResidence"}, "expect": {}}
+{"id": "h017", "query": "chico ca starter home 3bed 2bath", "intent": "search", "filters": {"city": "Chico", "beds": 3, "baths": 2}, "expect": {}}
+{"id": "h018", "query": "4bed 2.5bath house yorba linda", "intent": "search", "filters": {"city": "Yorba Linda", "beds": 4, "baths": 2.5, "property": "SingleFamilyResidence"}, "expect": {}}
+{"id": "h019", "query": "condo in santa rosa wine country", "intent": "search", "filters": {"city": "Santa Rosa", "property": "Condominium"}, "expect": {}}
+{"id": "h020", "query": "3br 2ba house vacaville garage", "intent": "search", "filters": {"city": "Vacaville", "beds": 3, "baths": 2, "property": "SingleFamilyResidence"}, "expect": {}}
+{"id": "h021", "query": "pleasant hill home 3bed 2bath nice schools", "intent": "search", "filters": {"city": "Pleasant Hill", "beds": 3, "baths": 2}, "expect": {}}
+{"id": "h022", "query": "san bernardino 3bed 2bath under 450k", "intent": "search", "filters": {"city": "San Bernardino", "beds": 3, "baths": 2, "maxPrice": 450000}, "expect": {}}
+{"id": "h023", "query": "fremont ca house 4br 3ba close to bart", "intent": "search", "filters": {"city": "Fremont", "property": "SingleFamilyResidence", "beds": 4, "baths": 3}, "expect": {}}
+{"id": "h024", "query": "manteca ca 4bd 2ba single family", "intent": "search", "filters": {"city": "Manteca", "beds": 4, "baths": 2, "property": "SingleFamilyResidence"}, "expect": {}}
+{"id": "h025", "query": "morgan hill home with pool and view", "intent": "search", "filters": {"city": "Morgan Hill", "pool": "1", "hasView": "1"}, "expect": {}}
+{"id": "h026", "query": "3bed 2ba house vallejo water view", "intent": "search", "filters": {"city": "Vallejo", "beds": 3, "baths": 2, "property": "SingleFamilyResidence", "hasView": "1"}, "expect": {}}
+{"id": "h027", "query": "4 bed 3 bath home roseville ca", "intent": "search", "filters": {"city": "Roseville", "beds": 4, "baths": 3}, "expect": {}}
+{"id": "h028", "query": "carlsbad home for sale near beach", "intent": "search", "filters": {"city": "Carlsbad"}, "expect": {}}
+{"id": "h029", "query": "visalia ca house 3br 2ba big yard", "intent": "search", "filters": {"city": "Visalia", "property": "SingleFamilyResidence", "beds": 3, "baths": 2}, "expect": {}}
+{"id": "h030", "query": "yuba city 3bd 2ba house move in ready", "intent": "search", "filters": {"city": "Yuba City", "beds": 3, "baths": 2, "property": "SingleFamilyResidence"}, "expect": {}}
