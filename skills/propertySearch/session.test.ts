@@ -9,7 +9,7 @@ function main() {
   let failed = 0
   const a = getSession("u1");
   const b = getSession("u1");
-  if (a != b) {
+  if (a !== b) {
     failed++;
     console.error(`New session created for same userId`);
   }
