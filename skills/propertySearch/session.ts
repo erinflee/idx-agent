@@ -1,3 +1,21 @@
 // Week 4 — per-user session memory for the conversational property search
 //
 // Typed slots your code fills as the user talks -> checked to decide the next follow-up question
+
+import { ListingRow } from "./search";
+
+interface UserSession {
+  city?: string;
+  maxPrice?: number;
+  beds?: number;
+  baths?: number;
+  sqft?: number;
+  property?: string;
+  pool?: string;
+  hasView?: string;
+  maxHoa?: number;
+  lastResult?: ListingRow[];
+  conversationStep: number;
+}
+
+const sessions = new Map<string, UserSession>();
