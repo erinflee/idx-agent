@@ -3,6 +3,8 @@
 // create a session -> update a slot -> confirm it stuck -> clear it -> confirm it's gone
 
 // Run:  npm run test-property-session
+
+
 import { getSession } from "./session";
 
 function main() {
@@ -18,7 +20,7 @@ function main() {
     console.error(`New session step should be 0, got ${a.conversationStep}`);
   }
   
-  if (!failed) console.log("PASS getSession returns same session at step 0");
+  if (!failed) console.log("PASS  getSession returns same session at step 0");
   else {
     console.error(`\n${failed} failed`);
     process.exit(1);
