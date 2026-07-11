@@ -13,12 +13,12 @@ function main() {
     failed++;
     console.error(`New session created for same userId`);
   }
-  if (a.conversationStep != 0) {
+  if (a.conversationStep !== 0) {
     failed++;
     console.error(`New session step should be 0, got ${a.conversationStep}`);
   }
   
-  if (!failed) console.log(`PASS  ${a} and ${b} are same session at step 0`); 
+  if (!failed) console.log("PASS getSession returns same session at step 0");
   else {
     console.error(`\n${failed} failed`);
     process.exit(1);
