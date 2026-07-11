@@ -2,7 +2,7 @@
 //
 // Typed slots your code fills as the user talks -> checked to decide the next follow-up question
 
-import { ListingRow } from "./search";
+import type { ListingRow } from "./search"; 
 
 interface UserSession {
   city?: string;
@@ -14,7 +14,7 @@ interface UserSession {
   pool?: string;
   hasView?: string;
   maxHoa?: number;
-  lastResult?: ListingRow[];
+  lastResults?: ListingRow[];
   conversationStep: number;
 }
 
