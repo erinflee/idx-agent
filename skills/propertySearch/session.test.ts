@@ -5,12 +5,16 @@
 // Run:  npm run test-property-session
 
 
-import { getSession } from "./session";
+import { getSession, updateSession } from "./session";
 
 function main() {
   let failed = 0
   const a = getSession("u1");
   const b = getSession("u1");
+  updateSession("u2", { city: "Concord", beds: 3 });
+  updateSession("u2", { city: "Berkeley", property: "Condominium" });
+  const c = getSession("u2");
+
   if (a !== b) {
     failed++;
     console.error(`New session created for same userId`);
@@ -19,8 +23,11 @@ function main() {
     failed++;
     console.error(`New session step should be 0, got ${a.conversationStep}`);
   }
-  
-  if (!failed) console.log("PASS  getSession returns same session at step 0");
+  if (c.city !== "Berkeley" || c.beds !== 3 || c.property !== "Condominium") {
+    failed++;
+    console.error(`Session update failed`);
+  }  
+  if (!failed) console.log("PASS  session store: getSession identity + updateSession merge");
   else {
     console.error(`\n${failed} failed`);
     process.exit(1);
@@ -28,3 +35,4 @@ function main() {
 }
 
 main();
+
