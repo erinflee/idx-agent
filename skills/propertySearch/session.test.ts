@@ -5,7 +5,7 @@
 // Run:  npm run test-property-session
 
 
-import { getSession, updateSession } from "./session";
+import { getSession, updateSession, clearSession } from "./session";
 
 function main() {
   let failed = 0
@@ -14,6 +14,9 @@ function main() {
   updateSession("u2", { city: "Concord", beds: 3 });
   updateSession("u2", { city: "Berkeley", property: "Condominium" });
   const c = getSession("u2");
+  updateSession("u3", { city: "Oakland" });
+  clearSession("u3");
+  const d = getSession("u3");
 
   if (a !== b) {
     failed++;
@@ -27,6 +30,10 @@ function main() {
     failed++;
     console.error(`Session update failed`);
   }  
+  if (d.city !== undefined || d.conversationStep !== 0) {
+    failed++;
+    console.error(`Session failed to clear`);
+  }
   if (!failed) console.log("PASS  session store: getSession identity + updateSession merge");
   else {
     console.error(`\n${failed} failed`);
@@ -35,4 +42,5 @@ function main() {
 }
 
 main();
+
 
