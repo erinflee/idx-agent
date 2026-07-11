@@ -19,3 +19,9 @@ interface UserSession {
 }
 
 const sessions = new Map<string, UserSession>();
+
+export function getSession(userId: string): UserSession {
+  if (!sessions.has(userId)) { sessions.set(userId, { conversationStep: 0 }); }
+
+  return sessions.get(userId)!;
+}
