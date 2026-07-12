@@ -11,6 +11,7 @@ function main() {
   let failed = 0;
   mergeMessage("u1", "condos in irvine");
   mergeMessage("u1", "under 1.2 mil");
+  mergeMessage("u1", "actually, i want to live in San Diego with a nice view");
   const session = getSession("u1")
 
   if (session.property === "Condominium") console.log(`PASS  property: ${session.property}`);
@@ -18,15 +19,20 @@ function main() {
     failed++;
     console.error(`FAIL  property: expected Condominium, got ${session.property}`);
   }
-  if (session.city === "Irvine") console.log(`PASS  city: ${session.city}`);
+  if (session.city === "San Diego") console.log(`PASS  city: ${session.city}`);
   else {
     failed++;
-    console.error(`FAIL  city: expected Irvine, got ${session.city}`);
+    console.error(`FAIL  city: expected San Diego, got ${session.city}`);
   }
   if (session.maxPrice === 1200000) console.log(`PASS  maxPrice: ${session.maxPrice}`);
   else {
     failed++;
     console.error(`FAIL  maxPrice: expected 1200000, got ${session.maxPrice}`);
+  }
+  if (session.hasView === "1") console.log(`PASS  hasView: ${session.hasView}`);
+  else {
+    failed++;
+    console.error(`FAIL  hasView: expected 1, got ${session.hasView}`);
   }
 
   if (!failed) console.log(`PASS  conversation flow good`);
