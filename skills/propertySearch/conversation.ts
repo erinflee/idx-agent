@@ -5,3 +5,7 @@
 import { parsePropertyQuery } from "./parse";
 import { getSession, updateSession } from "./session";
 
+export function mergeMessage(userId: string, query: string): void {
+  const filtered = parsePropertyQuery(query);
+  updateSession(userId, filtered);
+}
