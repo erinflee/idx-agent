@@ -10,6 +10,7 @@
     "test-property-format": "npx tsx skills/propertySearch/format.test.ts",
     "test-property-index": "npx tsx skills/propertySearch/index.test.ts",
     "test-property-session": "npx tsx skills/propertySearch/session.test.ts",
+    "test-property-conversation": "npx tsx skills/propertySearch/conversation.test.ts",
     "test-market-comps": "npx tsx skills/marketComps/comps.test.ts"
   },
   "devDependencies": {
