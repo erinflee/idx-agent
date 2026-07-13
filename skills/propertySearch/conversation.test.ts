@@ -41,19 +41,42 @@ function testMergeMessage() {
 
 function testNextQuestion() {
   let failed = 0;
-  nextQuestion(getSession("u1"));
+  const nq1 = nextQuestion(getSession("nq1"));
   updateSession("u2", { city: "Palo Alto" });
-  nextQuestion(getSession("u2"));
+  const nq2 = nextQuestion(getSession("u2"));
   updateSession("u3", { city: "Palo Alto", maxPrice: 2000000 });
-  nextQuestion(getSession("u3"));
+  const nq3 = nextQuestion(getSession("u3"));
   updateSession("u4", { city: "Palo Alto", maxPrice: 2000000, property: "Single Family Residence" });
-  nextQuestion(getSession("u4"));
+  const nq4 = nextQuestion(getSession("u4"));
+  
+  if (nq1?.includes("city")) console.log(`PASS  next question: city`)
+  else {
+    failed++;
+    console.error(`FAIL  next question: ${nq1}, expected question: city`)
+  }
+  if (nq2?.includes("budget")) console.log(`PASS  next question: budget`)
+  else {
+    failed++;
+    console.error(`FAIL  next question: ${nq1}, expected question: budget`)
+  }
+  if (nq3?.includes("condo")) console.log(`PASS  next question: property`)
+  else {
+    failed++;
+    console.error(`FAIL  next question: ${nq1}, expected question: property`)
+  }
+  if (nq4 === null) console.log(`PASS  no next question`)
+  else {
+    failed++;
+    console.error(`FAIL  next question: ${nq1}, expected null`)
+  }
+
   return failed;
 }
 
 function main() {
   let failed = 0;
   failed += testMergeMessage();
+  console.log("\n");
   failed += testNextQuestion();
   if (failed) {
     console.error(`${failed} failed`);
