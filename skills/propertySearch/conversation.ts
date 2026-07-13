@@ -17,10 +17,15 @@ const QUESTIONS: { key: keyof UserSession, question: string }[] = [
 ];
 
 export function nextQuestion(session: UserSession): string | null {
-  
   for (const entry of QUESTIONS) {
     if (session[entry.key] === undefined) return entry.question;
   }
-
   return null
+}
+
+export async function handleTurn(userId: string, message: string): Promise<string> {
+  mergeMessage(userId, message);
+  const nq = nextQuestion(getSession(userId));
+  if (nq !== null) return nq;
+  return "PLACEHOLDER"
 }
