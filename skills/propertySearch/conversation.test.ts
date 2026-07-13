@@ -57,17 +57,17 @@ function testNextQuestion() {
   if (nq2?.includes("budget")) console.log(`PASS  next question: budget`)
   else {
     failed++;
-    console.error(`FAIL  next question: ${nq1}, expected question: budget`)
+    console.error(`FAIL  next question: ${nq2}, expected question: budget`)
   }
   if (nq3?.includes("condo")) console.log(`PASS  next question: property`)
   else {
     failed++;
-    console.error(`FAIL  next question: ${nq1}, expected question: property`)
+    console.error(`FAIL  next question: ${nq3}, expected question: property`)
   }
   if (nq4 === null) console.log(`PASS  no next question`)
   else {
     failed++;
-    console.error(`FAIL  next question: ${nq1}, expected null`)
+    console.error(`FAIL  next question: ${nq4}, expected null`)
   }
 
   return failed;
