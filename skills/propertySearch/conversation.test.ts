@@ -4,8 +4,8 @@
 
 // Run:  npm run test-property-conversation
 
-import { mergeMessage } from "./conversation";
-import { getSession } from "./session";
+import { mergeMessage, nextQuestion } from "./conversation";
+import { getSession, updateSession } from "./session";
 
 
 function testMergeMessage() {
@@ -39,10 +39,22 @@ function testMergeMessage() {
   return failed;
 }
 
+function testNextQuestion() {
+  let failed = 0;
+  nextQuestion(getSession("u1"));
+  updateSession("u2", { city: "Palo Alto" });
+  nextQuestion(getSession("u2"));
+  updateSession("u3", { city: "Palo Alto", maxPrice: 2000000 });
+  nextQuestion(getSession("u3"));
+  updateSession("u4", { city: "Palo Alto", maxPrice: 2000000, property: "Single Family Residence" });
+  nextQuestion(getSession("u4"));
+  return failed;
+}
 
 function main() {
   let failed = 0;
   failed += testMergeMessage();
+  failed += testNextQuestion();
   if (failed) {
     console.error(`${failed} failed`);
     process.exit(1)
