@@ -10,16 +10,16 @@ export function mergeMessage(userId: string, query: string): void {
   updateSession(userId, filtered);
 }
 
-const QUESTIONS: { slot: keyof UserSession, question: string }[] = [
-  {slot: "city", question: "Which city?"},
-  {slot: "maxPrice", question: "What is your budget?"},
-  {slot: "property", question: "Any preferences –– condo, townhouse, or single family?"}
+const QUESTIONS: { key: keyof UserSession, question: string }[] = [
+  {key: "city", question: "Which city?"},
+  {key: "maxPrice", question: "What is your budget?"},
+  {key: "property", question: "Any preferences –– condo, townhouse, or single family?"}
 ];
 
 export function nextQuestion(session: UserSession): string | null {
   
   for (const entry of QUESTIONS) {
-    if (session[entry.slot] === undefined) return entry.question;
+    if (session[entry.key] === undefined) return entry.question;
   }
 
   return null
