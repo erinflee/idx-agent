@@ -8,7 +8,7 @@ import { mergeMessage } from "./conversation";
 import { getSession } from "./session";
 
 
-function main() {
+function testMergeMessage() {
   let failed = 0;
   mergeMessage("u1", "condos in irvine");
   mergeMessage("u1", "under 1.2 mil");
@@ -36,11 +36,16 @@ function main() {
     failed++;
     console.error(`FAIL  hasView: expected 1, got ${session.hasView}`);
   }
+  return failed;
+}
 
-  if (!failed) console.log(`PASS  session merges across turns: accumulate + override + no-wipe`);
-  else {
+
+function main() {
+  let failed = 0;
+  failed += testMergeMessage();
+  if (failed) {
     console.error(`${failed} failed`);
-    process.exit(1);
+    process.exit(1)
   }
 }
 
