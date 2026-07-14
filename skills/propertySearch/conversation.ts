@@ -3,6 +3,9 @@
 // parse a message -> fold new filters into the session -> decide ask vs. search
 
 import { parsePropertyQuery } from "./parse";
+import { searchActiveListings } from "./search";
+import { formatResults } from "./format";
+import { closePool } from "../shared/db";
 import { getSession, updateSession, type UserSession } from "./session";
 
 export function mergeMessage(userId: string, query: string): void {
@@ -25,7 +28,12 @@ export function nextQuestion(session: UserSession): string | null {
 
 export async function handleTurn(userId: string, message: string): Promise<string> {
   mergeMessage(userId, message);
-  const nq = nextQuestion(getSession(userId));
+  const session = getSession(userId)
+  const nq = nextQuestion(session);
   if (nq !== null) return nq;
-  return "PLACEHOLDER"
+
+  const rows = await searchActiveListings(session);
+  updateSession(userId, { lastResults: rows });
+  return formatResults(rows);
 }
+
