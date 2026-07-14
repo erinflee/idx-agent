@@ -4,7 +4,7 @@
 
 // Run:  npm run test-property-conversation
 
-import { mergeMessage, nextQuestion } from "./conversation";
+import { mergeMessage, nextQuestion, handleTurn } from "./conversation";
 import { getSession, updateSession } from "./session";
 
 
@@ -42,12 +42,12 @@ function testMergeMessage() {
 function testNextQuestion() {
   let failed = 0;
   const nq1 = nextQuestion(getSession("nq1"));
-  updateSession("u2", { city: "Palo Alto" });
-  const nq2 = nextQuestion(getSession("u2"));
-  updateSession("u3", { city: "Palo Alto", maxPrice: 2000000 });
-  const nq3 = nextQuestion(getSession("u3"));
-  updateSession("u4", { city: "Palo Alto", maxPrice: 2000000, property: "Single Family Residence" });
-  const nq4 = nextQuestion(getSession("u4"));
+  updateSession("nq2", { city: "Palo Alto" });
+  const nq2 = nextQuestion(getSession("nq2"));
+  updateSession("nq3", { city: "Palo Alto", maxPrice: 2000000 });
+  const nq3 = nextQuestion(getSession("nq3"));
+  updateSession("nq4", { city: "Palo Alto", maxPrice: 2000000, property: "Single Family Residence" });
+  const nq4 = nextQuestion(getSession("nq4"));
   
   if (nq1?.includes("city")) console.log(`PASS  next question: city`)
   else {
@@ -73,11 +73,45 @@ function testNextQuestion() {
   return failed;
 }
 
-function main() {
+async function testHandleTurn() {
+  let failed = 0
+  const ht1 = await handleTurn("ht1", "find something");
+  const ht2 = await handleTurn("ht2", "find something in berkeley");
+  const ht3 = await handleTurn("ht3", "find something in berkeley under 1 mil");
+  const ht4 = await handleTurn("ht4", "find a condo in berkeley under 1 mil");
+
+  if (ht1?.includes("city")) console.log(`PASS  next question: city`); 
+  else {
+    failed++;
+    console.error(`FAIL  got ${ht1}, expected: city question`)
+  }
+  if (ht2?.includes("budget")) console.log(`PASS  next question: budget`); 
+  else {
+    failed++;
+    console.error(`FAIL  got ${ht2}, expected: budget question`)
+  }
+  if (ht3?.includes("condo")) console.log(`PASS  next question: property`); 
+  else {
+    failed++;
+    console.error(`FAIL  got ${ht3}, expected: property question`)
+  }
+  if (getSession("ht4").lastResults?.length) console.log(`PASS  successful search`); 
+  else {
+    failed++;
+    console.error(`FAIL  search came back empty`)
+  }
+  return failed
+}
+
+async function main() {
   let failed = 0;
   failed += testMergeMessage();
   console.log("\n");
   failed += testNextQuestion();
+  console.log("\n");
+  failed += await testHandleTurn();
+  await closePool();
+  
   if (failed) {
     console.error(`${failed} failed`);
     process.exit(1)
