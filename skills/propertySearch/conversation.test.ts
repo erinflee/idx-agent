@@ -6,7 +6,7 @@
 
 import { mergeMessage, nextQuestion, handleTurn } from "./conversation";
 import { getSession, updateSession } from "./session";
-
+import { closePool } from "../shared/db";
 
 function testMergeMessage() {
   let failed = 0;
@@ -111,7 +111,7 @@ async function main() {
   console.log("\n");
   failed += await testHandleTurn();
   await closePool();
-  
+
   if (failed) {
     console.error(`${failed} failed`);
     process.exit(1)
