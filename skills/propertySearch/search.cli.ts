@@ -9,7 +9,7 @@ import { closePool } from "../shared/db";
 async function main() {
   const query = process.argv.slice(2).join(" ").trim(); // everything after the script name = the query
   if (!query) {
-    console.error('type in terminal: npm tsx skills/propertySearch/search.cli.ts "<natural language property query>"');
+    console.error('type in terminal: npx tsx skills/propertySearch/search.cli.ts "<natural language property query>"');
     process.exit(1);
   }
 
