@@ -87,7 +87,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
     const suffix = priceSource[2]?.toLowerCase();
     if (suffix === "thousand" || suffix === "grand" || suffix === "k") maxPrice *= 1000;
     if (suffix === "million" || suffix === "mil" || suffix === "m") maxPrice *= 1000000;
-    if (suffix || maxPrice >= 10000) filter.maxPrice = maxPrice;
+    if (Number.isFinite(maxPrice) && maxPrice > 0 && (suffix || maxPrice >= 10000)) filter.maxPrice = maxPrice;
   }
   if (bedMatch) filter.beds = Number(bedMatch[1]);
   else if (slashMatch) filter.beds = Number(slashMatch[1]);
