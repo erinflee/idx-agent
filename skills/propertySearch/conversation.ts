@@ -5,8 +5,7 @@
 import { parsePropertyQuery } from "./parse";
 import { searchActiveListings } from "./search";
 import { formatResults } from "./format";
-import { closePool } from "../shared/db";
-import { getSession, updateSession, type UserSession } from "./session";
+import { getSession, updateSession, type UserSession, clearSession } from "./session";
 
 export function mergeMessage(userId: string, query: string): void {
   const filtered = parsePropertyQuery(query);
@@ -26,7 +25,13 @@ export function nextQuestion(session: UserSession): string | null {
   return null
 }
 
+
 export async function handleTurn(userId: string, message: string): Promise<string> {
+  if (message.toLowerCase().includes("restart") || message.toLowerCase().includes("start over") || message.toLowerCase().includes("new search")) {
+    clearSession(userId);
+    return nextQuestion(getSession(userId)) ?? "Which city?";
+  }
+
   mergeMessage(userId, message);
   const session = getSession(userId)
   const nq = nextQuestion(session);
