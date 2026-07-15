@@ -145,6 +145,44 @@ async function testEmptyTurn() {
   return failed;
 }
 
+
+
+
+
+async function testConversationFlow() {
+  let failed = 0;
+
+  const tcf1 = await handleTurn("tcf1", "find me a home");
+  if (tcf1 === "Which city?") console.log(`PASS  `);
+  else {
+    failed++;
+    console.error(`FAIL  `);
+  }
+
+  const tcf2 = await handleTurn("tcf1", "in Irvine");
+  if (tcf2 === "What is your budget?") console.log(`PASS  `);
+  else {
+    failed++;
+    console.error(`FAIL  `);
+  }
+
+  const tcf3 = await handleTurn("tcf1", "under $1M");
+  if (tcf3 === "Any preferences –– condo, townhouse, or single family?") console.log(`PASS  `);
+  else {
+    failed++;
+    console.error(`FAIL  `);
+  }
+
+  const tcf4 = await handleTurn("tcf1", "a condo");
+  if (getSession("tcf1").lastResults?.length) console.log(`PASS  `);
+  else {
+    failed++;
+    console.error(`FAIL  `);
+  }
+
+  return failed;
+}
+
 async function main() {
   let failed = 0;
   failed += testMergeMessage();
@@ -156,6 +194,8 @@ async function main() {
   failed += await testReset();
   console.log("\n");
   failed += await testEmptyTurn();
+  console.log("\n");
+  failed += await testConversationFlow();
   await closePool();
 
   if (failed) {
