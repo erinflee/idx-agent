@@ -131,16 +131,16 @@ async function testReset() {
 async function testEmptyTurn() {
   let failed = 0;
   const tet1 = await handleTurn("tet1", "asdf");
-  if (nextQuestion(getSession("tet1")) === "Which city?") console.log(`PASS  correct expected question`);
+  if (nextQuestion(getSession("tet1")) === "Which city?") console.log(`PASS  re-asks city`);
   else {
     failed++;
-    console.error(`FAIL  incorrect expected next question`);
+    console.error(`FAIL  expected "Which city?", got ${tet1}`);
   }
 
-  if (getSession("tet1").lastResults === undefined) console.log(`PASS  expected last results good`);
+  if (getSession("tet1").lastResults === undefined) console.log(`PASS  no search ran`);
   else {
     failed++;
-    console.error(`FAIL  incorrect last results`);
+    console.error(`FAIL  expected no results, got ${getSession("tet1").lastResults}`);
   }
   return failed;
 }
