@@ -153,31 +153,31 @@ async function testConversationFlow() {
   let failed = 0;
 
   const tcf1 = await handleTurn("tcf1", "find me a home");
-  if (tcf1 === "Which city?") console.log(`PASS  `);
+  if (tcf1 === "Which city?") console.log(`PASS  turn 1 asks city`);
   else {
     failed++;
-    console.error(`FAIL  `);
+    console.error(`FAIL  turn 1 expected "Which city?", got ${tcf1}`);
   }
 
   const tcf2 = await handleTurn("tcf1", "in Irvine");
-  if (tcf2 === "What is your budget?") console.log(`PASS  `);
+  if (tcf2 === "What is your budget?") console.log(`PASS  turn 2 asks budget`);
   else {
     failed++;
-    console.error(`FAIL  `);
+    console.error(`FAIL  turn 2 expected budget question, got ${tcf2}`);
   }
 
   const tcf3 = await handleTurn("tcf1", "under $1M");
-  if (tcf3 === "Any preferences –– condo, townhouse, or single family?") console.log(`PASS  `);
+  if (tcf3 === "Any preferences –– condo, townhouse, or single family?") console.log(`PASS  turn 3 asks type`);
   else {
     failed++;
-    console.error(`FAIL  `);
+    console.error(`FAIL  turn 3 expected type question, got ${tcf3}`);
   }
 
   const tcf4 = await handleTurn("tcf1", "a condo");
-  if (getSession("tcf1").lastResults?.length) console.log(`PASS  `);
+  if (getSession("tcf1").lastResults?.length) console.log(`PASS  turn 4 returns listings`);
   else {
     failed++;
-    console.error(`FAIL  `);
+    console.error(`FAIL  turn 4 expected listings, got ${getSession("tcf1").lastResults?.length} results`);
   }
 
   return failed;
