@@ -31,7 +31,6 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     clearSession(userId);
     return nextQuestion(getSession(userId)) ?? "Which city?";
   }
-
   mergeMessage(userId, message);
   const session = getSession(userId)
   const nq = nextQuestion(session);
