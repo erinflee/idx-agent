@@ -103,6 +103,31 @@ async function testHandleTurn() {
   return failed
 }
 
+async function testReset() {
+  let failed = 0;
+  const tr1 = await handleTurn("tr1", "i want to live in malibu");
+  if (getSession("tr1").city === "Malibu") console.log(`PASS  city exists`)
+  else {
+    failed++;
+    console.error(`FAIL  failed restart`);
+  }
+  
+  const tr2 = await handleTurn("tr1", "actuall, start over");
+  if (getSession("tr1").city === undefined) console.log(`PASS  successful restart`)
+  else {
+    failed++;
+    console.error(`FAIL  failed restart`);
+  }
+
+  if (tr2 === "Which city?") console.log(`PASS  successful restart`);
+  else {
+    failed++;
+    console.error(`FAIL  failed restart`);
+  }
+
+  return failed;
+}
+
 async function main() {
   let failed = 0;
   failed += testMergeMessage();
@@ -110,6 +135,8 @@ async function main() {
   failed += testNextQuestion();
   console.log("\n");
   failed += await testHandleTurn();
+  console.log("\n");
+  failed += await testReset();
   await closePool();
 
   if (failed) {
