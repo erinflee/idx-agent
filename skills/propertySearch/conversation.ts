@@ -25,6 +25,21 @@ export function nextQuestion(session: UserSession): { key: keyof UserSession, qu
   return null
 }
 
+const CONTEXT: Partial<Record<keyof PropertyFilter, string>> = {
+  maxPrice: "under ",
+};
+
+function fillAwaitedField(userId: string, message: string) {
+  const nq = nextQuestion(getSession(userId));
+  if (nq === null) return;
+  
+  const word = CONTEXT[nq.key as keyof PropertyFilter];
+  if (word === undefined) return;
+
+  const reparsed = parsePropertyQuery(word + message);
+  const value = reparsed[nq.key as keyof PropertyFilter];
+  if (value !== undefined) updateSession(userId, { [nq.key]: value });
+}
 
 export async function handleTurn(userId: string, message: string): Promise<string> {
   const m = message.toLowerCase();
@@ -34,6 +49,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
   }
 
   mergeMessage(userId, message);
+  fillAwaitedField(userId, message);
   const session = getSession(userId)
   const nq = nextQuestion(session);
   if (nq !== null) return nq.question;
