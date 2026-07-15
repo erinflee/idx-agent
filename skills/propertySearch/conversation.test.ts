@@ -106,23 +106,23 @@ async function testHandleTurn() {
 async function testReset() {
   let failed = 0;
   const tr1 = await handleTurn("tr1", "i want to live in malibu");
-  if (getSession("tr1").city === "Malibu") console.log(`PASS  city exists`)
+  if (getSession("tr1").city === "Malibu") console.log(`PASS  city set`);
   else {
     failed++;
-    console.error(`FAIL  failed restart`);
-  }
-  
-  const tr2 = await handleTurn("tr1", "actuall, start over");
-  if (getSession("tr1").city === undefined) console.log(`PASS  successful restart`)
-  else {
-    failed++;
-    console.error(`FAIL  failed restart`);
+    console.error(`FAIL  expected city "Malibu" after turn 1, got ${getSession("tr1").city}`);
   }
 
-  if (tr2 === "Which city?") console.log(`PASS  successful restart`);
+  const tr2 = await handleTurn("tr1", "actuall, start over");
+  if (getSession("tr1").city === undefined) console.log(`PASS  city wiped`);
   else {
     failed++;
-    console.error(`FAIL  failed restart`);
+    console.error(`FAIL  expected city undefined after reset, got ${getSession("tr1").city}`);
+  }
+
+  if (tr2 === "Which city?") console.log(`PASS  reply restarted`);
+  else {
+    failed++;
+    console.error(`FAIL  expected "Which city?" reply after reset, got ${tr2}`);
   }
 
   return failed;
