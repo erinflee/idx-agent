@@ -10,7 +10,6 @@ import { getSession, updateSession, type UserSession, clearSession } from "./ses
 
 
 
-
 // ---- config / setup ----
 
 // follow-ups -> asked in order for the first empty field
@@ -28,13 +27,18 @@ const CONTEXT: Partial<Record<keyof PropertyFilter, string>> = {
 
 
 
-
 // ---- helpers ----
 
-// add parsed fields into the session
+// add parsed fields into the session — accumulate only, never overwrite an
+// already-set field (so a later turn can't silently clobber an earlier answer)
 export function mergeMessage(userId: string, query: string): void {
   const filtered = parsePropertyQuery(query);
-  updateSession(userId, filtered);
+  const session = getSession(userId);
+  const fresh: Partial<PropertyFilter> = {};
+  for (const key of Object.keys(filtered) as (keyof PropertyFilter)[]) {
+    if (session[key] === undefined) fresh[key] = filtered[key] as any;
+  }
+  updateSession(userId, fresh);
 }
 
 // first empty field, or null when all filled
@@ -57,7 +61,6 @@ function fillAwaitedField(userId: string, message: string) {
   const value = reparsed[nq.key as keyof PropertyFilter];
   if (value !== undefined) updateSession(userId, { [nq.key]: value });
 }
-
 
 
 
