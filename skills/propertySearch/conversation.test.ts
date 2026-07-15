@@ -128,6 +128,23 @@ async function testReset() {
   return failed;
 }
 
+async function testEmptyTurn() {
+  let failed = 0;
+  const tet1 = await handleTurn("tet1", "asdf");
+  if (nextQuestion(getSession("tet1")) === "Which city?") console.log(`PASS  correct expected question`);
+  else {
+    failed++;
+    console.error(`FAIL  incorrect expected next question`);
+  }
+
+  if (getSession("tet1").lastResults === undefined) console.log(`PASS  expected last results good`);
+  else {
+    failed++;
+    console.error(`FAIL  incorrect last results`);
+  }
+  return failed;
+}
+
 async function main() {
   let failed = 0;
   failed += testMergeMessage();
@@ -137,6 +154,8 @@ async function main() {
   failed += await testHandleTurn();
   console.log("\n");
   failed += await testReset();
+  console.log("\n");
+  failed += await testEmptyTurn();
   await closePool();
 
   if (failed) {
