@@ -16,6 +16,8 @@ const testCases: [string, PropertyFilter][] = [
   ["2.5 ba listings", { baths: 2.5 }],
   ["1,800 sq ft properties", { sqft: 1800 }],
   ["home that has a pool", { pool: "1" }],
+  ["under 500k", { maxPrice: 500000 }],
+  ["under $1.2 million", { maxPrice: 1200000 }],
 
   // multiple field
   ["3 bd 2.5ba house in pasadena under 1.2 mil with a pool", { city: "Pasadena", maxPrice: 1200000, beds: 3, baths: 2.5, pool: "1", property: "SingleFamilyResidence" }],
@@ -25,6 +27,11 @@ const testCases: [string, PropertyFilter][] = [
   // no match -> should return {}
   ["hello there", {}],
   ["show me something nice", {}],
+  ["home under 1.2.3 mil", {}],
+  ["under 500", {}],
+  ["under $0", {}],
+
+
 
   // weak spots
   ["homes in walnut creek below 500k", { city: "Walnut Creek", maxPrice: 500000 }],
