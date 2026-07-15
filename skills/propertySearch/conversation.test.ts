@@ -131,7 +131,7 @@ async function testReset() {
 async function testEmptyTurn() {
   let failed = 0;
   const tet1 = await handleTurn("tet1", "asdf");
-  if (nextQuestion(getSession("tet1")) === "Which city?") console.log(`PASS  re-asks city`);
+  if (tet1 === "Which city?") console.log(`PASS  re-asks city`);
   else {
     failed++;
     console.error(`FAIL  expected "Which city?", got ${tet1}`);
