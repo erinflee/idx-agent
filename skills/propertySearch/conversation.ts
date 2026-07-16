@@ -23,6 +23,7 @@ const QUESTIONS: { key: keyof UserSession, question: string }[] = [
 // partial: unmapped fields get no rescue
 const CONTEXT: Partial<Record<keyof PropertyFilter, string>> = {
   maxPrice: "under ",
+  city: "in "
 };
 
 
