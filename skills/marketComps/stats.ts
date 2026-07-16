@@ -17,11 +17,11 @@ export interface MarketSummary {
 export async function getMarketSummary(city: string, months = 12): Promise<MarketSummary | null> {
   const sql = `
     SELECT 
-      COUNT(*) as soldCount,
-      ROUND(AVG(DaysOnMarket), 1) as avgDom,
-      ROUND(AVG(ClosePrice), 0) as avgClosePrice,
-      ROUND(AVG(ClosePrice / NULLIF(LivingArea, 0))) as avgPricePerSqft,
-      ROUND(AVG(ClosePrice / NULLIF(ListPrice, 0)) * 100, 1) as listToClosePct
+      COUNT(*) AS soldCount,
+      ROUND( AVG( CAST(DaysOnMarket AS DOUBLE) ), 1) AS avgDom,
+      ROUND( AVG(ClosePrice), 0) AS avgClosePrice,
+      ROUND( AVG(ClosePrice / NULLIF(LivingArea, 0) ) ) AS avgPricePerSqft,
+      ROUND( AVG(ClosePrice / NULLIF(ListPrice, 0) ) * 100, 1) AS listToClosePct
 
     FROM california_sold
 
@@ -32,5 +32,6 @@ export async function getMarketSummary(city: string, months = 12): Promise<Marke
       AND LivingArea > 0
   `;
 
-  return await query<MarketSummary>(sql, [city, months]);
+  const rows = await query<MarketSummary>(sql, [city, months]);
+  return rows[0] ?? null;
 }
