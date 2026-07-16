@@ -30,6 +30,9 @@ const testCases: [string, PropertyFilter][] = [
   ["home under 1.2.3 mil", {}],
   ["under 500", {}],
   ["under $0", {}],
+  ["i'm hoping for 0 beds", {}],
+  ["anything with NaN hoa", {}],
+  ["under -1k", {}],
 
 
 
