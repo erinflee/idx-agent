@@ -49,17 +49,17 @@ function testNextQuestion() {
   updateSession("nq4", { city: "Palo Alto", maxPrice: 2000000, property: "Single Family Residence" });
   const nq4 = nextQuestion(getSession("nq4"));
   
-  if (nq1?.includes("city")) console.log(`PASS  next question: city`)
+  if (nq1?.key === "city") console.log(`PASS  next question: city`)
   else {
     failed++;
     console.error(`FAIL  next question: ${nq1}, expected question: city`)
   }
-  if (nq2?.includes("budget")) console.log(`PASS  next question: budget`)
+  if (nq2?.key === "maxPrice") console.log(`PASS  next question: budget`)
   else {
     failed++;
     console.error(`FAIL  next question: ${nq2}, expected question: budget`)
   }
-  if (nq3?.includes("condo")) console.log(`PASS  next question: property`)
+  if (nq3?.key === "property") console.log(`PASS  next question: property`)
   else {
     failed++;
     console.error(`FAIL  next question: ${nq3}, expected question: property`)
