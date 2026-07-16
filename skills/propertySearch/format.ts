@@ -23,8 +23,8 @@ export function formatListing(row: ListingRow): string {
 
   return `${row.address}, ${row.city}, CA ${row.zip}
 $${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${lot ? lot.toLocaleString() : "N/A"} sqft lot
-${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market${hoa != null ? ` • HOA $${Math.round(hoa).toLocaleString()}/mo` : ""}`;
-  
+${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market${hoa != null ? ` • HOA $${Math.round(hoa).toLocaleString()}/mo` : ""} • ${row.photoCount ?? "N/A"} Photos`;
+
 }
 
 // format entire result set and handle the empty case 
