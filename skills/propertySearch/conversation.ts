@@ -12,54 +12,68 @@ import { getSession, updateSession, type UserSession, clearSession } from "./ses
 
 // ---- config / setup ----
 
-// follow-ups -> asked in order for the first empty field
+// asked in array order, for the first empty field
 const QUESTIONS: { key: keyof UserSession, question: string }[] = [
   {key: "city", question: "Which city?"},
   {key: "maxPrice", question: "What is your budget?"},
   {key: "property", question: "Any preferences –– condo, townhouse, or single family?"}
 ];
 
-// word to prepend to a bare answer ("500k" -> "under 500k")
-// partial: unmapped fields get no rescue
-const CONTEXT: Partial<Record<keyof PropertyFilter, string>> = {
+// prepended to a bare answer ("500k" -> "under 500k")
+// unmapped fields get no rescue
+const ANSWER_PREFIX: Partial<Record<keyof PropertyFilter, string>> = {
   maxPrice: "under ",
   city: "in "
+};
+
+// says a corrected field back ("Got it — under $2,000,000.")
+const DESCRIBE_FIELD: Partial<Record<keyof PropertyFilter, (value: any) => string>> = {
+  city: (value) => String(value),
+  maxPrice: (value) => `under $${Number(value).toLocaleString()}`,
+  property: (value) => String(value)
 };
 
 
 
 // ---- helpers ----
 
-// add parsed fields into the session — accumulate only, never overwrite an
-// already-set field (so a later turn can't silently clobber an earlier answer)
-export function mergeMessage(userId: string, query: string): void {
-  const filtered = parsePropertyQuery(query);
-  const session = getSession(userId);
-  const fresh: Partial<PropertyFilter> = {};
-  for (const key of Object.keys(filtered) as (keyof PropertyFilter)[]) {
-    if (session[key] === undefined) fresh[key] = filtered[key] as any;
+// merges parsed fields into the session; returns only what a later turn
+// corrected (already set -> different value)
+export function mergeMessage(userId: string, query: string): Partial<PropertyFilter> {
+  const previousFilters = getSession(userId);
+  const filters = parsePropertyQuery(query);
+
+  // updateSession swaps in a new object rather than mutating, so
+  // `previousFilters` stays a valid pre-merge snapshot
+  const corrections: Partial<PropertyFilter> = {};
+  for (const key of Object.keys(filters) as (keyof PropertyFilter)[]) {
+    if (previousFilters[key] !== undefined && previousFilters[key] !== filters[key]) {
+      corrections[key] = filters[key] as any;
+    }
   }
-  updateSession(userId, fresh);
+
+  updateSession(userId, filters);
+  return corrections;
 }
 
 // first empty field, or null when all filled
 export function nextQuestion(session: UserSession): { key: keyof UserSession, question: string } | null {
-  for (const entry of QUESTIONS) {
-    if (session[entry.key] === undefined) return entry;
+  for (const followUp of QUESTIONS) {
+    if (session[followUp.key] === undefined) return followUp;
   }
   return null
 }
 
-// retry the awaited field alone, using its context word as a hint
+// retry the awaited field alone, using its prefix as a hint
 function fillAwaitedField(userId: string, message: string) {
   const nq = nextQuestion(getSession(userId));
   if (nq === null) return;
 
-  const word = CONTEXT[nq.key as keyof PropertyFilter];
-  if (word === undefined) return;
+  const prefix = ANSWER_PREFIX[nq.key as keyof PropertyFilter];
+  if (prefix === undefined) return;
 
-  const reparsed = parsePropertyQuery(word + message);
-  const value = reparsed[nq.key as keyof PropertyFilter];
+  const retryFilters = parsePropertyQuery(prefix + message);
+  const value = retryFilters[nq.key as keyof PropertyFilter];
   if (value !== undefined) updateSession(userId, { [nq.key]: value });
 }
 
@@ -75,13 +89,22 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     return nextQuestion(getSession(userId))!.question;
   }
 
-  mergeMessage(userId, message);
+  const corrections = mergeMessage(userId, message);
   fillAwaitedField(userId, message);
   const session = getSession(userId)
+
+  // names every switch, or the user keeps answering for the filters they first typed
+  const correctionPhrases = (Object.keys(corrections) as (keyof PropertyFilter)[])
+    .map((key) => DESCRIBE_FIELD[key]?.(corrections[key]))
+    .filter((phrase): phrase is string => phrase !== undefined);
+  const acknowledgment = correctionPhrases.length > 0
+    ? `Got it — ${correctionPhrases.join(", ")}. `
+    : "";
+
   const nq = nextQuestion(session);
-  if (nq !== null) return nq.question;
+  if (nq !== null) return acknowledgment + nq.question;
 
   const rows = await searchActiveListings(session);
   updateSession(userId, { lastResults: rows });
-  return formatResults(rows);
+  return acknowledgment + formatResults(rows);
 }
