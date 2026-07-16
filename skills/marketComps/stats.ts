@@ -33,6 +33,6 @@ export async function getMarketSummary(city: string, months = 12): Promise<Marke
   `;
 
   const rows = await query<MarketSummary>(sql, [city, months]);
-  if (rows[0].soldCount === 0) return null;
+  if (rows.length === 0 || rows[0].soldCount === 0) return null;
   return rows[0];
 }
