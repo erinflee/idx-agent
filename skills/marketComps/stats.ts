@@ -21,12 +21,12 @@ export async function getMarketSummary(city: string, months = 12): Promise<Marke
       ROUND(AVG(DaysOnMarket), 1) as avgDom,
       ROUND(AVG(ClosePrice), 0) as avgClosePrice,
       ROUND(AVG(ClosePrice / NULLIF(LivingArea, 0))) as avgPricePerSqft,
-      ROUND(AVG(ClosePrice / NULLIF(ListPrice, 0)), 1) as listToClosePct,
+      ROUND(AVG(ClosePrice / NULLIF(ListPrice, 0)) * 100, 1) as listToClosePct
 
     FROM california_sold
 
     WHERE City = ?
-      AND PropertySubType = 'SingleFamilyResidence
+      AND PropertySubType = 'SingleFamilyResidence'
       AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
       AND CloseDate <= CURDATE()
       AND LivingArea > 0
