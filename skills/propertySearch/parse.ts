@@ -52,6 +52,12 @@ export interface PropertyFilter {
   maxHoa?: number;
 }
 
+function toFinitePositive(raw: string | undefined): number | undefined {
+  if (raw === undefined) return undefined;
+  const n = Number(raw.replace(/,/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
 // turn free-text query into structured filter object
 export function parsePropertyQuery(query: string): PropertyFilter {
   const filter: PropertyFilter = {};
@@ -101,3 +107,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
 
   return filter;
 }
+
+
+
+
