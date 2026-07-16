@@ -27,6 +27,7 @@ export interface ListingRow {
   hoaFreq: string | null;
   prevPrice: number | null;
   priceChange: string | null;
+  photoCount: number | null;
 }
 
 // Search active listings matching the filter, with pagination.
@@ -51,7 +52,8 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       BathroomsHalf as halfBaths,
       AssociationFeeFrequency as hoaFreq,
       PreviousListPrice as prevPrice,
-      PriceChangeTimestamp as priceChange
+      PriceChangeTimestamp as priceChange,
+      PhotoCount as photoCount
     FROM rets_property
     WHERE L_Status = 'Active'
     `;
