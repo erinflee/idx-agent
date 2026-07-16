@@ -18,10 +18,9 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 
 ```
 .
-├── docs/             Architecture + domain reference
+├── docs/             Architecture reference
 │   ├── architecture.md     system diagram, mermaid (Week 1 deliverable)
-│   ├── lifecycle.md        query → response lifecycle diagram
-│   └── schema_reference.md MLS table/field notes
+│   └── lifecycle.md        query → response lifecycle diagram
 ├── skills/           OpenClaw TypeScript skills the agent loads (see skills/README.md)
 │   ├── shared/db.ts            pooled, read-only MySQL query() helper
 │   ├── propertySearch/         NL property search (Weeks 2–4)
@@ -45,8 +44,6 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 │   ├── grader.py               score_case · run_suite · task_success_rate
 │   ├── load_answers.py         answers.jsonl → EvalCase objects
 │   └── score_parser.ts         scores the TS parser against the answer key
-├── openclaw/         What the live agent loads
-│   └── property-search/SKILL.md  skill manifest (invokes bin/property-search)
 ├── bin/property-search  stable wrapper command OpenClaw is allowlisted to run
 ├── tests/            pytest checks for the validator, dataset, and grader
 ├── scripts/test-all.sh  full TypeScript suite (npm test)
