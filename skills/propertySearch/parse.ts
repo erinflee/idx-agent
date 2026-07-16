@@ -95,14 +95,17 @@ export function parsePropertyQuery(query: string): PropertyFilter {
     if (suffix === "million" || suffix === "mil" || suffix === "m") maxPrice *= 1000000;
     if (Number.isFinite(maxPrice) && maxPrice > 0 && (suffix || maxPrice >= 10000)) filter.maxPrice = maxPrice;
   }
-  if (bedMatch) filter.beds = Number(bedMatch[1]);
-  else if (slashMatch) filter.beds = Number(slashMatch[1]);
-  if (bathMatch) filter.baths = Number(bathMatch[1]);
-  else if (slashMatch) filter.baths = Number(slashMatch[2]);
-  if (sqftMatch) filter.sqft = Number(sqftMatch[1].replace(/,/g, ""));
+
+  const beds = toFinitePositive(bedMatch?.[1] ?? slashMatch?.[1]);
+  if (beds !== undefined) filter.beds = beds;
+  const baths = toFinitePositive(bathMatch?.[1] ?? slashMatch?.[2]);
+  if (baths !== undefined) filter.baths = baths;
+  const sqft = toFinitePositive(sqftMatch?.[1]);
+  if (sqft !== undefined) filter.sqft = sqft;
   if (poolMatch && !poolNegated) filter.pool = "1";
   if (viewMatch && !viewNegated) filter.hasView = "1";
-  if (hoaMatch) filter.maxHoa = Number(hoaMatch[1].replace(/,/g, ""));
+  const hoa = toFinitePositive(hoaMatch?.[1]);
+  if (hoa !== undefined) filter.maxHoa = hoa;
   if (propertyMatch) filter.property = propertyMap[propertyMatch];
 
   return filter;
