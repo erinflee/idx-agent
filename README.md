@@ -75,9 +75,29 @@ partially landed: `comps.ts` works, `stats.ts` is still a stub.)_
 ## Setup
 
 ```bash
-pip install -r requirements.txt
-cp .env.example .env        # fill in MySQL creds + GOOGLE_API_KEY (Gemini)
-pytest                      # run the eval/test suite
+pip install -r requirements.txt   # Python: eval harness + db.py
+npm install                       # TypeScript: tsx runner + mysql2
+cp .env.example .env              # fill in MySQL creds + GOOGLE_API_KEY (Gemini)
+```
+
+## Tests
+
+Two suites, run separately:
+
+```bash
+pytest        # Python — validator, answer key, and grader. No DB needed.
+npm test      # TypeScript — full skill suite (scripts/test-all.sh)
+```
+
+`npm test` runs the no-DB unit tests first (`parse`, `format`), then the
+integration tests that hit live MySQL — so it needs `.env` filled in and the
+database running. Individual suites are in `package.json` (e.g.
+`npm run test-property-parse`).
+
+To score the parser against the labeled answer key:
+
+```bash
+npx tsx evals/score_parser.ts
 ```
 
 OpenClaw itself is installed separately (`npm install -g openclaw`) and runs as a background
