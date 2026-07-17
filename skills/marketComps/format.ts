@@ -6,5 +6,6 @@ import type { MarketSummary } from "./stats";
 
 
 export function formatMarketSummary(city: string, summary: MarketSummary): string {
+  if (summary === null) return `No recent sale for ${city}`;
   return `soldCount: ${summary.soldCount} • avgDom: ${summary.avgDom} • avgClosePrice: ${summary.avgClosePrice} • avgPricePerSqft: ${summary.avgPricePerSqft} • listToClosePct: ${summary.listToClosePct}`
 }
