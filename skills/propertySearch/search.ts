@@ -76,7 +76,8 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       WHEN 'Quarterly'    THEN AssociationFee / 3
       ELSE AssociationFee
     END) <= ?`; params.push(filter.maxHoa)}; // normalize fee to monthly before comparing
-  sql += ` ORDER BY L_SystemPrice ASC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`; // can't add limit/offset into params
+  sql += ` AND L_SystemPrice >= 10000`;
+  sql += ` ORDER BY L_SystemPrice DESC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`; // can't add limit/offset into params
 
   return query<ListingRow>(sql, params);
 }
