@@ -70,8 +70,10 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   // bare before abbrev so a real city with "La" gets pulled instead "la" -> Los Angeles alias
   const city = cityMatch ?? bare ?? (abbrev ? cityAbbreviations[abbrev] : undefined);
   const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)\s*(million|mil|m|thousand|k|grand)?\b/i);
-  const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b/i);
-  const priceSource = priceMatch ?? priceFallback;
+  const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)\s+(?!)?\b/i);
+  const priceBare = (priceMatch ?? priceFallback)
+    ? null : query.match(/\b([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b(?!\s*(?:sq|sqft|ft|bed|beds|bedroom|bedrooms|bd|br|bath|baths|ba)\b)/i);
+  const priceSource = priceMatch ?? priceFallback ?? priceBare;
   const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms|br|brs\b)/i);
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba\b)/i);
   const slashMatch = query.match(/\b(\d{1,2})\s*\/\s*(\d{1,2}(?:\.\d)?)\b(?!\s*(?:million|mil|thousand|grand))/i); // "3/2" -> 3 bed / 2 bath
