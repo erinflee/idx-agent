@@ -73,7 +73,7 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b/i);
 
   const priceBare = (priceMatch ?? priceFallback)
-    ? null : query.match(/\b([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b(?!\s*(?:sq|sqft|ft|bed|beds|bedroom|bedrooms|bd|br|bath|baths|ba)\b)/i);
+    ? null : query.match(/(?<!-)\b([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b(?!\s*(?:sq|sqft|ft|bed|beds|bedroom|bedrooms|bd|br|bath|baths|ba)\b)/i);
   const priceSource = priceMatch ?? priceFallback ?? priceBare;
   const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms|br|brs\b)/i);
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba\b)/i);
