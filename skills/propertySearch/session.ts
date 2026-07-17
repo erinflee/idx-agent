@@ -14,6 +14,7 @@ export interface UserSession {
   pool?: string;
   hasView?: string;
   maxHoa?: number;
+  page?: number;
   lastResults?: ListingRow[];
   conversationStep: number;
 }
