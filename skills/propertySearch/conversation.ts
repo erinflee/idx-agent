@@ -28,7 +28,7 @@ const ANSWER_PREFIX: Partial<Record<keyof PropertyFilter, string>> = {
 
 // says a corrected field back ("Got it — under $2,000,000.")
 const DESCRIBE_FIELD: Partial<Record<keyof PropertyFilter, (value: any) => string>> = {
-  city: (value) => String(value),
+  city: (value) => `A place in ${String(value)}`,
   maxPrice: (value) => `under $${Number(value).toLocaleString()}`,
   property: (value) => String(value)
 };
@@ -89,6 +89,15 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     return nextQuestion(getSession(userId))!.question;
   }
 
+  const s = getSession(userId);
+  if (/\b(more|next|show more|see more)\b/.test(m) && nextQuestion(s) === null) {
+    const nextPage = (s.page ?? 1) + 1;
+    const rows = await searchActiveListings(s, nextPage);
+    if (rows.length === 0) return "No more available listings for your search!";   
+    updateSession(userId, { page: nextPage, lastResults: rows });
+    return formatResults(rows);
+  }
+
   const corrections = mergeMessage(userId, message);
   fillAwaitedField(userId, message);
   const session = getSession(userId)
@@ -98,7 +107,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     .map((key) => DESCRIBE_FIELD[key]?.(corrections[key]))
     .filter((phrase): phrase is string => phrase !== undefined);
   const acknowledgment = correctionPhrases.length > 0
-    ? `Got it — ${correctionPhrases.join(", ")}. `
+    ? `Okok! ${correctionPhrases.join(", ")}. `
     : "";
 
   const nq = nextQuestion(session);
