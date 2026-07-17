@@ -70,7 +70,8 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   // bare before abbrev so a real city with "La" gets pulled instead "la" -> Los Angeles alias
   const city = cityMatch ?? bare ?? (abbrev ? cityAbbreviations[abbrev] : undefined);
   const priceMatch = query.match(/(?:under|below|less\s+than|no\s+more\s+than|max|up\s+to|within|cheaper\s+than|≤|<=|<)\s*\$?([\d,.]+)\s*(million|mil|m|thousand|k|grand)?\b/i);
-  const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)\s+(?!)?\b/i);
+  const priceFallback = priceMatch ? null : query.match(/\$\s?([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b/i);
+
   const priceBare = (priceMatch ?? priceFallback)
     ? null : query.match(/\b([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b(?!\s*(?:sq|sqft|ft|bed|beds|bedroom|bedrooms|bd|br|bath|baths|ba)\b)/i);
   const priceSource = priceMatch ?? priceFallback ?? priceBare;
@@ -93,9 +94,9 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   if (priceSource) {
     let maxPrice = Number(priceSource[1].replace(/,/g, ""));
     const suffix = priceSource[2]?.toLowerCase();
-    if (suffix === "thousand" || suffix === "grand" || suffix === "k") maxPrice *= 1000;
-    if (suffix === "million" || suffix === "mil" || suffix === "m") maxPrice *= 1000000;
-    if (Number.isFinite(maxPrice) && maxPrice > 0 && (suffix || maxPrice >= 10000)) filter.maxPrice = maxPrice;
+    if (suffix === "thousand" || suffix === "grand" || suffix === "k") maxPrice *= 1_000;
+    if (suffix === "million" || suffix === "mil" || suffix === "m") maxPrice *= 1_000_000;
+    if (Number.isFinite(maxPrice) && maxPrice > 0 && maxPrice <= 100_000_000 && (suffix || maxPrice >= 10_000)) filter.maxPrice = maxPrice;
   }
 
   const beds = toFinitePositive(bedMatch?.[1] ?? slashMatch?.[1]);
