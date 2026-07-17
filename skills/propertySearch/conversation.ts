@@ -113,7 +113,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
   const nq = nextQuestion(session);
   if (nq !== null) return acknowledgment + nq.question;
 
-  const rows = await searchActiveListings(session);
-  updateSession(userId, { lastResults: rows });
+  const rows = await searchActiveListings(session, 1);
+  updateSession(userId, { page: 1, lastResults: rows });
   return acknowledgment + formatResults(rows);
 }
