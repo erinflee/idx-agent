@@ -63,7 +63,7 @@ export async function getPriceTrendMonth(city: string, month = 12): Promise<Pric
     AND LivingArea > 0
 
     GROUP BY month
-    ORDER BY ASC month
+    ORDER BY month
   `;
 
   const rows = await query<PriceTrendMonth>(sql, [city, month]);
