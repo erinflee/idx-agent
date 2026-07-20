@@ -53,7 +53,7 @@ def get_price_trend(city, month=12):
   df = pd.read_sql(query, con=engine, params={"city": city, "month": month})
   if df.empty:
     return None
-
+  
   df['priceChangePct'] = df["avgPrice"].pct_change() * 100
   return df
 
