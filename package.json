@@ -13,6 +13,7 @@
     "test-property-conversation": "npx tsx skills/propertySearch/conversation.test.ts",
     "test-market-comps": "npx tsx skills/marketComps/comps.test.ts",
     "test-market-format": "npx tsx skills/marketComps/format.test.ts",
+    "test-market-stats": "npx tsx skills/marketComps/marketStats.test.ts",
     "demo-conversation": "npx tsx skills/propertySearch/conversation.cli.ts"
   },
   "devDependencies": {
