@@ -23,9 +23,3 @@ export function formatPriceTrendMonth(city: string, months: number, trend: Price
  
   return `${city} - single family homes, last ${months} months\n` + rows.join("\n");
 }
-
-export async function marketStatsAgent(city: string): Promise<string> {
-  const summary = await getMarketSummary(city);
-  const trend = await getPriceTrendMonth(city);
-  return formatMarketSummary(city, 12, summary?.[0] ?? null) + formatPriceTrendMonth(city, 12, trend);
-}
