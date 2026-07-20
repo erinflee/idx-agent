@@ -31,3 +31,13 @@ def get_market_summary(city, month=12):
   if df.empty or df["soldCount"].iloc[0] == 0:
     return None
   return df
+
+
+def main():
+  df = get_market_summary("Los Angeles")
+  print(df)
+
+
+if __name__ == "__main__":
+  main()
+
