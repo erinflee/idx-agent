@@ -42,7 +42,7 @@ def get_price_trend(city, month=12):
     FROM california_sold
 
     WHERE City = :city
-    AND PropertySubType = "SingleFamilyResidence"
+    AND PropertySubType = 'SingleFamilyResidence'
     AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL :month MONTH)
     AND CloseDate <= CURDATE()
     AND LivingArea > 0
@@ -55,8 +55,6 @@ def get_price_trend(city, month=12):
   if df.empty:
     return None
   return df
-
-
 
 
 def main():
