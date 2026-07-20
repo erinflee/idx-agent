@@ -30,7 +30,14 @@ def test_summary_unknown_city():
 def test_trend_known_city():
   city = "Los Angeles"
   result = get_price_trend(city)
-  assert len(result) > 0, f"No trend data available for {city}"
+  assert result is not None
+  assert len(result) > 0
+  assert result[0]["priceChangePct"] is None
+  assert all(r["priceChangePct"] is not None for r in result[1:])
+  assert all(r["avgPrice"] > 0 for r in result)
+  assert all(r["sales"] > 0 for r in result)
+  months = [r["month"] for r in result]
+  assert months == sorted(months)
 
 
 def test_trend_unknown_city():
