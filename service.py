@@ -11,3 +11,7 @@ app = FastAPI()
 @app.get("/health")
 def health():
   return {"status": "ok"}
+
+@app.get("/market/summary")
+def marketSummary(city: str):
+  return get_market_summary(city)
