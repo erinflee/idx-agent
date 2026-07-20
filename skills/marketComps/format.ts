@@ -17,7 +17,7 @@ export function formatPriceTrendMonth(city: string, months: number, trend: Price
   if (trend === null) return `No trends data for ${city}`;
 
   const rows = trend.map(t => {
-    const pctChange = (t.priceChangePct === null) ? "-" : (`${t.priceChangePct >= 0 ? "+" : ""}${t.priceChangePct.toFixed(1)}%`);
+    const pctChange = (t.priceChangePct === null) ? "n/a" : (`${t.priceChangePct >= 0 ? "+" : ""}${t.priceChangePct.toFixed(1)}%`);
     return `${t.month} • ${t.sales} • $${t.avgPrice.toLocaleString()} • ${pctChange}`
   });
  
