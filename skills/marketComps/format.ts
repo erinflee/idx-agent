@@ -14,6 +14,8 @@ ${summary.soldCount.toLocaleString()} sales • ${summary.avgDom} days on market
 
 export function formatPriceTrendMonth(city: string, months: number, trend: PriceTrendMonth | null): string {
   if (trend === null) return `No trends data for ${city}`;
-  return `${trend.month} • ${trend.sales} sales • $${trend.avgPrice.toLocaleString()} avg • ${trend.priceChangePct}% change`
+  
+  const change = (trend.priceChangePct === null) ? "-" : trend.priceChangePct;
+  return `${trend.month} • ${trend.sales} sales • $${trend.avgPrice.toLocaleString()} avg • ${change}% change`
 }
 
