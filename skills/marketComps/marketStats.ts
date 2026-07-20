@@ -28,4 +28,7 @@ export async function getMarketSummary(city: string): Promise<MarketSummary[] | 
 }
 
 
-
+export async function getPriceTrendMonth(city: string): Promise<PriceTrendMonth[] | null> {
+  const response = await fetch(`${BASE}/market/trends?city=${encodeURIComponent(city)}`);
+  return response.json();
+}
