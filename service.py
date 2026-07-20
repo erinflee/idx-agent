@@ -15,3 +15,7 @@ def health():
 @app.get("/market/summary")
 def marketSummary(city: str):
   return get_market_summary(city)
+
+@app.get("/market/trends")
+def marketTrends(city: str):
+  return get_price_trend(city)
