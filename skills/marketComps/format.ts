@@ -2,7 +2,7 @@
 //
 // DB layer returns raw rows -> agent uses this step before sending results back to the user
 
-import type { MarketSummary } from "./marketStats";
+import type { MarketSummary, PriceTrendMonth } from "./marketStats";
 
 
 export function formatMarketSummary(city: string, months: number, summary: MarketSummary | null): string {
