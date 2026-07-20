@@ -30,7 +30,9 @@ def get_market_summary(city, month=12):
   df = pd.read_sql(query, con=engine, params={"city": city, "month": month})
   if df.empty or df["soldCount"].iloc[0] == 0:
     return None
-  return df
+  return df.to_dict(orient='records')
+
+
 
 def get_price_trend(city, month=12):
   query = text("""
@@ -55,7 +57,8 @@ def get_price_trend(city, month=12):
     return None
   
   df['priceChangePct'] = df["avgPrice"].pct_change() * 100
-  return df
+  df = df.astype(object).where(pd.notnull(df), None)
+  return df.to_dict(orient='records')
 
 
 def main():
