@@ -17,15 +17,19 @@ export function formatPriceTrendMonth(city: string, months: number, trend: Price
   if (trend === null) return `No trends data for ${city}`;
 
   const rows = trend.map(t => {
-    const pctChange = (t.priceChangePct === null) ? "-" : `${t.priceChangePct.toFixed(1)}%`;
-    return `${t.month} • ${t.sales} sales • $${t.avgPrice.toLocaleString()} avg • ${pctChange} change`
+    const pctChange = (t.priceChangePct === null) ? "-" : (`${t.priceChangePct >= 0 ? "+" : ""}${t.priceChangePct.toFixed(1)}%`);
+    return `${t.month} • ${t.sales} • $${t.avgPrice.toLocaleString()} • ${pctChange}`
   });
  
-  return `${city} - single family homes, last ${months} months\n` + rows.join("\n");
+  return `Price trend (month • sales • avg price • vs. prior)\n` + rows.join("\n");
 }
 
 export async function marketStatsAgent(city: string): Promise<string> {
-  const summary = await getMarketSummary(city);
-  const trend = await getPriceTrendMonth(city);
-  return formatMarketSummary(city, 12, summary?.[0] ?? null) + "\n\n" + formatPriceTrendMonth(city, 12, trend);
+  try {
+    const summary = await getMarketSummary(city);
+    const trend = await getPriceTrendMonth(city);
+    return formatMarketSummary(city, 12, summary?.[0] ?? null) + "\n\n" + formatPriceTrendMonth(city, 12, trend);
+  } catch {
+    return "Market data is currently unavailable... please try again in a moment"
+  }
 }
