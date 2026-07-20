@@ -3,8 +3,6 @@
 // DB layer returns raw rows -> agent uses this step before sending results back to the user
 
 import type { MarketSummary, PriceTrendMonth } from "./marketStats";
-import { getMarketSummary, getPriceTrendMonth } from "./marketStats";
-
 
 export function formatMarketSummary(city: string, months: number, summary: MarketSummary | null): string {
   if (summary === null) return `No recent sales data for ${city}`;
@@ -22,14 +20,4 @@ export function formatPriceTrendMonth(city: string, months: number, trend: Price
   });
  
   return `Price trend (month • sales • avg price • vs. prior)\n` + rows.join("\n");
-}
-
-export async function marketStatsAgent(city: string): Promise<string> {
-  try {
-    const summary = await getMarketSummary(city);
-    const trend = await getPriceTrendMonth(city);
-    return formatMarketSummary(city, 12, summary?.[0] ?? null) + "\n\n" + formatPriceTrendMonth(city, 12, trend);
-  } catch {
-    return "Market data is currently unavailable... please try again in a moment"
-  }
 }
