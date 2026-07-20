@@ -4,6 +4,8 @@
 // agents can answer "what's the market like in Pasadena?" with real numbers
 
 
+const BASE = "http://127.0.0.1:8000";
+
 // one row of aggregate stats for a single city
 export interface MarketSummary {
   soldCount: number;
@@ -19,3 +21,11 @@ export interface PriceTrendMonth {
   avgPrice: number;
   priceChangePct: number | null;
 }
+
+export async function getMarketSummary(city: string): Promise<MarketSummary[] | null> {
+  const response = await fetch(`${BASE}/market/summary?city=${encodeURIComponent(city)}`);
+  return response.json();
+}
+
+
+
