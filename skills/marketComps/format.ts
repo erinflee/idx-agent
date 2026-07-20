@@ -27,5 +27,5 @@ export function formatPriceTrendMonth(city: string, months: number, trend: Price
 export async function marketStatsAgent(city: string): Promise<string> {
   const summary = await getMarketSummary(city);
   const trend = await getPriceTrendMonth(city);
-  return formatMarketSummary(city, 12, summary?.[0] ?? null) + formatPriceTrendMonth(city, 12, trend);
+  return formatMarketSummary(city, 12, summary?.[0] ?? null) + "\n\n" + formatPriceTrendMonth(city, 12, trend);
 }
