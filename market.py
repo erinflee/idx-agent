@@ -32,6 +32,32 @@ def get_market_summary(city, month=12):
     return None
   return df
 
+def get_price_trend(city, month=12):
+  query = text("""
+    SELECT
+      DATE_FORMAT( CloseDate, '%Y-%m' ) AS month,
+      COUNT(*) AS sales,
+      ROUND( AVG(ClosePrice), 0) AS avgPrice
+
+    FROM california_sold
+
+    WHERE City = :city
+    AND PropertySubType = "SingleFamilyResidence"
+    AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL :month MONTH)
+    AND CloseDate <= CURDATE()
+    AND LivingArea > 0
+
+    GROUP BY month
+    ORDER BY month
+  """)
+  df = pd.read_sql(query, con=engine, params={"city": city, "month": month})
+
+  if df.empty:
+    return None
+  return df
+
+
+
 
 def main():
   df = get_market_summary("Los Angeles")
