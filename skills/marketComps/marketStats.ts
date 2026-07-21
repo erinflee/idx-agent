@@ -14,6 +14,7 @@ export interface MarketSummary {
   soldCount: number;
   avgDom: number;
   avgClosePrice: number;
+  medClosePrice: number;
   avgPricePerSqft: number;
   listToClosePct: number;
 }
