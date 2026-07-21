@@ -31,9 +31,9 @@ def get_market_summary(city, month=12):
     SELECT ClosePrice 
     FROM california_sold
     WHERE City = :city
-      AND PropertySubType = "SinceFamilyResidence",
-      AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL :month MONTH),
-      AND CloseDate <= CURDATE(), 
+      AND PropertySubType = 'SingleFamilyResidence'
+      AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL :month MONTH)
+      AND CloseDate <= CURDATE()
       AND LivingArea > 0
   """)
 
@@ -42,7 +42,8 @@ def get_market_summary(city, month=12):
   if df.empty or df["soldCount"].iloc[0] == 0:
     return None
   
-  medianPrice = round(price["ClosePrice"].median())
+  price_df = pd.read_sql(price, con=engine, params={"city": city, "month": month})
+  medianPrice = round(price_df["ClosePrice"].median())
   records = df.to_dict(orient='records')
   records[0]["medClosePrice"] = medianPrice
   return records
