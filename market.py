@@ -27,11 +27,21 @@ def get_market_summary(city, month=12):
       AND LivingArea > 0
   """)
 
+  price = text("""
+    SELECT ClosePrice 
+    FROM california_sold
+    WHERE City = :city
+      AND PropertySubType = "SinceFamilyResidence",
+      AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL :month MONTH),
+      AND CloseDate <= CURDATE(), 
+      AND LivingArea > 0
+  """)
+
+
   df = pd.read_sql(query, con=engine, params={"city": city, "month": month})
   if df.empty or df["soldCount"].iloc[0] == 0:
     return None
   return df.to_dict(orient='records')
-
 
 
 def get_price_trend(city, month=12):
