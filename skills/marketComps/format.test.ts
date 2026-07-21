@@ -10,6 +10,7 @@ const summary: MarketSummary = {
   soldCount: 1234,
   avgDom: 28,
   avgClosePrice: 985000,
+  medClosePrice: 850000,
   avgPricePerSqft: 642,
   listToClosePct: 99,
 };
