@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Wrapper so OpenClaw invokes one stable, allowlistable command.
+# Runs the market-stats CLI from the repo root (where .env + node_modules live).
+# $0 is this script's path -> dirname/.. resolves the repo root on any machine.
+# NOTE: needs the Python FastAPI service running (uvicorn service:app --reload) —
+# the CLI fetches its data from that service.
+cd "$(dirname "$0")/.." || exit 1
+exec npx tsx skills/marketComps/marketStats.cli.ts "$@"
