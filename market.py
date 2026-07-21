@@ -41,7 +41,12 @@ def get_market_summary(city, month=12):
   df = pd.read_sql(query, con=engine, params={"city": city, "month": month})
   if df.empty or df["soldCount"].iloc[0] == 0:
     return None
-  return df.to_dict(orient='records')
+  
+  medianPrice = round(price["ClosePrice"].median())
+  records = df.to_dict(orient='records')
+  records[0]["medClosePrice"] = medianPrice
+  return records
+
 
 
 def get_price_trend(city, month=12):
