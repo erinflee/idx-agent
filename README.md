@@ -60,7 +60,7 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | 2    | NL property-search parser               | `skills/propertySearch/parse.ts`                       | done        |
 | 3    | Parameterized MySQL query layer         | `skills/shared/db.ts` · `db.py`                        | done        |
 | 4    | Multi-turn conversational agent         | `skills/propertySearch/session.ts` · `conversation.ts` | done        |
-| 5    | Market analytics                        | `skills/marketComps/`                                  | in progress |
+| 5    | Market analytics                        | `skills/marketComps/`                                  | done |
 | 6    | Embeddings & vector search              | local `sentence-transformers`                          | —           |
 | 7    | Recommendation engine                   | `skills/recommend.ts`                                  | —           |
 | 8    | RAG pipeline                            | `skills/rag.ts`                                        | —           |
