@@ -6,7 +6,7 @@ GOTCHA: 256 word-piece cap, not chars — put structured facts first so what
 survives truncation is what matters.
 """
 
-from sentence_transformer import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 import numpy as np
 
 
