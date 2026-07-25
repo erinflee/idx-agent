@@ -16,6 +16,10 @@
 # city lookup table the property-search parser depends on
 !skills/propertySearch/cities.json
 
+# week 6 embedding artifacts -> ~81MB, rebuild with python -m scripts.build_embeddings
+*.npy
+*.npz
+
 # node / typescript deps
 node_modules/
 
