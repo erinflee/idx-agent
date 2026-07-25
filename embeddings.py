@@ -5,3 +5,6 @@ get_embedding(text) for any string; build_listing_embedding(row) for a listing.
 GOTCHA: 256 word-piece cap, not chars — put structured facts first so what
 survives truncation is what matters.
 """
+
+from sentence_transformer import SentenceTransformer
+import numpy as np
