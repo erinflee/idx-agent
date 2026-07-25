@@ -14,6 +14,5 @@ _model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def get_embedding(text):
   text = text.replace("\n", "").strip()[:8000]
-  model = _model
-  embeddings = model.encode(text)
+  embeddings = _model.encode(text)
   return embeddings.tolist()
