@@ -7,6 +7,8 @@ PERF: normalize once at load, score with one matmul — not per-row cosine.
 
 import numpy as np
 from pathlib import Path
+from db import engine
+from sqlalchemy import text, bindparam
 from embeddings import get_embedding
 
 PATH = Path(__file__).parent/"listing_embeddings.npz"
@@ -25,4 +27,21 @@ def find_similar_listings(query, k=5):
   return [{"id": str(_ids[id]), "score": float(scores[id])} for id in top_k_index]
 
 
+def fetch_listing_details(ids):
+  query = text("""
+    SELECT 
+      L_ListingID AS id,
+      L_Address AS address,
+      L_Type_ AS propertyType,
+      L_City AS city,
+      L_Keyword2 AS beds,
+      LM_Dec_3 AS baths,
+      LM_Int2_3 AS sqft,
+      YearBuilt AS year,
+      L_SystemPrice AS price,
+      L_Remarks AS description
+    
+    FROM rets_property
 
+    WHERE L_ListingID IN :ids
+  """)
