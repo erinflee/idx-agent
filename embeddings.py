@@ -16,3 +16,18 @@ def get_embedding(text):
   text = text.replace("\n", "").strip()[:8000]
   embeddings = _model.encode(text)
   return embeddings.tolist()
+
+
+def build_listing_embedding(row):
+  text = """
+  f{row["L_Type_"]} in
+  f{row["L_City]}, CA.
+  f{row["L_Keyword2]} beds,
+  f{row["LM_Dec_3"]} baths.
+  f{row["LM_Int2_3"]} sqft.
+  Built f{row["YearBuilt"]}.
+  Price: $f{row["L_SystemPrice"]}.
+  f{row.get("L_Remarks","")}
+  """.strip()
+
+  return get_embedding(text)
