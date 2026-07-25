@@ -18,16 +18,23 @@ def get_embedding(text):
   return embeddings.tolist()
 
 
+FIELDS = [
+  ("L_Type_", "{}")
+  ("L_City", "{}")
+  ("L_Keyword2", "{} beds")
+  ("LM_Dec_3", "{} baths")
+  ("LM_Int2_3", "{} sqft")
+  ("YearBuilt", "{}")
+  ("L_SystemPrice", "${}")
+  ("L_Remarks", "{}")
+]
+
 def build_listing_embedding(row):
-  text = f"""
-  {row["L_Type_"]} in
-  {row["L_City"]}, CA.
-  {row["L_Keyword2"]} beds,
-  {row["LM_Dec_3"]} baths.
-  {row["LM_Int2_3"]} sqft.
-  Built {row["YearBuilt"]}.
-  Price: ${row["L_SystemPrice"]}.
-  {row.get("L_Remarks","")}
-  """.strip()
+  valid = []
+  for field, template in FIELDS:
+    if row.get(field):
+      valid.append(template.format(row[field]))
+
+  text = " ".join(valid)
 
   return get_embedding(text)
