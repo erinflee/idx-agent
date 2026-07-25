@@ -42,17 +42,22 @@ def get_info():
 
 if __name__ == "__main__":
   rows = get_info()
-  print(f"{len(rows):,} listings")
 
-  ids = [r["id"] for r in rows]
-  print(f"Id: {ids[0]}")
+  if not rows:
+    print("Query results in empty rows")
 
-  texts = [build_listing_text(r) for r in rows]
-  print(f"{texts[0][:120]}")
+  else:
+    print(f"{len(rows):,} listings")
 
-  embeddings = embed_batch(texts)
-  print(f"embeddings: {embeddings.shape} {embeddings.dtype}")
+    ids = [r["id"] for r in rows]
+    print(f"Id: {ids[0]}")
 
-  np.savez("listing_embeddings.npz", ids=ids, embeddings=embeddings)
-  print(f"saved listing_embeddings.npz")
+    texts = [build_listing_text(r) for r in rows]
+    print(f"{texts[0][:120]}")
+
+    embeddings = embed_batch(texts)
+    print(f"embeddings: {embeddings.shape} {embeddings.dtype}")
+
+    np.savez("listing_embeddings.npz", ids=ids, embeddings=embeddings)
+    print("saved listing_embeddings.npz")
 
