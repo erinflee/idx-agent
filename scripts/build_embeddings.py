@@ -3,7 +3,7 @@
 Run:  python -m scripts.build_embeddings   (~53k rows, ~12 min; needs .env + DB)
       -m, not a direct path -> otherwise the repo root isn't on sys.path and
       `from embeddings import ...` fails.
-Batch the encode (batch_size=64). The .npy is ~81MB — gitignore it.
+Batch the encode (batch_size=32). The .npz is ~81MB — gitignore it.
 """
 
 import numpy as np
@@ -38,3 +38,11 @@ def get_info():
 
   records = records.astype(object).where(records.notna(), None)
   return records.to_dict(orient="records")
+
+
+if __name__ == "__main__":
+  rows = get_info()
+  ids = [r["id"] for r in rows]
+  texts = [build_listing_text(r) for r in rows]
+  embeddings = embed_batch(texts)
+
