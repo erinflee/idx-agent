@@ -1,7 +1,8 @@
 """Week 6 — local embeddings (all-MiniLM-L6-v2), text in -> 384-dim vector out
 
 Runs on-device: no API key, no cost. Model loads once at import.
-get_embedding(text) for any string; build_listing_embedding(row) for a listing.
+build_listing_text(row) -> the string; embed_batch(texts) -> array, for the
+backfill. get_embedding(text) is the query path — one string, JSON-safe list.
 GOTCHA: 256 word-piece cap, not chars — put structured facts first so what
 survives truncation is what matters.
 """
@@ -28,6 +29,8 @@ def get_embedding(text):
 
 
 def embed_batch(texts):
+  # 32 measured fastest here (76/s); 128+ falls off a cliff — 256 is 19x slower
+  # no .tolist() -> np.save wants the raw float32, converting doubles the file
   embeddings = _model.encode(texts, batch_size=32)
   return embeddings
 
