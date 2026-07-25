@@ -13,7 +13,7 @@ from sqlalchemy import text
 from embeddings import build_listing_text, embed_batch
 
 
-def get_info():
+def fetch_listings():
   query = text("""
     SELECT 
       L_ListingID AS id,
@@ -41,7 +41,7 @@ def get_info():
 
 
 if __name__ == "__main__":
-  rows = get_info()
+  rows = fetch_listings()
 
   if not rows:
     print("Query results in empty rows")
