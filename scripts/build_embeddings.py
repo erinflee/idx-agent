@@ -12,3 +12,25 @@ from db import engine
 from sqlalchemy import text
 from embeddings import build_listing_text, embed_batch
 
+
+
+
+def get_info():
+  query = text("""
+    SELECT 
+      L_ListingID AS id,
+      L_Type_ AS propertyType,
+      L_City AS city,
+      L_Keyword2 AS beds,
+      LM_Dec_3 AS baths,
+      LM_Int2_3 AS sqft,
+      YearBuilt AS year,
+      L_SystemPrice AS price,
+      L_Remarks AS description
+
+    FROM rets_property
+    
+    WHERE L_Status = 'Active'
+      AND L_SystemPrice >= 10000;
+  """)
+
