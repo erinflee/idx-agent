@@ -13,8 +13,6 @@ from sqlalchemy import text
 from embeddings import build_listing_text, embed_batch
 
 
-
-
 def get_info():
   query = text("""
     SELECT 
@@ -34,3 +32,9 @@ def get_info():
       AND L_SystemPrice >= 10000;
   """)
 
+  records = pd.read_sql(query, con=engine)
+  if records.empty or len(records) == 0:
+    return []
+
+  records = records.astype(object).where(records.notna(), None)
+  return records.to_dict(orient="records")
