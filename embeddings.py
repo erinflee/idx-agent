@@ -29,12 +29,13 @@ FIELDS = [
   ("L_Remarks", "{}")
 ]
 
-def build_listing_embedding(row):
+def build_listing_text(row):
   valid = []
   for field, template in FIELDS:
     if row.get(field):
       valid.append(template.format(row[field]))
 
   text = " ".join(valid)
+  
+  return text
 
-  return get_embedding(text)
