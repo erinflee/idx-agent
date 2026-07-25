@@ -45,4 +45,6 @@ if __name__ == "__main__":
   ids = [r["id"] for r in rows]
   texts = [build_listing_text(r) for r in rows]
   embeddings = embed_batch(texts)
+  np.savez("listing_embeddings.npz", ids=ids, embeddings=embeddings)
+
 
