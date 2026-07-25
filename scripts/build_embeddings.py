@@ -42,9 +42,17 @@ def get_info():
 
 if __name__ == "__main__":
   rows = get_info()
-  ids = [r["id"] for r in rows]
-  texts = [build_listing_text(r) for r in rows]
-  embeddings = embed_batch(texts)
-  np.savez("listing_embeddings.npz", ids=ids, embeddings=embeddings)
+  print(f"{len(rows):,} listings")
 
+  ids = [r["id"] for r in rows]
+  print(f"Id: {ids[0]}")
+
+  texts = [build_listing_text(r) for r in rows]
+  print(f"{texts[0][:120]}")
+
+  embeddings = embed_batch(texts)
+  print(f"embeddings: {embeddings.shape} {embeddings.dtype}")
+
+  np.savez("listing_embeddings.npz", ids=ids, embeddings=embeddings)
+  print(f"saved listing_embeddings.npz")
 
