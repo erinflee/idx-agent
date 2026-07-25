@@ -18,6 +18,11 @@ def get_embedding(text):
   return embeddings.tolist()
 
 
+def embed_batch(texts):
+  embeddings = _model.encode(texts, batch_size=32)
+  return embeddings.tolist()
+
+
 FIELDS = [
   ("L_Type_", "{}"),
   ("L_City", "{}"),
@@ -36,6 +41,7 @@ def build_listing_text(row):
       valid.append(template.format(row[field]))
 
   text = " ".join(valid)
-  
+
   return text
+
 
