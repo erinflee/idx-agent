@@ -13,7 +13,6 @@ import numpy as np
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def get_embedding(text):
-  text = text.replace("\n", "").strip()[:8000]
   embeddings = _model.encode(text)
   return embeddings.tolist()
 
