@@ -13,13 +13,13 @@ import numpy as np
 _model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def get_embedding(text):
-  embeddings = _model.encode(text)
-  return embeddings.tolist()
+  embedding = _model.encode(text)
+  return embedding.tolist()
 
 
 def embed_batch(texts):
   embeddings = _model.encode(texts, batch_size=32)
-  return embeddings.tolist()
+  return embeddings
 
 
 FIELDS = [
