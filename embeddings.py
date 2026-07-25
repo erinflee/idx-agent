@@ -8,3 +8,12 @@ survives truncation is what matters.
 
 from sentence_transformer import SentenceTransformer
 import numpy as np
+
+
+_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+def get_embedding(text):
+  text = text.replace("\n", "").strip()[:8000]
+  model = _model
+  embeddings = model.encode(text)
+  return embeddings.tolist()
