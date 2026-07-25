@@ -7,20 +7,9 @@ survives truncation is what matters.
 """
 
 from sentence_transformers import SentenceTransformer
-import numpy as np
 
 
 _model = SentenceTransformer("all-MiniLM-L6-v2")
-
-def get_embedding(text):
-  embedding = _model.encode(text)
-  return embedding.tolist()
-
-
-def embed_batch(texts):
-  embeddings = _model.encode(texts, batch_size=32)
-  return embeddings
-
 
 FIELDS = [
   ("L_Type_", "{}"),
@@ -32,6 +21,16 @@ FIELDS = [
   ("L_SystemPrice", "${}"),
   ("L_Remarks", "{}")
 ]
+
+def get_embedding(text):
+  embedding = _model.encode(text)
+  return embedding.tolist()
+
+
+def embed_batch(texts):
+  embeddings = _model.encode(texts, batch_size=32)
+  return embeddings
+
 
 def build_listing_text(row):
   valid = []
