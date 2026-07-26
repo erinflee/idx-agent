@@ -45,3 +45,10 @@ def fetch_listing_details(ids):
 
     WHERE L_ListingID IN :ids
   """)
+
+  query = query.bindparams(bindparam("ids", expanding=True)) # fill in parameter with list's values
+  with engine.connect() as conn:
+    results = conn.execute(query, {"ids": ids})
+    rows = results.mappings().all()
+
+  return {r["id"]: dict(r) for r in rows}
