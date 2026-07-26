@@ -12,8 +12,8 @@ export function formatSemanticHits(query: string, hits: SemanticHits[] | null): 
     if (hits == null) return `No similar listings found for ${query}`;
 
     const rows = hits.map(h => {
-        return `${h.score} • ${h.address}, ${h.city} • $${h.price.toLocaleString()} • ${h.beds} bd / ${h.baths} ba • ${h.sqft} sqft
-        ${h.description}`;
+        return `${h.score} • ${h.address ?? "N/A"}, ${h.city ?? "N/A"} • $${h.price.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft ?? "N/A"} sqft
+        ${h.description ?? ""}`;
     });
 
     return `Matches for "${query}"\n` + rows.join("\n");
