@@ -8,10 +8,10 @@
 
 import { formatSemanticHits } from "./format"
 
-const BASE = "http://127.0.0.1:8000"
+const BASE = "http://127.0.0.1:8000";
 
 
-export interface SemanticHits {
+export interface SemanticHit {
     id: string;
     score: number;
     address: string | null;
@@ -26,7 +26,8 @@ export interface SemanticHits {
 }
 
 export async function semanticSearchAgent(query: string): Promise<string> {
-  const response = await fetch(`${BASE}/search/semantic/?query=${encodeURIComponent(query)}`);
-  const hits: SemanticHits[] = await response.json()
-  return formatSemanticHits(query, hits);}
+    const response = await fetch(`${BASE}/search/semantic/?query=${encodeURIComponent(query)}`);
+    const hits: SemanticHit[] = await response.json();
+    return formatSemanticHits(query, hits);
+}
 
