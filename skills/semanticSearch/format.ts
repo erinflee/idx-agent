@@ -9,7 +9,7 @@ import { SemanticHits } from "./semanticSearch"
 
 export function formatSemanticHits(query: string, hits: SemanticHits[] | null): string {
 
-    if (hits == null) return `No similar listings found for ${query}`;
+    if (!hits || hits.length === 0) return `No similar listings found for ${query}`;
 
     const rows = hits.map(h => {
         return `${h.score} • ${h.address ?? "N/A"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft ?? "N/A"} sqft
