@@ -6,6 +6,8 @@
 // thin HTTP wrapper over semantic.py (same shape as marketStats.ts)
 
 
+import { formatSemanticHits } from "./format"
+
 const BASE = "http://127.0.0.1:8000"
 
 
