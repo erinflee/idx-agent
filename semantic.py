@@ -56,3 +56,10 @@ def fetch_listing_details(ids):
     rows = results.mappings().all()
 
   return {r["id"]: dict(r) for r in rows}
+
+
+if __name__ == "__main__":
+  query = "A nice place in sunny malibu near the coast with great views and big beds for my family"
+  top_5 = find_similar_listings(query)
+  ids = [one['id'] for one in top_5]
+  top_5_results = fetch_listing_details(ids)
