@@ -27,9 +27,11 @@ def find_similar_listings(query, k=5):
   scores = _embeddings @ q
   idx = np.argpartition(-scores, kth=k)[:k]
   top_k_index = idx[np.argsort(-scores[idx])]
+  hits = [{"id": str(_ids[id]), "score": float(scores[id])} for id in top_k_index]
+  ids = [h["id"] for h in hits]
+  details = fetch_listing_details(ids)
 
-  return [{"id": str(_ids[id]), "score": float(scores[id])} for id in top_k_index]
-
+  return [{**h, **details[h["id"]]} for h in hits]
 
 def fetch_listing_details(ids):
   query = text("""
