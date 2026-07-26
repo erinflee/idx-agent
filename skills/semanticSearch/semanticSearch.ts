@@ -6,12 +6,10 @@
 // thin HTTP wrapper over semantic.py (same shape as marketStats.ts)
 
 
-
-
 const BASE = "http://127.0.0.1:8000"
 
 export async function semanticSearchAgent(query: string) {
-  const hit = await fetch(`${BASE}/search/semantic/?query=${encodeURIComponent(query)}`);
-  return hit.json()
+  const hits = await fetch(`${BASE}/search/semantic/?query=${encodeURIComponent(query)}`);
+  return formatSemanticHits(query, hits);
 }
 
