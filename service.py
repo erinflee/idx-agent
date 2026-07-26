@@ -21,6 +21,6 @@ def marketSummary(city: str):
 def marketTrends(city: str):
   return get_price_trend(city)
 
-@app.get("search/semantic")
+@app.get("/search/semantic")
 def semanticSearch(query: str, k: int = 5): 
   return find_similar_listings(query, k)
