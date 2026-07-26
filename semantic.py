@@ -41,7 +41,7 @@ def fetch_listing_details(ids):
       L_Type_ AS propertyType,
       L_City AS city,
       L_Keyword2 AS beds,
-      LM_Dec_3 AS baths,
+      CAST(LM_Dec_3 AS DOUBLE) AS baths,
       LM_Int2_3 AS sqft,
       YearBuilt AS year,
       L_SystemPrice AS price,
