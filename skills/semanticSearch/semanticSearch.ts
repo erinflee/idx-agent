@@ -8,7 +8,22 @@
 
 const BASE = "http://127.0.0.1:8000"
 
-export async function semanticSearchAgent(query: string) {
+
+export interface SemanticHits {
+    id: string;
+    score: number;
+    address: string | null;
+    propertyType: string | null;
+    city: string | null;
+    beds: number | null;
+    baths: number | null;
+    sqft: number | null;
+    year: number | null;
+    price: number | null;
+    description: string | null;
+}
+
+export async function semanticSearchAgent(query: string): Promise<SemanticHits[]> {
   const hits = await fetch(`${BASE}/search/semantic/?query=${encodeURIComponent(query)}`);
   return formatSemanticHits(query, hits);
 }
