@@ -13,7 +13,11 @@ from embeddings import get_embedding
 
 PATH = Path(__file__).parent/"listing_embeddings.npz"
 
-_data = np.load(PATH)
+try:
+  _data = np.load(PATH)
+except FileNotFoundError:
+  raise FileNotFoundError(f"{PATH} not found - run: python -m scripts.build_embeddings")
+
 _ids = _data['ids']
 _embeddings = _data['embeddings']
 
