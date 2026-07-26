@@ -4,10 +4,10 @@
 // degree, so the user needs to see how close each one actually is
 
 
-import { SemanticHits } from "./semanticSearch"
+import type { SemanticHit } from "./semanticSearch"
 
 
-export function formatSemanticHits(query: string, hits: SemanticHits[] | null): string {
+export function formatSemanticHits(query: string, hits: SemanticHit[] | null): string {
 
     if (!hits || hits.length === 0) return `No similar listings found for ${query}`;
 
