@@ -61,5 +61,10 @@ def fetch_listing_details(ids):
 if __name__ == "__main__":
   query = "A nice place in sunny malibu near the coast with great views and big beds for my family"
   top_5 = find_similar_listings(query)
-  ids = [one['id'] for one in top_5]
+  ids = [hit['id'] for hit in top_5]
   top_5_results = fetch_listing_details(ids)
+
+  for hit in top_5:
+    h = top_5_results[hit["id"]]
+    print(f"score: {hit["score"]:.3f} {h["city"]} ${h["price"]:,} {h["beds"]:.0f} beds / {h["baths"]:.0f} baths")
+    print(f" {(h["description"] or '')[:90]}")
