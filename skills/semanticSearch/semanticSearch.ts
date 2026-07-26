@@ -23,7 +23,7 @@ export interface SemanticHits {
     description: string | null;
 }
 
-export async function semanticSearchAgent(query: string): Promise<SemanticHits[]> {
+export async function semanticSearchAgent(query: string): Promise<string> {
   const response = await fetch(`${BASE}/search/semantic/?query=${encodeURIComponent(query)}`);
   const hits: SemanticHits[] = await response.json()
   return formatSemanticHits(query, hits);}
