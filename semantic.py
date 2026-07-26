@@ -23,18 +23,18 @@ _embeddings = _data['embeddings']
 
 
 def find_similar_listings(query, k=5):
-  q = get_embedding(query)
-  scores = _embeddings @ q
+  query_vec = get_embedding(query)
+  scores = _embeddings @ query_vec
   idx = np.argpartition(-scores, kth=k)[:k]
-  top_k_index = idx[np.argsort(-scores[idx])]
-  hits = [{"id": str(_ids[id]), "score": float(scores[id])} for id in top_k_index]
+  ranked_index = idx[np.argsort(-scores[idx])]
+  hits = [{"id": str(_ids[i]), "score": float(scores[i])} for i in ranked_index]
   ids = [h["id"] for h in hits]
   details = fetch_listing_details(ids)
 
   return [{**h, **details[h["id"]]} for h in hits]
 
 def fetch_listing_details(ids):
-  query = text("""
+  sql = text("""
     SELECT 
       L_ListingID AS id,
       L_Address AS address,
@@ -52,10 +52,10 @@ def fetch_listing_details(ids):
     WHERE L_ListingID IN :ids
   """)
 
-  query = query.bindparams(bindparam("ids", expanding=True)) # fill in parameter with list's values
+  query = sql.bindparams(bindparam("ids", expanding=True)) # fill in parameter with list's values
   with engine.connect() as conn:
-    results = conn.execute(query, {"ids": ids})
-    rows = results.mappings().all()
+    result = conn.execute(query, {"ids": ids})
+    rows = result.mappings().all()
 
   return {r["id"]: dict(r) for r in rows}
 
