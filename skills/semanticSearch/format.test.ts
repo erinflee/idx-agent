@@ -2,3 +2,6 @@
 //
 // run:  npm run test-semantic-format
 //      (no DB / server needed)
+
+import { formatSemanticHits } from "./format";
+import type { SemanticHit } from "./semanticSearch";
