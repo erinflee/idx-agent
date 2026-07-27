@@ -10,10 +10,10 @@ import type { SemanticHit } from "./semanticSearch"
 function preview(description: string | null, max = 90): string {
 
     if (!description) return "";
-    const altered = description.replace(/\s+/g, " ").trim();
+    const d = description.replace(/\s+/g, " ").trim();
 
-    if (description.length <= max) return altered;
-    return altered.slice(0,max) + "...";
+    if (d.length <= max) return d;
+    return d.slice(0,max) + "...";
 }
 
 
