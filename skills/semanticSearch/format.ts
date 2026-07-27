@@ -3,8 +3,7 @@
 // show the similarity score: unlike a SQL filter every result is a match by
 // degree, so the user needs to see how close each one actually is
 
-
-import type { SemanticHit } from "./semanticSearch"
+import type { SemanticHit } from "./semanticSearch";
 
 
 function preview(description: string | null, max = 90): string {
