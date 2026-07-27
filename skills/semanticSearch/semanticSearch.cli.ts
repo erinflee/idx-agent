@@ -5,3 +5,8 @@
 //
 // Run:   npx tsx skills/semanticSearch/semanticSearch.cli.ts "charming craftsman with mountain views"
 //       (needs the FastAPI server running: uvicorn service:app --reload)
+
+
+import { semanticSearchAgent } from "./semanticSearch";
+
+
