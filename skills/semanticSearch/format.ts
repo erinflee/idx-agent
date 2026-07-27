@@ -21,7 +21,7 @@ export function formatSemanticHits(query: string, hits: SemanticHit[] | null): s
 
     const rows = hits.map(h => {
         return `${h.score.toFixed(3)} • ${h.address ?? "N/A"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft ?? "N/A"} sqft
-        ${preview(h.description)}`;
+${preview(h.description)}`;
     });
 
   return `Matches for "${query}"\n\n` + rows.join("\n\n");
