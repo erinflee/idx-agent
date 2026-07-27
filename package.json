@@ -16,8 +16,7 @@
     "test-market-stats": "npx tsx skills/marketComps/marketStats.test.ts",
     "demo-conversation": "npx tsx skills/propertySearch/conversation.cli.ts",
     "demo-market": "npx tsx skills/marketComps/marketStats.cli.ts",
-    "demo-semantic": "npx tsx skills/semanticSearch/semanticSearch.cli.ts",
-
+    "demo-semantic": "npx tsx skills/semanticSearch/semanticSearch.cli.ts"
   },
   "devDependencies": {
     "tsx": "^4.22.4",
