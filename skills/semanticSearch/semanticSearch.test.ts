@@ -8,3 +8,11 @@
 
 import { SemanticHit } from "./semanticSearch";
 import { formatSemanticHits } from "./format";
+
+
+function assert(condition: boolean, message: string): void {
+    if (!condition) throw new Error(message);
+}
+
+
+
