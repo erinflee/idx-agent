@@ -8,6 +8,7 @@ import type { SemanticHit } from "./semanticSearch"
 
 
 export function formatSemanticHits(query: string, hits: SemanticHit[] | null): string {
+  if (!hits || hits.length === 0) return `No similar listings found for "${query}"`;
 
     if (!hits || hits.length === 0) return `No similar listings found for ${query}`;
 
@@ -16,5 +17,5 @@ export function formatSemanticHits(query: string, hits: SemanticHit[] | null): s
         ${h.description ?? ""}`;
     });
 
-    return `Matches for "${query}"\n` + rows.join("\n");
+  return `Matches for "${query}"\n\n` + rows.join("\n\n");
 }
