@@ -10,7 +10,7 @@ survives truncation is what matters.
 from sentence_transformers import SentenceTransformer
 
 
-_model = SentenceTransformer("all-MiniLM-L6-v2")
+_model = SentenceTransformer("all-MiniLM-L6-v2") 
 
 FIELDS = [
   ("L_Type_", "{}"),
@@ -24,14 +24,14 @@ FIELDS = [
 ]
 
 def get_embedding(text):
-  embedding = _model.encode(text)
+  embedding = _model.encode(text, normalize_embeddings=True) # unit norm
   return embedding.tolist() # fastapi can't read np.array, convert to list
 
 
 def embed_batch(texts):
   # 32 measured fastest here (76/s); 128+ falls off a cliff — 256 is 19x slower
   # no .tolist() -> np.save wants the raw float32, converting doubles the file
-  embeddings = _model.encode(texts, batch_size=32)
+  embeddings = _model.encode(texts, batch_size=32, normalize_embeddings=True) # unit norm
   return embeddings
 
 
