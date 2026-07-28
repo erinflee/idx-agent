@@ -24,14 +24,15 @@ _embeddings = _data['embeddings']
 
 def find_similar_listings(query, k=5):
   query_vec = get_embedding(query)
-  scores = _embeddings @ query_vec
+  scores = _embeddings @ query_vec # this mimics cosine similarity, since we did normalized length of our embeddings
   idx = np.argpartition(-scores, kth=k)[:k]
   ranked_index = idx[np.argsort(-scores[idx])]
   hits = [{"id": str(_ids[i]), "score": float(scores[i])} for i in ranked_index]
   ids = [h["id"] for h in hits]
   details = fetch_listing_details(ids)
-
+  
   return [{**h, **details[h["id"]]} for h in hits]
+
 
 def fetch_listing_details(ids):
   sql = text("""
