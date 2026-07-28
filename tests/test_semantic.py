@@ -10,3 +10,11 @@ Run: pytest tests/test_semantic.py -v
 import numpy as np
 from semantic import find_similar_listings
 
+
+def test_returns_k_hits():
+    k = 5
+    query = "spanish architecture with big rooms"
+    out = find_similar_listings(query, k)
+    assert len(out) == k
+
+
