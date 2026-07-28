@@ -12,15 +12,16 @@ from sentence_transformers import SentenceTransformer
 
 _model = SentenceTransformer("all-MiniLM-L6-v2") 
 
+# keys must match scripts/build_embeddings.py SQL aliases (not raw MLS column names)
 FIELDS = [
-  ("L_Type_", "{}"),
-  ("L_City", "{}"),
-  ("L_Keyword2", "{} beds"),
-  ("LM_Dec_3", "{} baths"),
-  ("LM_Int2_3", "{} sqft"),
-  ("YearBuilt", "{}"),
-  ("L_SystemPrice", "${}"),
-  ("L_Remarks", "{}")
+  ("propertyType", "{}"),
+  ("city", "{}"),
+  ("beds", "{} beds"),
+  ("baths", "{} baths"),
+  ("sqft", "{} sqft"),
+  ("year", "{}"),
+  ("price", "${}"),
+  ("description", "{}"),
 ]
 
 def get_embedding(text):
