@@ -6,13 +6,8 @@
 //      (needs the FastAPI server running: uvicorn service:app --reload,
 //       and the embeddings built: python scripts/build_embeddings.py)
 
-import { SemanticHit } from "./semanticSearch";
-import { formatSemanticHits } from "./format";
+import { semanticSearchAgent } from "./semanticSearch";
 
-
-function assert(condition: boolean, message: string): void {
-    if (!condition) throw new Error(message);
-}
 
 
 
