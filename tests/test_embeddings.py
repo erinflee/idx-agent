@@ -38,17 +38,17 @@ def test_similar_beats_unrelated():
 
 def test_build_listing_text():
     row = {
-        "L_Type_": "Condominium",
-        "L_City": "Berkeley",
-        "L_Keyword2": 2,
-        "LM_Dec_3": 1,
-        "LM_Int2_3": 980,
-        "YearBuilt": 2011,
-        "L_SystemPrice": 900830,
-        "L_Remarks": "Sunny condo with views"
+        "propertyType": "Condominium",
+        "city": "Berkeley",
+        "beds": 2,
+        "baths": 1,
+        "sqft": 980,
+        "year": 2011,
+        "price": 900830,
+        "description": "Sunny condo with views",
     }
     text = build_listing_text(row)
     assert "Berkeley" in text
     assert "$900830" in text
-    assert "2 beds" in text    
+    assert "2 beds" in text
     assert "1 baths" in text
