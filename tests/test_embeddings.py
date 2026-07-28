@@ -13,3 +13,12 @@ def test_embedding_shape():
     query = "nice view of the city in a high rise"
     embedding = get_embedding(query)
     assert embedding.shape() == (384,)
+
+
+def test_same_text_same_vector():
+    q1 = "nice view of the city in a high rise"
+    e1 = get_embedding(q1)
+    e2 = get_embedding(q2)
+
+    assert np.allclose(e1, e2) # check approximately equal
+
