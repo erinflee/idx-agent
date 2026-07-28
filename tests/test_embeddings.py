@@ -35,3 +35,20 @@ def test_similar_beats_unrelated():
     assert e1 @ e2 > e1 @ e3 # use cosine similarity
     assert e1 @ e2 > e2 @ e3 # MiniLM is already unit-length...
 
+
+def test_build_listing_text():
+    row = {
+        "L_Type_": "Condominium",
+        "L_City": "Berkeley",
+        "L_Keyword2": 2,
+        "LM_Dec_3": 1,
+        "LM_Int2_3": 980,
+        "YearBuilt": 2011,
+        "L_SystemPrice": 900830,
+        "L_Remarks": "Sunny condo with views"
+    }
+    text = build_listing_text(row)
+    assert "Berkeley" in text
+    assert "$900830" in text
+    assert "2 beds" in text    
+    assert "1 baths" in text
