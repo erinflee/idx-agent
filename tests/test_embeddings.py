@@ -5,3 +5,6 @@ similar text scores higher), never exact floats.
 
 Run: pytest tests/test_embeddings.py -v
 """
+
+
+import get_embedding, build_listing_text
