@@ -24,3 +24,12 @@ def test_scores_descending():
     scores = [out["score"] for out in output]
     assert sorted(scores, reverse=True) == scores
 
+
+def test_hit_shape():
+    query = "spanish architecture with big rooms"
+    output = find_similar_listings(query)
+    required = {"id", "score", "address", "city", "price", "beds", "baths", "sqft"}
+    for out in output:
+        assert required <= out.keys() # checks string exactness, but out has properties that aren't required too 
+        assert isinstance(out["id"] , str) and out["id"]
+        assert isinstance(out["score"] , float)
