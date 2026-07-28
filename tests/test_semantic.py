@@ -14,7 +14,13 @@ from semantic import find_similar_listings
 def test_returns_k_hits():
     k = 5
     query = "spanish architecture with big rooms"
-    out = find_similar_listings(query, k)
-    assert len(out) == k
+    output = find_similar_listings(query, k)
+    assert len(output) == k
 
+
+def test_scores_descending():
+    query = "spanish architecture with big rooms"
+    output = find_similar_listings(query)
+    scores = [out["score"] for out in output]
+    assert sorted(scores, reverse=True) == scores
 
