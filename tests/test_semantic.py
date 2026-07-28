@@ -7,7 +7,6 @@ case — cosine always ranks something, even for a nonsense query.
 Run: pytest tests/test_semantic.py -v
 """
 
-import numpy as np
 from semantic import find_similar_listings
 
 
@@ -30,6 +29,13 @@ def test_hit_shape():
     output = find_similar_listings(query)
     required = {"id", "score", "address", "city", "price", "beds", "baths", "sqft"}
     for out in output:
-        assert required <= out.keys() # checks string exactness, but out has properties that aren't required too 
+        assert required <= out.keys() # out must contain required keys, but also has non-required keys too
         assert isinstance(out["id"] , str) and out["id"]
         assert isinstance(out["score"] , float)
+
+
+def test_nonsense_still_returns_k():
+    k = 5
+    query = "abklfsdoi[oiwenrfkosnd[ocn]]"
+    output = find_similar_listings(query, k)
+    assert len(output) == k
