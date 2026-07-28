@@ -25,7 +25,7 @@ FIELDS = [
 
 def get_embedding(text):
   embedding = _model.encode(text)
-  return embedding.tolist()
+  return embedding.tolist() # fastapi can't read np.array, convert to list
 
 
 def embed_batch(texts):
