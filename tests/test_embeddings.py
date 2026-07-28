@@ -21,6 +21,17 @@ def test_same_text_same_vector():
     q1 = "nice view of the city in a high rise"
     e1 = get_embedding(q1)
     e2 = get_embedding(q1)
-
     assert np.allclose(e1, e2) # check approximately equal
+
+
+def test_similar_beats_unrelated():
+    q1 = "beach town with a nice view of the sunset"
+    q2 = "home in a beach town with nice sunset views"
+    q3 = "a european style condo outside the city"
+    e1 = get_embedding(q1)
+    e2 = get_embedding(q2)
+    e3 = get_embedding(q3)
+    e1, e2, e3 = map(np.array, (e1, e2, e3)) # not np.array() -> will execute with no arguments
+    assert e1 @ e2 > e1 @ e3
+    assert e1 @ e2 > e2 @ e3
 
