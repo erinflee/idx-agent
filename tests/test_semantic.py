@@ -7,5 +7,6 @@ case — cosine always ranks something, even for a nonsense query.
 Run: pytest tests/test_semantic.py -v
 """
 
-
+import numpy as np
+from semantic import find_similar_listings
 
