@@ -32,6 +32,6 @@ def test_similar_beats_unrelated():
     e2 = get_embedding(q2)
     e3 = get_embedding(q3)
     e1, e2, e3 = map(np.array, (e1, e2, e3)) # not np.array() -> will execute with no arguments
-    assert e1 @ e2 > e1 @ e3
-    assert e1 @ e2 > e2 @ e3
+    assert e1 @ e2 > e1 @ e3 # use cosine similarity
+    assert e1 @ e2 > e2 @ e3 # MiniLM is already unit-length...
 
