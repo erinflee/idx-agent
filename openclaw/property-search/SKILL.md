@@ -6,11 +6,17 @@ metadata:
   { "openclaw": { "emoji": "🏠" } }
 ---
 
-# Property Search
+# Property Search (single-turn)
 
-Use this skill whenever the user wants to find active real-estate listings for
-sale in California — for example: "show me 3 bed condos in Irvine under $1.2M
-with a pool" or "any houses in Pasadena under 900k".
+Use this skill when the user gives a **complete** search in one message — city,
+price, beds, type, etc. all at once — for example: "show me 3 bed condos in
+Irvine under $1.2M with a pool".
+
+On **WhatsApp**, prefer **property-conversation** instead. It keeps per-user
+session memory, asks follow-ups when filters are missing, and handles
+pagination ("show more"). Only use property-search on WhatsApp if the user
+already stated every filter in a single message and you are not continuing an
+earlier search thread.
 
 ## How to run
 
