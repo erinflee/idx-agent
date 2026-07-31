@@ -6,7 +6,6 @@
 // Run:   npm run demo-semantic -- "charming craftsman with mountain views"
 //       (needs the FastAPI server running: uvicorn service:app --reload)
 
-
 import { semanticSearchAgent } from "./semanticSearch";
 
 
