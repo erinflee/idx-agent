@@ -13,9 +13,11 @@ atmosphere, or prose features — for example: "charming craftsman with mountain
 views", "quiet cul-de-sac with a big backyard", or "modern loft vibes near the
 coast".
 
-Prefer **property-search** when the ask is mostly filters (city, price, beds/
-baths, sqft, pool, HOA). Prefer **market-stats** for city-level market questions
-(averages, trends), not individual listings.
+Prefer **property-conversation** on WhatsApp when the ask is mostly filters
+(city, price, beds/baths, sqft, pool, HOA) — it remembers context across
+messages. Use **property-search** only for complete one-shot filter queries.
+Prefer **market-stats** for city-level market questions (averages, trends), not
+individual listings.
 
 ## How to run
 
