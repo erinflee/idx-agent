@@ -3,4 +3,4 @@
 # Multi-turn property search: pass the WhatsApp sender id + the user's message.
 # Session state persists under ~/.openclaw/property-sessions/ across invocations.
 cd "$(dirname "$0")/.." || exit 1
-exec npx tsx skills/propertySearch/conversation.openclaw.cli.ts "$@"
+exec npx tsx skills/propertySearch/conversation.cli.ts "$@"
