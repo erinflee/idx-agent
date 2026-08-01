@@ -21,7 +21,7 @@ export function formatListing(row: ListingRow): string {
   const hoa = monthlyHoa(row.hoa, row.hoaFreq);
   const lot = row.lotSqft == null ? null : Number(row.lotSqft);
 
-  return `${row.address}, ${row.city}, CA ${row.zip}
+  return `\n${row.address}, ${row.city}, CA ${row.zip}
 $${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${lot ? lot.toLocaleString() : "N/A"} sqft lot
 ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market${hoa != null ? ` • HOA $${Math.round(hoa).toLocaleString()}/mo` : ""} • ${row.photoCount ?? "N/A"} Photos`;
 
@@ -30,7 +30,7 @@ ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N
 // format entire result set and handle the empty case 
 // otherwise join each formatted card
 export function formatResults(rows: ListingRow[]): string {
-  if (rows.length === 0) {return "No matching listings found"};
-  return rows.map(formatListing).join("\n\n");
+  if (rows.length === 0) {return "\nNo matching listings found"};
+  return rows.map(formatListing).join("\n");
 }
 
