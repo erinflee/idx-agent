@@ -4,6 +4,9 @@ Listing id in -> top-k similar rets_property rows out, comp-checked vs californi
 Structured score + embedding similarity. Thin TS skill calls over HTTP.
 """
 
+import numpy as np
+from pathlib import Path
+
 
 def calculate_similarity_score(target, candidate): 
 
