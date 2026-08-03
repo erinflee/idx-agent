@@ -7,6 +7,16 @@ Structured score + embedding similarity. Thin TS skill calls over HTTP.
 import numpy as np
 from pathlib import Path
 
+PATH = Path(__file__).parent / "listing_embeddings.npz"
+
+try:
+    _data = np.load(PATH)
+except FileNotFoundError:
+    print("Unable to load embeddings")
+
+_ids = _data["ids"]
+_embeddings = _data["embeddings"]
+
 
 def calculate_similarity_score(target, candidate): 
 
