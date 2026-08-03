@@ -15,6 +15,7 @@ def calculate_similarity_score(target, candidate):
     elif price_diff < 300000: score += 5
 
     if target["beds"] == candidate["beds"]: score += 15
+    if target["city"] == candidate["city"]: score += 15
 
     return round(score, 2)
 
