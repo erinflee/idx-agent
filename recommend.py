@@ -7,7 +7,7 @@ Structured score + embedding similarity. Thin TS skill calls over HTTP.
 
 def calculate_similarity_score(target, candidate): 
 
-    price_diff = target["price"] - candidate["price"]
+    price_diff = abs(target["price"] - candidate["price"])
     score = 0
 
     if price_diff < 50000: score += 20
@@ -17,7 +17,7 @@ def calculate_similarity_score(target, candidate):
     if target["beds"] == candidate["beds"]: score += 15
     if target["city"] == candidate["city"]: score += 15
 
-    sqft_diff = target["sqft"] - candidate["sqft"]
+    sqft_diff = abs(target["sqft"] - candidate["sqft"])
     if sqft_diff < 300: score += 10
     elif sqft_diff < 700: score += 5
 
