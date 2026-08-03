@@ -25,3 +25,20 @@ def test_similar_listings():
     score = calculate_similarity_score(target, candidate)
     assert score == 60.0, "incorrect score"
 
+
+def test_unrelated_listings():
+    target = {
+        "city": "Berkeley",
+        "price": 1300000,
+        "beds": 3,
+        "sqft": 700,
+    }
+    candidate = {
+        "city": "San Diego",
+        "price": 2000000,
+        "beds": 5,
+        "sqft": 1630,
+    }
+    score = calculate_similarity_score(target, candidate)
+    assert score2 == 0, "incorrect score"
+
