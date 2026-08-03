@@ -18,8 +18,7 @@ _ids = _data["ids"]
 _embeddings = _data["embeddings"]
 
 
-def calculate_similarity_score(target, candidate): 
-
+def calculate_similarity_score(target, candidate, target_emb, candidate_emb): 
     price_diff = abs(target["price"] - candidate["price"])
     score = 0
 
@@ -34,6 +33,11 @@ def calculate_similarity_score(target, candidate):
     if sqft_diff < 300: score += 10
     elif sqft_diff < 700: score += 5
 
+    if target_emb is None or candidate_emb is None:
+        return round(score, 2)
+    
+    cosine_similarity = target_emb @ candidate_emb
+    score += cosine_similarity * 40
     return round(score, 2)
 
 
