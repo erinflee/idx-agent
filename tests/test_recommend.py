@@ -5,3 +5,8 @@ point buckets. Embeddings and comps come later.
 
 Run: pytest tests/test_recommend.py -v
 """
+
+import pytest
+from recommend import calculate_similarity_score
+
+    
