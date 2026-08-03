@@ -22,9 +22,11 @@ def test_similar_listings():
         "beds": 3,
         "sqft": 724,
     }
-    
-    score = calculate_similarity_score(target, candidate, None, None)
-    assert score == 60.0, "incorrect score"
+    target_emb = [1, 0]
+    candidate_emb = [1, 0]
+
+    score = calculate_similarity_score(target, candidate, target_emb, candidate_emb)
+    assert score == 100, "incorrect score"
 
 
 def test_unrelated_listings():
@@ -40,6 +42,9 @@ def test_unrelated_listings():
         "beds": 5,
         "sqft": 1630,
     }
-    score = calculate_similarity_score(target, candidate, None, None)
+    target_emb = [1, 0]
+    candidate_emb = [0, 1]
+
+    score = calculate_similarity_score(target, candidate, target_emb, candidate_emb)
     assert score == 0, "incorrect score"
 
