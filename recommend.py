@@ -37,3 +37,9 @@ def calculate_similarity_score(target, candidate):
     return round(score, 2)
 
 
+def get_embedding_by_id(listing_id):
+    i = np.where(_ids == listing_id)
+    candidate_emb = _embeddings[i]
+    if not candidate_emb:
+        return None
+    return candidate_emb
