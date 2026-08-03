@@ -40,5 +40,5 @@ def test_unrelated_listings():
         "sqft": 1630,
     }
     score = calculate_similarity_score(target, candidate)
-    assert score2 == 0, "incorrect score"
+    assert score == 0, "incorrect score"
 
