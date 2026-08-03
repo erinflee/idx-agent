@@ -22,7 +22,8 @@ def test_similar_listings():
         "beds": 3,
         "sqft": 724,
     }
-    score = calculate_similarity_score(target, candidate)
+    
+    score = calculate_similarity_score(target, candidate, None, None)
     assert score == 60.0, "incorrect score"
 
 
@@ -39,6 +40,6 @@ def test_unrelated_listings():
         "beds": 5,
         "sqft": 1630,
     }
-    score = calculate_similarity_score(target, candidate)
+    score = calculate_similarity_score(target, candidate, None, None)
     assert score == 0, "incorrect score"
 
