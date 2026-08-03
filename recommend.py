@@ -17,6 +17,10 @@ def calculate_similarity_score(target, candidate):
     if target["beds"] == candidate["beds"]: score += 15
     if target["city"] == candidate["city"]: score += 15
 
+    sqft_diff = target["sqft"] - candidate["sqft"]
+    if sqft_diff < 300: score += 10
+    elif sqft_diff < 700: score += 5
+
     return round(score, 2)
 
 
