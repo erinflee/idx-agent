@@ -5,6 +5,7 @@ Structured score + embedding similarity. Thin TS skill calls over HTTP.
 """
 
 import numpy as np
+import pandas as pd
 from db import engine
 from sqlalchemy import text
 from pathlib import Path
@@ -51,7 +52,7 @@ def get_embedding_by_id(listing_id):
     return candidate_emb
 
 
-def validate_with_comps(sqft):
+def validate_with_comps(city, sqft, price):
     sql = text(""" 
         SELECT 
             COUNT(*) AS compCount,
@@ -64,5 +65,17 @@ def validate_with_comps(sqft):
             AND LivingArea >= :sqft * 0.8
             AND CloseDate <= CURDATE()
             AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-            AND PropertyType = 'Residential';
+            AND PropertySubType = 'SingleFamilyResidence';
     """)
+
+    df = pd.read_sql(sql, con=engine, params={"city": city, "sqft": sqft})
+    comp_count = df["compCount"].iloc[0]
+    avg_price_per_sqft = df["avgPricePerSqft"].iloc[0]
+    comp_price = sqft * avg_price_per_sqft
+    delta_percentage = (price - comp_price) / comp_price * 100
+    return {
+        "price": price,
+        "comp_price": comp_price,
+        "comp_count": comp_count,
+        "delta_percentage": delta_percentage
+    }
