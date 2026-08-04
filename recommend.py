@@ -5,6 +5,8 @@ Structured score + embedding similarity. Thin TS skill calls over HTTP.
 """
 
 import numpy as np
+from db import engine
+from sqlalchemy import text
 from pathlib import Path
 
 PATH = Path(__file__).parent / "listing_embeddings.npz"
@@ -47,3 +49,4 @@ def get_embedding_by_id(listing_id):
     if not candidate_emb:
         return None
     return candidate_emb
+
