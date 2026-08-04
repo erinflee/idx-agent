@@ -92,7 +92,7 @@ def get_recommendations(listing_id, k=5): # listing_id is what user likes and wa
     idx = np.argpartition(-scores, kth=k)[:k]
     sorted_idx = idx[np.argsort(-scores[idx])]
     top_k_ids = _ids[sorted_idx].tolist()
-    dicts = fetch_listing_details(listing_id + top_k_ids)
+    dicts = fetch_listing_details([listing_id] + top_k_ids)
     target = dicts[listing_id]
     results = []
 
