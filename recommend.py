@@ -50,3 +50,16 @@ def get_embedding_by_id(listing_id):
         return None
     return candidate_emb
 
+
+def validate_with_comps():
+    sql = text(""" 
+        SELECT 
+            COUNT(*) AS compCount,
+            AVG( ClosePrice / NULLIF(LivingArea, 0)) as avgPricePerSqft
+
+        FROM california_sold 
+
+        WHERE City = :city
+            AND CloseDate <= CURDATE()
+            AND PropertyType == 'SingleFamilyResidence';
+    """)
