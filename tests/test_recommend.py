@@ -59,3 +59,10 @@ def test_validate_with_comps():
     assert validated["comp_count"] > 0
     assert validated["comp_price"] > 0
 
+
+def test_not_validate_with_comps():
+    city = "Boston"
+    sqft = 700
+    price = 1300000
+    validated = validate_with_comps(city, sqft, price)
+    assert validated is None
