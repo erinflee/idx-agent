@@ -69,6 +69,10 @@ def validate_with_comps(city, sqft, price):
     """)
 
     df = pd.read_sql(sql, con=engine, params={"city": city, "sqft": sqft})
+
+    if df["compCount"].iloc[0] == 0:
+        return None
+
     comp_count = df["compCount"].iloc[0]
     avg_price_per_sqft = df["avgPricePerSqft"].iloc[0]
     comp_price = sqft * avg_price_per_sqft
