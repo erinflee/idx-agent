@@ -89,7 +89,7 @@ def validate_with_comps(city, sqft, price):
 def get_recommendations(listing_id, k=5): # listing_id is what user likes and wants more recs for
     target_emb = get_embedding_by_id(listing_id)
     scores = _embeddings @ target_emb # (53k, 384) x (384, 1)
-    idx = np.argpartition(-scores, kth=k)[]
+    idx = np.argpartition(-scores, kth=k)[:k+1]
     sorted_idx = idx[np.argsort(-scores[idx])]
     top_k_ids = _ids[sorted_idx].tolist()
     dicts = fetch_listing_details(top_k_ids)
@@ -97,6 +97,8 @@ def get_recommendations(listing_id, k=5): # listing_id is what user likes and wa
     results = []
 
     for i in top_k_ids:
+        if i == listing_id:
+            continue
         candidate = dicts[i] 
         candidate_emb = get_embedding_by_id(i)
         score = calculate_similarity_score(target, candidate, target_emb, candidate_emb)
