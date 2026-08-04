@@ -46,10 +46,10 @@ def calculate_similarity_score(target, candidate, target_emb, candidate_emb):
 
 def get_embedding_by_id(listing_id):
     i = np.where(_ids == listing_id)
-    candidate_emb = _embeddings[i]
-    if not candidate_emb:
+    embedding = _embeddings[i]
+    if not embedding:
         return None
-    return candidate_emb
+    return embedding
 
 
 def validate_with_comps(city, sqft, price):
@@ -79,7 +79,8 @@ def validate_with_comps(city, sqft, price):
     delta_percentage = (price - comp_price) / comp_price * 100
     return {
         "price": price,
-        "comp_price": comp_price,
+        "comp_price": round(comp_price),
         "comp_count": comp_count,
-        "delta_percentage": delta_percentage
+        "delta_percentage": round(delta_percentage, 1)
     }
+
