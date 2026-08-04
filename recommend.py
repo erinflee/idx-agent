@@ -46,11 +46,11 @@ def calculate_similarity_score(target, candidate, target_emb, candidate_emb):
 
 
 def get_embedding_by_id(listing_id):
-    i = np.where(_ids == listing_id)
-    embedding = _embeddings[i]
-    if not embedding:
+    i = np.where(_ids == str(listing_id))[0]
+    embedding = _embeddings
+    if i.size == 0:
         return None
-    return embedding
+    return embedding[i[0]]
 
 
 def validate_with_comps(city, sqft, price):
@@ -89,10 +89,10 @@ def validate_with_comps(city, sqft, price):
 def get_recommendations(listing_id, k=5): # listing_id is what user likes and wants more recs for
     target_emb = get_embedding_by_id(listing_id)
     scores = _embeddings @ target_emb # (53k, 384) x (384, 1)
-    idx = np.argpartition(-scores, kth=k)[:k]
+    idx = np.argpartition(-scores, kth=k)[]
     sorted_idx = idx[np.argsort(-scores[idx])]
     top_k_ids = _ids[sorted_idx].tolist()
-    dicts = fetch_listing_details([listing_id] + top_k_ids)
+    dicts = fetch_listing_details(top_k_ids)
     target = dicts[listing_id]
     results = []
 
@@ -103,4 +103,4 @@ def get_recommendations(listing_id, k=5): # listing_id is what user likes and wa
         comp = validate_with_comps(candidate["city"], candidate["sqft"], candidate["price"])
         results.append({**candidate, "score": score, "comp": comp})
 
-    return results
+    return results[:k]
