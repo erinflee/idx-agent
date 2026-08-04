@@ -6,7 +6,7 @@ point buckets. Embeddings and comps come later.
 Run: pytest tests/test_recommend.py -v
 """
 
-from recommend import calculate_similarity_score
+from recommend import calculate_similarity_score, validate_with_comps
 
 
 def test_similar_listings():
@@ -47,4 +47,15 @@ def test_unrelated_listings():
 
     score = calculate_similarity_score(target, candidate, target_emb, candidate_emb)
     assert score == 0, "incorrect score"
+
+
+def test_validate_with_comps():
+    city = "Berkeley"
+    sqft = 700
+    price = 1300000
+    validated = validate_with_comps(city, sqft, price)
+    assert validated is not None
+    assert validated.keys() == {"price", "comp_count", "comp_price", "delta_percentage"} # set is orderless
+    assert validated["comp_count"] > 0
+    assert validated["comp_price"] > 0
 
