@@ -9,6 +9,7 @@ import pandas as pd
 from db import engine
 from sqlalchemy import text
 from pathlib import Path
+from semantic import fetch_listing_details
 
 PATH = Path(__file__).parent / "listing_embeddings.npz"
 
@@ -84,3 +85,21 @@ def validate_with_comps(city, sqft, price):
         "delta_percentage": round(delta_percentage, 1)
     }
 
+
+def get_recommendations(listing_id, k=5): # listing_id is what user likes and wants more recs for
+    target_emb = get_embedding_by_id(listing_id)
+    scores = _embeddings @ target_emb # (53k, 384) x (384, 1)
+    idx = np.argpartition(-scores, kth=k)[:k]
+    sorted_idx = idx[np.argsort(-scores[idx])]
+    top_k_ids = _ids[sorted_idx].tolist()
+    dicts = fetch_listing_details(listing_id + top_k_ids)
+    target = dicts[listing_id]
+    results = []
+
+    for i in top_k_ids:
+        candidate = dicts[i] 
+        score = calculate_similarity_score(target, candidate, target_emb, candidate_emb)
+        comp = validate_with_comps(city, sqft, price)
+        results.append({candidate, "score": score, "comp": comps})
+
+    return results
