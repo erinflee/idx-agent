@@ -64,5 +64,5 @@ def validate_with_comps(sqft):
             AND LivingArea >= :sqft * 0.8
             AND CloseDate <= CURDATE()
             AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-            AND PropertyType == 'SingleFamilyResidence';
+            AND PropertyType = 'Residential';
     """)
