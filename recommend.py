@@ -36,7 +36,7 @@ def calculate_similarity_score(target, candidate, target_emb, candidate_emb):
     if target_emb is None or candidate_emb is None:
         return round(score, 2)
     
-    cosine_similarity = target_emb @ candidate_emb
+    cosine_similarity = np.array(target_emb) @ np.array(candidate_emb)
     score += cosine_similarity * 40
     return round(score, 2)
 
