@@ -51,7 +51,7 @@ def get_embedding_by_id(listing_id):
     return candidate_emb
 
 
-def validate_with_comps():
+def validate_with_comps(sqft):
     sql = text(""" 
         SELECT 
             COUNT(*) AS compCount,
@@ -60,6 +60,8 @@ def validate_with_comps():
         FROM california_sold 
 
         WHERE City = :city
+            AND LivingArea <= :sqft * 1.2
+            AND LivingArea >= :sqft * 0.8
             AND CloseDate <= CURDATE()
             AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
             AND PropertyType == 'SingleFamilyResidence';
