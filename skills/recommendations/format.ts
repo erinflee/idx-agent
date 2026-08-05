@@ -13,7 +13,7 @@ function preview(description: string | null, maxChar: number = 90): string {
 	return d.slice(0, maxChar) + "...";
 }
 
-export function formatRecommendations(hits: Recommendation[] | null): string {
+export function formatRecommendations(listing_id: string, hits: Recommendation[] | null): string {
 	if (!hits || hits.length === 0) return "No similar listings available";
 
 	const rows = hits.map(h => { 
@@ -26,5 +26,5 @@ export function formatRecommendations(hits: Recommendation[] | null): string {
 		].filter(Boolean).join("\n");
 	});
 
-	return rows.join("\n");
+	return `Listings similar to ${listing_id}` + rows.join("\n");
 }
