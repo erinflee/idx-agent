@@ -5,6 +5,7 @@
 
 import type { Recommendation, CompCheck } from "./recommend";
 
+
 function preview(description: string | null, maxChar: number = 90): string {
 	if (!description) return "";
 	const d = description.replace(/\s+/g, " ").trim();
@@ -16,8 +17,11 @@ function preview(description: string | null, maxChar: number = 90): string {
 
 function compLine(comp: CompCheck | null): string {
 	if (!comp) return "";
-	const c = `comps: $${comp.compPrice.toLocaleString()} from ${comp.compCount} recent sales • ${comp.deltaPercentage}%`;
-	return c;
+	const c = `comps: $${comp.compPrice.toLocaleString()} from ${comp.compCount} recent sales`;
+	
+	const digit = Math.abs(comp.deltaPercentage);
+	const suffix = (comp.deltaPercentage >= 0) ? "above" : "below";
+	return c + ` • ${Math.abs(comp.deltaPercentage)}% ${suffix}`;
 }
 
 
