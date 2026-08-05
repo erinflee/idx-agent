@@ -23,9 +23,9 @@ def marketTrends(city: str):
   return get_price_trend(city)
 
 @app.get("/search/semantic")
-def semanticSearch(query: str, k: int = 5): 
+def semanticSearch(query: str, k: int): 
   return find_similar_listings(query, k)
 
 @app.get("/recommend")
-def recommend(listing_id: str, k: int = 5):
+def recommend(listing_id: str, k: int):
     return get_recommendations(listing_id, k)
