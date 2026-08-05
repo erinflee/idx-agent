@@ -20,8 +20,8 @@ export function formatRecommendations(hits: Recommendation[] | null): string {
 		const comps: string = h.comp ? `comps: $${h.comp.compPrice?.toLocaleString()} from ${h.comp.compCount} recent sales • ${h.comp?.deltaPercentage}%` : "";
 
 		return `${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba
-	${comps}
-	${preview(h.description)}`;
+${comps}
+${preview(h.description)}`;
 	});
 
 	return rows.join("\n\n");
