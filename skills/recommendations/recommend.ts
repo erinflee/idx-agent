@@ -6,6 +6,10 @@
 //
 // thin HTTP wrapper over recommend.py 
 
+import { formatRecommendations } from "./format";
+
+const BASE = "http://127.0.0.1:8000";
+
 
 export interface Recommendation {
     id: string;
@@ -19,7 +23,7 @@ export interface Recommendation {
     price: number | null;
     description: string | null;
     score: number;
-    comp: {} | null;
+    comp: CompCheck | null;
 }
 
 export interface CompCheck {
@@ -27,5 +31,12 @@ export interface CompCheck {
     compPrice: number;
     compCount: number;
     deltaPercentage: number;
+}
+
+
+export async function recommendAgent(listing_id: string): Promise<string> { // async function always returns promise<>
+    const response = await fetch(`${BASE}/recommend?listing_id=${encodeURIComponent(listing_id)}&k=5`);
+    const hits: Recommendation[] = await response.json();
+    return formatRecommendations(hits);
 }
 
