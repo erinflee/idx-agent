@@ -5,6 +5,13 @@
 
 import type { Recommendation } from "./recommend";
 
+function preview(description: string, maxChar: number = 90): string {
+	if (!description) return "";
+	const d = description.replace(/\s+/g, " ").trim();
+
+	if (d.length <= maxChar) return d;
+	return d.slice(0, maxChar);
+}
 
 export function formatRecommendations(hits: Recommendation[] | null): string {
 	if (!hits || hits.length === 0) return "No similar listings available";
