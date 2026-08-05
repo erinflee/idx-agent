@@ -10,7 +10,7 @@ function preview(description: string | null, maxChar: number = 90): string {
 	const d = description.replace(/\s+/g, " ").trim();
 
 	if (d.length <= maxChar) return d;
-	return d.slice(0, maxChar) + "...";
+	return d.slice(0, maxChar);
 }
 
 export function formatRecommendations(hits: Recommendation[] | null): string {
