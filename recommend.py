@@ -38,11 +38,11 @@ def calculate_similarity_score(target, candidate, target_emb, candidate_emb):
     elif sqft_diff < 700: score += 5
 
     if target_emb is None or candidate_emb is None:
-        return round(score, 2)
+        return round(float(score, 2))
     
     cosine_similarity = np.array(target_emb) @ np.array(candidate_emb) # embeddings already normalized by length (unit norm) 
     score += cosine_similarity * 40
-    return round(score, 2)
+    return round(float(score, 2))
 
 
 def get_embedding_by_id(listing_id):
@@ -81,7 +81,7 @@ def validate_with_comps(city, sqft, price):
     return {
         "price": price,
         "comp_price": round(comp_price),
-        "comp_count": comp_count,
+        "comp_count": comp_count.item(), # convert numpy scalar to python
         "delta_percentage": round(delta_percentage, 1)
     }
 
