@@ -10,7 +10,7 @@ function preview(description: string | null, maxChar: number = 90): string {
 	const d = description.replace(/\s+/g, " ").trim();
 
 	if (d.length <= maxChar) return d;
-	return d.slice(0, maxChar);
+	return d.slice(0, maxChar) + "...";
 }
 
 export function formatRecommendations(hits: Recommendation[] | null): string {
@@ -19,9 +19,11 @@ export function formatRecommendations(hits: Recommendation[] | null): string {
 	const rows = hits.map(h => { 
 		const comps: string = h.comp ? `comps: $${h.comp.compPrice?.toLocaleString()} from ${h.comp.compCount} recent sales • ${h.comp?.deltaPercentage}%` : "";
 
-		return [`${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba
-${comps}
-${preview(h.description)}`].filter(Boolean).join("\n");
+		return [
+			`\n${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba`,
+			comps,
+			preview(h.description),
+		].filter(Boolean).join("\n");
 	});
 
 	return rows.join("\n");
