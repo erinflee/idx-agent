@@ -5,7 +5,7 @@
 
 import type { Recommendation } from "./recommend";
 
-function preview(description: string, maxChar: number = 90): string {
+function preview(description: string | null, maxChar: number = 90): string {
 	if (!description) return "";
 	const d = description.replace(/\s+/g, " ").trim();
 
@@ -21,7 +21,7 @@ export function formatRecommendations(hits: Recommendation[] | null): string {
 
 		return `${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba
 	${comps}
-	${h.description}`;
+	${preview(h.description)}`;
 	});
 
 	return rows.join("\n\n");
