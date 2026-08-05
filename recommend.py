@@ -87,16 +87,17 @@ def validate_with_comps(city, sqft, price):
 
 
 def get_recommendations(listing_id, k=5): # listing_id is what user likes and wants more recs for
+    pool = k * 10 # search for top 50 first, then take top-k as final
     target_emb = get_embedding_by_id(listing_id)
     scores = _embeddings @ target_emb # (53k, 384) x (384, 1)
-    idx = np.argpartition(-scores, kth=k)[:k+1]
+    idx = np.argpartition(-scores, kth=pool)[:pool+1]
     sorted_idx = idx[np.argsort(-scores[idx])]
-    top_k_ids = _ids[sorted_idx].tolist()
-    dicts = fetch_listing_details(top_k_ids)
+    top_pool_ids = _ids[sorted_idx].tolist()
+    dicts = fetch_listing_details(top_pool_ids)
     target = dicts[listing_id]
     results = []
 
-    for i in top_k_ids:
+    for i in top_pool_ids:
         if i == listing_id:
             continue
         candidate = dicts[i] 
@@ -105,4 +106,7 @@ def get_recommendations(listing_id, k=5): # listing_id is what user likes and wa
         comp = validate_with_comps(candidate["city"], candidate["sqft"], candidate["price"])
         results.append({**candidate, "score": score, "comp": comp})
 
-    return results[:k]
+    results = sorted(results, key=lambda x: x["score"], reverse=True)
+    top = results[:k]
+
+    return top
