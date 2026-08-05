@@ -80,9 +80,9 @@ def validate_with_comps(city, sqft, price):
     delta_percentage = (price - comp_price) / comp_price * 100
     return {
         "price": price,
-        "comp_price": round(comp_price),
-        "comp_count": comp_count.item(), # convert numpy scalar to python
-        "delta_percentage": round(delta_percentage, 1)
+        "compPrice": round(comp_price),
+        "compCount": comp_count.item(), # convert numpy scalar to python
+        "deltaPercentage": round(delta_percentage, 1)
     }
 
 
