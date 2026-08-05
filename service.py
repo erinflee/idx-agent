@@ -6,6 +6,7 @@ Endpoints the thin TS skill calls. Run: uvicorn service:app --reload
 from fastapi import FastAPI
 from market import get_market_summary, get_price_trend
 from semantic import find_similar_listings
+from recommend import get_recommendations
 
 app = FastAPI()
 
@@ -24,3 +25,7 @@ def marketTrends(city: str):
 @app.get("/search/semantic")
 def semanticSearch(query: str, k: int = 5): 
   return find_similar_listings(query, k)
+
+@app.get("/recommend")
+def recommend(listing_id: str, k: int = 5):
+    return get_recommendations(listing_id, k)
