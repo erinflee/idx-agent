@@ -10,8 +10,8 @@ export function formatRecommendations(hits: Recommendation[] | null): string {
 	if (!hits || hits.length === 0) return "No similar listings available";
 
 	const rows = hits.map(h => { 
-		return `${h.score} • ${h.address}, ${h.city} • $${h.comp.price?.toLocaleString()} • ${h.beds} bd / ${h.baths} ba
-	comps: $${h.comp.compPrice.toLocaleString()} from ${h.comp.compCount} recent sales • ${h.comp?.deltaPercentage}% 
+		return `${h.score} • ${h.address ?? "N/A"}, ${h.city ?? "N/A"} • $${h.comp.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba
+	comps: $${h.comp.compPrice?.toLocaleString() ?? "N/A"} from ${h.comp.compCount ?? "N/A"} recent sales • ${h.comp?.deltaPercentage} ?? "N/A"% 
 	${h.description}`;
 	});
 
