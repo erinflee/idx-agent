@@ -100,6 +100,8 @@ def get_recommendations(listing_id, k=5): # listing_id is what user likes and wa
     for i in top_pool_ids:
         if i == listing_id:
             continue
+        if i not in dicts:
+            continue
         candidate = dicts[i] 
         candidate_emb = get_embedding_by_id(i)
         score = calculate_similarity_score(target, candidate, target_emb, candidate_emb)
