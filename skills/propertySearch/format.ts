@@ -30,7 +30,7 @@ ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N
 // format entire result set and handle the empty case 
 // otherwise join each formatted card
 export function formatResults(rows: ListingRow[]): string {
-  if (rows.length === 0) {return "\nNo matching listings found"};
-  return rows.map(formatListing).join("\n");
+  if (rows.length === 0) {return "No matching listings found"};
+  return rows.map(formatListing).join("\n\n");
 }
 
