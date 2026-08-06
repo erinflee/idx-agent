@@ -87,6 +87,10 @@ def validate_with_comps(city, sqft, price):
 
 
 def get_recommendations(listing_id, k=5): # listing_id is what user likes and wants more recs for
+
+    if listing_id not in _ids:
+        raise ValueError(f"{listing_id} is an unknown or unembedded id") 
+
     pool = k * 10 # search for top 50 first, then take top-k as final
     target_emb = get_embedding_by_id(listing_id)
     scores = _embeddings @ target_emb # (53k, 384) x (384, 1)
