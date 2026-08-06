@@ -1,5 +1,5 @@
 #!/bin/sh
-# run the full Week 3 test suite, one test per line
+# run the full test suite (Weeks 3-7), one test per line
 # invoked via:  npm test  (see package.json) — or directly:  sh scripts/test-all.sh
 set -e   # stop at the first failing test (same short-circuit as &&)
 
@@ -7,6 +7,9 @@ set -e   # stop at the first failing test (same short-circuit as &&)
 npx tsx skills/propertySearch/format.test.ts
 npx tsx skills/propertySearch/parse.test.ts
 npx tsx skills/propertySearch/session.test.ts
+npx tsx skills/marketComps/format.test.ts
+npx tsx skills/semanticSearch/format.test.ts
+npx tsx skills/recommendations/format.test.ts
 
 # integration tests — hit live MySQL (need .env + the DB running)
 npx tsx skills/propertySearch/search.test.ts
