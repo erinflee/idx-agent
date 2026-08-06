@@ -6,3 +6,17 @@
 //
 // Run:   npm run demo-recommend -- "1118422731"
 //       (needs the FastAPI server running: uvicorn service:app --reload)
+
+import { recommendAgent } from "./recommend";
+
+
+async function main() {
+	const listing_id = process.argv[2];
+	if (!listing_id || typeof listing_id !== "string") {
+		console.error("Listing id must be a string");
+		process.exit(1);
+	}
+	
+	const cards = await recommendAgent(listing_id);
+	console.log(cards);
+}
