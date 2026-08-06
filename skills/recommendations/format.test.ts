@@ -93,6 +93,10 @@ function main() {
 	assert(!cards.includes("-8.2"), "minus sign kept alongside 'below'");
 	assert(!cards.includes("8.2% above"), "negative delta labelled 'above'");
 
+	// a delta of exactly zero falls into the >= 0 branch
+	const even = formatRecommendations(listing_id, [{ ...hits[0], comp: compEqual }]);
+	assert(even.includes("0% above"), "zero delta not 'above'");
+
 	// comp counts
 	assert(cards.includes("from 18 recent sales"), "first compCount missing");
 	assert(cards.includes("from 9 recent sales"), "second compCount missing");
