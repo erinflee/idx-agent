@@ -25,6 +25,13 @@ const compBelow: CompCheck = {
     deltaPercentage: -8.2,
 };
 
+const compEqual: CompCheck = {
+    price: 900000,
+    compPrice: 900000,
+    compCount: 5,
+    deltaPercentage: 0,
+};
+
 const hits: Recommendation[] = [
 	{
 		id: "10428422",
