@@ -10,6 +10,21 @@
 import { formatRecommendations } from "./format";
 import type { Recommendation, CompCheck } from "./recommend";
 
+
+const compAbove: CompCheck = {
+    price: 1150000,
+    compPrice: 1000000,
+    compCount: 18,
+    deltaPercentage: 15.0,
+};
+
+const compBelow: CompCheck = {
+    price: 780000,
+    compPrice: 850000,
+    compCount: 9,
+    deltaPercentage: -8.2,
+};
+
 const hits: Recommendation[] = [
 	{
 		id: "10428422",
@@ -23,7 +38,7 @@ const hits: Recommendation[] = [
         price: 1150000,
         description: "Modern looking home with two floors and a front yard.",
         score: 80.6,
-        comp,
+        comp: compAbove,
 	},
 	{
         id: "10428999",
@@ -37,16 +52,9 @@ const hits: Recommendation[] = [
         price: 780000,
         description: null,
         score: 64.2,
-        comp: null,		
+        comp: compBelow,		
 	}
 ];
-
-const comp: CompCheck = {
-    price: 1150000,
-    compPrice: 1000000,
-    compCount: 18,
-    deltaPercentage: 15.0,
-};
 
 
 function assert(condition: boolean, message: string): void {
