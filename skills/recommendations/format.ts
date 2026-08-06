@@ -11,7 +11,9 @@ function preview(description: string | null, maxChar: number = 90): string {
 	const d = description.replace(/\s+/g, " ").trim();
 
 	if (d.length <= maxChar) return d;
-	return d.slice(0, maxChar) + "...";
+	const dShortened= d.slice(0, maxChar);
+	const idx = dShortened.lastIndexOf(" ");
+	return dShortened.slice(0, idx) + "...";
 }
 
 
