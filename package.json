@@ -16,6 +16,7 @@
     "test-market-stats": "npx tsx skills/marketComps/marketStats.test.ts",
     "test-semantic-search": "npx tsx skills/semanticSearch/semanticSearch.test.ts",
     "test-semantic-format": "npx tsx skills/semanticSearch/format.test.ts",
+    "test-recommend-format": "npx tsx skills/recommendations/format.test.ts",
     "demo-conversation": "npx tsx skills/propertySearch/conversation.cli.ts",
     "demo-market": "npx tsx skills/marketComps/marketStats.cli.ts",
     "demo-semantic": "npx tsx skills/semanticSearch/semanticSearch.cli.ts"
