@@ -4,7 +4,7 @@
 // stamped with a comp check against recent california_sold sales
 // Data comes from the Python FastAPI service via recommendAgent
 //
-// Run:   npm run demo-recommend -- "1118422731"
+// Run:   npm run demo-recommend -- "1174440876"
 //       (needs the FastAPI server running: uvicorn service:app --reload)
 
 import { recommendAgent } from "./recommend";
@@ -20,3 +20,8 @@ async function main() {
 	const cards = await recommendAgent(listing_id);
 	console.log(cards);
 }
+
+main().catch((err) => {
+	console.error(err);
+	process.exit(1);
+})
