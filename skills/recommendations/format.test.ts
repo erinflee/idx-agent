@@ -97,6 +97,12 @@ function main() {
 	const even = formatRecommendations(listing_id, [{ ...hits[0], comp: compEqual }]);
 	assert(even.includes("0% above"), "zero delta not 'above'");
 
+	// no comparable sales -> compLine returns "" and filter(Boolean) drops the line
+	const noComp = formatRecommendations(listing_id, [{ ...hits[0], comp: null }]);
+	assert(!noComp.includes("comps:"), "null comp still printed a comps line");
+	assert(!noComp.includes("\n\n\n"), "dropped comps line left a gap");
+	assert(noComp.includes("2143 Haste Way"), "card itself should still render");
+
 	// comp counts
 	assert(cards.includes("from 18 recent sales"), "first compCount missing");
 	assert(cards.includes("from 9 recent sales"), "second compCount missing");
