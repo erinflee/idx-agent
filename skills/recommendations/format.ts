@@ -30,11 +30,11 @@ export function formatRecommendations(listing_id: string, hits: Recommendation[]
 
 	const rows = hits.map(h => { 
 		return [
-			`\n${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft ?? "N/A"} sqft`,
+			`${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft ?? "N/A"} sqft`,
 			compLine(h.comp),
 			preview(h.description),
 		].filter(Boolean).join("\n");
 	});
 
-	return `Listings similar to ${listing_id}` + rows.join("\n");
+	return `Listings similar to ${listing_id}\n\n` + rows.join("\n\n");
 }
