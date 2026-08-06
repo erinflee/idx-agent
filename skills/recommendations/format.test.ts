@@ -48,3 +48,7 @@ const comp: CompCheck = {
     deltaPercentage: 15.0,
 };
 
+
+function assert(condition: boolean, message: string): void {
+	if (!condition) throw new Error(message);
+}
