@@ -36,6 +36,9 @@ export interface CompCheck {
 
 export async function recommendAgent(listing_id: string): Promise<string> { // async function always returns promise<>
     const response = await fetch(`${BASE}/recommend?listing_id=${encodeURIComponent(listing_id)}&k=5`);
+    if (!response.ok) {
+        throw new Error(`HTTP error, status: ${response.status}`); // shows 404, 500, etc. error 
+    }
     const hits: Recommendation[] = await response.json();
     return formatRecommendations(listing_id, hits);
 }
