@@ -5,3 +5,7 @@
 //
 // run:  npm run test-recommend-format
 //       (no DB / server needed)
+
+
+import { formatRecommendations } from "./format";
+import type { Recommendation, CompCheck } from "./recommend";
