@@ -13,6 +13,7 @@ function preview(description: string | null, maxChar: number = 90): string {
 	if (d.length <= maxChar) return d;
 	const dShortened= d.slice(0, maxChar);
 	const idx = dShortened.lastIndexOf(" ");
+	if (idx === -1) return dShortened + "...";
 	return dShortened.slice(0, idx) + "...";
 }
 
