@@ -12,6 +12,7 @@ from pathlib import Path
 from semantic import fetch_listing_details
 
 PATH = Path(__file__).parent / "listing_embeddings.npz"
+MIN_COMPS = 5
 
 try:
     _data = np.load(PATH)
@@ -66,12 +67,12 @@ def validate_with_comps(city, sqft, property, price):
             AND LivingArea >= :sqft * 0.8
             AND CloseDate <= CURDATE()
             AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-            AND PropertySubType = :property;
+            AND PropertySubType = :property
     """)
 
     df = pd.read_sql(sql, con=engine, params={"city": city, "sqft": sqft, "property": property})
 
-    if df["compCount"].iloc[0] == 0:
+    if df["compCount"].iloc[0] < MIN_COMPS:
         return None
 
     comp_count = df["compCount"].iloc[0]
@@ -82,8 +83,7 @@ def validate_with_comps(city, sqft, property, price):
         "price": price,
         "compPrice": round(comp_price),
         "compCount": comp_count.item(), # convert numpy scalar to python
-        "deltaPercentage": round(delta_percentage, 1),
-        "propertyType": property
+        "deltaPercentage": round(delta_percentage, 1)
     }
 
 
