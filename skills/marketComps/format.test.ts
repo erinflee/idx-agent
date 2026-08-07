@@ -15,6 +15,12 @@ const summary: MarketSummary = {
   listToClosePct: 99,
 };
 
+
+function assert(condition: boolean, message: string): void {
+  if (!condition) throw new Error(message);
+}
+
+
 const trend: PriceTrendMonth[] = [
   { month: "2025-12", sales: 90,  avgPrice: 900000, priceChangePct: null }, // first month: null by design
   { month: "2026-01", sales: 110, avgPrice: 925000, priceChangePct: 2.8 },
