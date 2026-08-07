@@ -1,10 +1,15 @@
 // feed sample data to the formatters to output cards
-
-// run:  npx tsx skills/marketComps/format.check.ts   
+//
+// the branch worth covering: the month-over-month sign — a positive change gets
+// an explicit "+", a negative one keeps its own "-", and the first month has no
+// prior to compare against
+//
+// run:  npm run test-market-format
 //      (no DB / server needed)
 
 import { formatMarketSummary, formatPriceTrendMonth } from "./format";
 import type { MarketSummary, PriceTrendMonth } from "./marketStats";
+
 
 const summary: MarketSummary = {
   soldCount: 1234,
