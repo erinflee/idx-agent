@@ -21,7 +21,7 @@ export function formatListing(row: ListingRow): string {
   const hoa = monthlyHoa(row.hoa, row.hoaFreq);
   const lot = row.lotSqft == null ? null : Number(row.lotSqft);
 
-  return `\n${row.address ?? "Address not available"}, ${row.city}, CA ${row.zip}
+  return `${row.address ?? "Address not available"}, ${row.city}, CA ${row.zip} • id: ${row.id}
 $${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${lot ? lot.toLocaleString() : "N/A"} sqft lot
 ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market${hoa != null ? ` • HOA $${Math.round(hoa).toLocaleString()}/mo` : ""} • ${row.photoCount ?? "N/A"} Photos`;
 
