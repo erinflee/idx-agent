@@ -20,5 +20,5 @@ export function formatPriceTrendMonth(city: string, months: number, trend: Price
     return `${t.month} • ${t.sales} • $${t.avgPrice.toLocaleString()} • ${pctChange}`
   });
  
-  return `Price trend (month • sales • avg price • vs. prior)\n` + rows.join("\n");
+  return `Price trend (month • sales • avg price • vs. prior)\n` + rows.join("\n");
 }
