@@ -53,7 +53,7 @@ def get_embedding_by_id(listing_id):
     return embedding[i[0]]
 
 
-def validate_with_comps(city, sqft, price):
+def validate_with_comps(city, sqft, property, price):
     sql = text(""" 
         SELECT 
             COUNT(*) AS compCount,
@@ -66,10 +66,10 @@ def validate_with_comps(city, sqft, price):
             AND LivingArea >= :sqft * 0.8
             AND CloseDate <= CURDATE()
             AND CloseDate >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-            AND PropertySubType = 'SingleFamilyResidence';
+            AND PropertySubType = :property;
     """)
 
-    df = pd.read_sql(sql, con=engine, params={"city": city, "sqft": sqft})
+    df = pd.read_sql(sql, con=engine, params={"city": city, "sqft": sqft, "property": property})
 
     if df["compCount"].iloc[0] == 0:
         return None
@@ -82,7 +82,8 @@ def validate_with_comps(city, sqft, price):
         "price": price,
         "compPrice": round(comp_price),
         "compCount": comp_count.item(), # convert numpy scalar to python
-        "deltaPercentage": round(delta_percentage, 1)
+        "deltaPercentage": round(delta_percentage, 1),
+        "propertyType": property
     }
 
 
@@ -115,6 +116,6 @@ def get_recommendations(listing_id, k=5): # listing_id is what user likes and wa
     top = results[:k]
 
     for t in top:
-        t["comp"] = validate_with_comps(t["city"], t["sqft"], t["price"])
+        t["comp"] = validate_with_comps(t["city"], t["sqft"], t["propertyType"], t["price"])
     
     return top
