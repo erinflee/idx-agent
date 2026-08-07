@@ -15,22 +15,13 @@ const summary: MarketSummary = {
   listToClosePct: 99,
 };
 
-
-function assert(condition: boolean, message: string): void {
-  if (!condition) throw new Error(message);
-}
-
-
 const trend: PriceTrendMonth[] = [
   { month: "2025-12", sales: 90,  avgPrice: 900000, priceChangePct: null }, // first month: null by design
   { month: "2026-01", sales: 110, avgPrice: 925000, priceChangePct: 2.8 },
   { month: "2026-02", sales: 130, avgPrice: 910000, priceChangePct: -1.6 },
 ];
 
-console.log("=== summary ===");
-console.log(formatMarketSummary("Los Angeles", 7, summary));
-console.log(formatMarketSummary("Boston", 7, null)); // null path
 
-console.log("\n=== trend ===");
-console.log(formatPriceTrendMonth("Los Angeles", 7, trend)); // one call, whole array
-console.log(formatPriceTrendMonth("Boston", 7, null)); // null path
+function assert(condition: boolean, message: string): void {
+  if (!condition) throw new Error(message);
+}
