@@ -33,7 +33,7 @@ export function formatRecommendations(listing_id: string, hits: Recommendation[]
 
 	const rows = hits.map(h => { 
 		return [
-			`match: ${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft?.toLocaleString() ?? "N/A"} sqft`,
+			`match: ${h.score.toFixed(1)} • ${h.address ?? "Address not available"}, ${h.city ?? "N/A"} • $${h.price?.toLocaleString() ?? "N/A"} • ${h.beds ?? "N/A"} bd / ${h.baths ?? "N/A"} ba • ${h.sqft?.toLocaleString() ?? "N/A"} sqft • id: ${h.id}`,
 			compLine(h.comp),
 			preview(h.description),
 		].filter(Boolean).join("\n");
