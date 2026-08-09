@@ -14,8 +14,13 @@ from pathlib import Path
 from pypdf import PdfReader
 import re
 
+ROOT = Path(__file__).parent.parent
 
-PRIMER = Path(__file__).parent.parent / "pdfs" / "Real_Estate_Primer.pdf"
+SOURCES = [
+  (ROOT / "pdfs" / "Real_Estate_Primer.pdf", "Real Estate Data Analyst Primer"),
+  (ROOT / "pdfs" / "Trestle Property MetaData.pdf", "Trestle Property Metadata"),
+  # (ROOT / "docs" / "schema_reference.md", "MLS Schema Reference")
+]
 
 def load_pdf(path):
   reader = PdfReader(path)
@@ -31,9 +36,10 @@ def load_pdf(path):
 
 
 def main():
-  document = load_pdf(PRIMER)
-  print(len(document))
-  print(document[:300])
+  for path, title in SOURCES:
+    document = load_pdf(path) 
+    print(len(document))
+    print(document[:300])
 
 
 
