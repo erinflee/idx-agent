@@ -12,7 +12,10 @@ Run:  python -m scripts.build_rag_index   (no DB; reads off disk)
 
 from pathlib import Path
 from pypdf import PdfReader
+import re
 
+
+PRIMER = Path(__file__).parent.parent / "pdfs" / "Real_Estate_Primer.pdf"
 
 def load_pdf(path):
   reader = PdfReader(path)
@@ -21,15 +24,17 @@ def load_pdf(path):
 
   for page in reader.pages:
     text = page.extract_text() or ""
+    text = re.sub(r"\s+", " ", text).strip()
     full_text.append(text)
 
   return "\n".join(full_text)
 
 
 def main():
-  PRIMER = Path(__file__).parent.parent / "pdfs" / "Real_Estate_Primer.pdf"
   document = load_pdf(PRIMER)
+  print(len(document))
   print(document[:300])
+
 
 
 if __name__ == "__main__":
