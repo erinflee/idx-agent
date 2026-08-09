@@ -9,3 +9,7 @@ Two loaders, one return type: PDFs via pypdf, markdown via read_text().
 Run:  python -m scripts.build_rag_index   (no DB; reads off disk)
       -m, not a path -> otherwise the repo root isn't on sys.path.
 """
+
+from pathlib import Path
+from pypdf import PdfReader
+
