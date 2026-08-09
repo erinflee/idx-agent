@@ -13,3 +13,17 @@ Run:  python -m scripts.build_rag_index   (no DB; reads off disk)
 from pathlib import Path
 from pypdf import PdfReader
 
+
+def load_pdf(path):
+  reader = PdfReader(path)
+
+  full_text = []
+
+  for page in reader.pages:
+    text = page.extract_text() or ""
+    full_text.append(text)
+
+  return "\n".join(full_text)
+
+
+
