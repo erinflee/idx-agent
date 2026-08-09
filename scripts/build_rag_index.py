@@ -26,4 +26,7 @@ def load_pdf(path):
   return "\n".join(full_text)
 
 
-
+def main():
+  PRIMER = Path(__file__).parent.parent / "pdfs" / "Real_Estate_Primer.pdf"
+  document = load_pdf(PRIMER)
+  print(document[:300])
