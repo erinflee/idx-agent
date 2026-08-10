@@ -17,3 +17,18 @@ MONTHS = 7
 OUT = Path(__file__).parent.parent / "rag_docs" / "market_summaries.md"
 
 
+def build_city_section(city):
+  summary = get_market_summary(city, MONTHS)
+  trends = get_price_trend(city, MONTHS)
+
+  s = summary[0]
+  t_ = []
+  s_ = f"summary: {s["soldCount"]}, {s["avgDom"]}, {s["avgClosePrice"]}, {s["avgPricePerSqft"]}, {s["listToClosePct"]}"
+  for t in trends:
+    t_.append(f"{t["month"]}, {t["sales"]}, {t["avgPrice"]}\n")
+
+  combined =  f"## {city}\n" + s_ + "trends: " + "".join(t_) # convert list to string
+
+  return combined
+  
+
