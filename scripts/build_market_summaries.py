@@ -31,9 +31,9 @@ def build_city_section(city):
   t_ = []
   s_ = f"summary: {s["soldCount"]} sales, {s["avgDom"]} days on market, average close ${s["avgClosePrice"]:,.0f}, median close ${s["medClosePrice"]:,.0f}, ${s["avgPricePerSqft"]:,.0f}/sqft, {s["listToClosePct"]}% of list\n"
   for t in trends:
-    t_.append(f"{t["month"]}, {t["sales"]} sales, ${t["avgPrice"]:,.0f}\n")
+    t_.append(f"- {t["month"]}, {t["sales"]} sales, ${t["avgPrice"]:,.0f}\n")
 
-  combined =  f"## {city}\n" + s_ + "trends: " + "".join(t_) # convert list to string
+  combined =  f"## {city}\n" + s_ + "trends by month:\n" + "".join(t_) # convert list to string
   return combined
   
 
@@ -45,7 +45,7 @@ def main():
   OUT.parent.mkdir(exist_ok=True)
   cur_date = date.today().isoformat()
 
-  header = f"""# California Market Summaries\nGenerated {cur_date} from california_sold - last {MONTHS} months of closed single-family sales."""
+  header = f"""# California Market Summaries\nGenerated {cur_date} from california_sold - last {MONTHS} months of closed single-family sales.\n\n"""
   OUT.write_text(header + "\n".join(cities_info))
 
 
