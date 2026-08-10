@@ -17,9 +17,10 @@ import re
 ROOT = Path(__file__).parent.parent
 
 SOURCES = [
-  (ROOT / "pdfs" / "Real_Estate_Primer.pdf", "Real Estate Data Analyst Primer"),
-  (ROOT / "pdfs" / "Trestle Property MetaData.pdf", "Trestle Property Metadata"),
-  # (ROOT / "docs" / "schema_reference.md", "MLS Schema Reference")
+  (ROOT / "rag_docs" / "Real_Estate_Primer.pdf", "Real Estate Data Analyst Primer"),
+  (ROOT / "rag_docs" / "Trestle Property MetaData.pdf", "Trestle Property Metadata"),
+  (ROOT / "rag_docs" / "market_summaries.md", "Market Summaries Data"),
+  (ROOT / "rag_docs" / "schema_reference.md", "MLS Schema Reference")
 ]
 
 def load_pdf(path):
