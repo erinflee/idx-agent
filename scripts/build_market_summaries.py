@@ -28,9 +28,9 @@ def build_city_section(city):
 
   s = summary[0]
   t_ = []
-  s_ = f"summary: {s["soldCount"]}, {s["avgDom"]}, {s["avgClosePrice"]}, {s["avgPricePerSqft"]}, {s["listToClosePct"]}"
+  s_ = f"summary: {s["soldCount"]} sales, {s["avgDom"]} days on market, average close ${s["avgClosePrice"]:,.0f}, ${s["avgPricePerSqft"]:,.0f}/sqft, {s["listToClosePct"]}% of list\n"
   for t in trends:
-    t_.append(f"{t["month"]}, {t["sales"]}, {t["avgPrice"]}\n")
+    t_.append(f"{t["month"]}, {t["sales"]} sales, ${t["avgPrice"]:,.0f}\n")
 
   combined =  f"## {city}\n" + s_ + "trends: " + "".join(t_) # convert list to string
   return combined
