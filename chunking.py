@@ -10,6 +10,9 @@ def chunk_text(text, chunk_size=600, overlap=100):
   chunks = []
   start = 0
 
+  if overlap >= chunk_size:
+    raise ValueError("overlap must be smaller than chunk size")
+  
   while start < len(text):
     end = min(start + chunk_size, len(text)) 
     chunk = text[start:end]
@@ -18,3 +21,5 @@ def chunk_text(text, chunk_size=600, overlap=100):
     
   return chunks
 
+
+  
