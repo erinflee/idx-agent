@@ -11,3 +11,9 @@ Run:  python -m scripts.build_market_summaries   (needs .env + DB)
 
 from market import get_market_summary, get_price_trend
 from pathlib import Path
+
+CITIES = ["San Francisco", "Los Angeles", "San Diego", "San Jose", "Riverside", "Irvine", "Santa Cruz"]
+MONTHS = 7
+OUT = Path(__file__).parent.parent / "rag_docs" / "market_summaries.md"
+
+
