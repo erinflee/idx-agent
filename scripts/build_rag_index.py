@@ -36,6 +36,11 @@ def load_pdf(path):
   return "\n".join(full_text)
 
 
+def load_markdown(path):
+  text = Path(path).read_text()
+  return text
+
+
 def main():
   for path, title in SOURCES:
     document = load_pdf(path) 
