@@ -11,6 +11,7 @@ Run:  python -m scripts.build_market_summaries   (needs .env + DB)
 
 from market import get_market_summary, get_price_trend
 from pathlib import Path
+from datetime import date
 
 CITIES = ["San Francisco", "Los Angeles", "San Diego", "San Jose", "Riverside", "Irvine", "Santa Cruz"]
 MONTHS = 7
@@ -42,7 +43,10 @@ def main():
     cities_info.append(build_city_section(city))
 
   OUT.parent.mkdir(exist_ok=True)
-  OUT.write_text("\n".join(cities_info))
+  cur_date = date.today().isoformat()
+
+  header = f"""# California Market Summaries\nGenerated {cur_date} from california_sold - last {MONTHS} months of closed single-family sales."""
+  OUT.write_text(header + "\n".join(cities_info))
 
 
 if __name__ == "__main__":
