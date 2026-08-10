@@ -37,14 +37,18 @@ def load_pdf(path):
 
 
 def load_markdown(path):
-  text = Path(path).read_text()
+  text = path.read_text(encoding="utf-8")
   return text
 
 
 def main():
+  LOADERS = {".pdf": load_pdf, ".md": load_markdown}
+
   for path, title in SOURCES:
-    document = load_pdf(path) 
-    print(len(document))
+    suffix = path.suffix
+    loader = LOADERS[suffix]
+    document = loader(path)
+    print(title, len(document))
     print(document[:300])
 
 
