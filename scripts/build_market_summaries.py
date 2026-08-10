@@ -44,3 +44,6 @@ def main():
   OUT.parent.mkdir(exist_ok=True)
   OUT.write_text("\n".join(cities_info))
 
+
+if __name__ == "__main__":
+  main()
