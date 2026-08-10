@@ -5,3 +5,16 @@ fallback. Pure functions, no I/O — build_rag_index.py calls these.
 CAP: all-MiniLM truncates at 256 word-pieces, so oversized sections must be
 re-chunked or they embed silently incomplete.
 """
+
+def chunk_text(text, chunk_size=600, overlap=100):
+  chunks = []
+  start = 0
+
+  while start < len(text):
+    end = min(start + chunk_size, len(text)) 
+    chunk = text[start:end]
+    chunks.append(chunk)
+    start += chunk_size - overlap
+    
+  return chunks
+
