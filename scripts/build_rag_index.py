@@ -25,7 +25,6 @@ SOURCES = [
 
 def load_pdf(path):
   reader = PdfReader(path)
-
   full_text = []
 
   for page in reader.pages:
@@ -52,7 +51,6 @@ def main():
     document = loader(path)
     print(title, len(document))
     print(document[:300])
-
 
 
 if __name__ == "__main__":
