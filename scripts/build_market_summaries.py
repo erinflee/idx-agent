@@ -35,3 +35,12 @@ def build_city_section(city):
   combined =  f"## {city}\n" + s_ + "trends: " + "".join(t_) # convert list to string
   return combined
   
+
+def main():
+  cities_info = []
+  for city in CITIES:
+    cities_info.append(build_city_section(city))
+
+  OUT.parent.mkdir(exist_ok=True)
+  OUT.write_text("\n".join(cities_info))
+
