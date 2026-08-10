@@ -29,7 +29,9 @@ def load_pdf(path):
   full_text = []
 
   for page in reader.pages:
+    pattern = r"\d+/\d+/\d+,\s+\d+:\d+\s+[AP]MProperty\s+Page\s+\d+\s+of\s+\d+https://api-trestle.corelogic.com/trestle/Documentation/MetaData/Resource/Property"
     text = page.extract_text() or ""
+    text = re.sub(pattern, " ", text)
     text = re.sub(r"\s+", " ", text).strip()
     full_text.append(text)
 
