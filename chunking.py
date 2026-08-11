@@ -73,6 +73,8 @@ def chunk_group_lines(lines, max_words):
     chunks.append("\n".join(bucket))
   return chunks  
 
-  
 
-  
+def split_trestle_entries(text):
+  pattern = r"(?=\b[A-Z]\w+\s[A-Z]\w+\sEnum\b)|(?=\b[A-Z]\w+\s(?:String|Boolean|Decimal|Int32|Int64|DateTime)\b)"
+  entries = re.split(pattern, text)
+  return [e.strip() for e in entries if e.strip()]
