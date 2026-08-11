@@ -38,11 +38,41 @@ def chunk_section(section, max_words=200):
     return chunk_text(section)
   
   header, _, body = section.partition("\n") # splits -> before, separator '\n', after
-  chunks = chunk_text(body)
-  
+  chunks = chunk_group_lines(body.split("\n"), max_words)
+
   if header.startswith("## "):
     chunks = [header + "\n" + c for c in chunks]
 
   return chunks
+
+  
+def chunk_group_lines(lines, max_words):
+  chunks = []
+  bucket = []
+  count = 0
+
+  for line in lines:
+    words = len(line.split())
+    if words > max_words:
+      if bucket:
+        chunks.append("\n".join(bucket))
+        bucket = []
+        count = 0
+      chunks.extend(chunk_text(line))
+      continue
+    
+    if count + words > max_words:
+      chunks.append("\n".join(bucket))
+      bucket = []
+      count = 0
+
+    bucket.append(line)
+    count += words
+
+  if bucket:
+    chunks.append("\n".join(bucket))
+  return chunks  
+
+  
 
   
