@@ -23,6 +23,7 @@
 # rag corpus -> licensed source pdfs + rebuildable generated mds
 rag_docs/*.pdf
 rag_docs/*.md
+rag_docs/*.jsonl
 
 # node / typescript deps
 node_modules/
