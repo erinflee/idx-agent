@@ -6,6 +6,9 @@ CAP: all-MiniLM truncates at 256 word-pieces, so oversized sections must be
 re-chunked or they embed silently incomplete.
 """
 
+import re
+
+
 def chunk_text(text, chunk_size=600, overlap=100):
   chunks = []
   start = 0
@@ -22,4 +25,6 @@ def chunk_text(text, chunk_size=600, overlap=100):
   return chunks
 
 
-  
+def split_sections(text):
+  sections = re.split(r"(?=^## )", text, flags=re.MULTILINE)
+  return [s for s in sections if s.strip()]
