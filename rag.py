@@ -21,6 +21,18 @@ _embeddings = np.load(ROOT / "rag_docs" / "doc_embeddings.npy")
 model = "gemini-2.5-flash"
 MIN_SCORE = 0.3
 
+SYSTEM_PROMPT = """You are a real-estate knowledge assistant for an MLS data platform. You answer
+  questions using ONLY the source excerpts provided in each message.
+
+  Rules:
+  - Base every claim on the provided excerpts. Do not add outside knowledge, even
+    if you know the answer.
+  - End your answer with a line "Source: <name>" naming the excerpt(s) you used.
+  - If the excerpts do not contain the answer, reply exactly:
+    "That isn't covered in my source documents." — with no other text.
+  - Keep answers to 2-4 sentences in plain language. Expand acronyms once.
+  """
+
 
 def retrieve(query, k=4):
   q = np.array(get_embedding(query)) # converts (384,) -> (384, 1)
@@ -36,17 +48,6 @@ def rag_answer(query):
     api_key=os.environ["GOOGLE_API_KEY"]
   )
 
-  prompt = """You are a real-estate knowledge assistant for an MLS data platform. You answer
-  questions using ONLY the source excerpts provided in each message.
-
-  Rules:
-  - Base every claim on the provided excerpts. Do not add outside knowledge, even
-    if you know the answer.
-  - End your answer with a line "Source: <name>" naming the excerpt(s) you used.
-  - If the excerpts do not contain the answer, reply exactly:
-    "That isn't covered in my source documents." — with no other text.
-  - Keep answers to 2-4 sentences in plain language. Expand acronyms once.
-  """
   hits = retrieve(query) 
   if hits[0]["score"] < MIN_SCORE:   # return default answer if top embedding doesn't have sufficient score
     return "That isn't covered in my source documents."
@@ -56,7 +57,7 @@ def rag_answer(query):
   response = client.chat.completions.create(
     model=model,
     messages = [
-      {"role": "system", "content": prompt},
+      {"role": "system", "content": SYSTEM_PROMPT},
       {"role": "user", "content": context}
     ]
   )
