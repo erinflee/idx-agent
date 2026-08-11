@@ -47,6 +47,7 @@ def load_markdown(path):
 
 def main():
   LOADERS = {".pdf": load_pdf, ".md": load_markdown}
+  records = []
 
   for path, title, strategy in SOURCES:
     suffix = path.suffix
@@ -62,6 +63,9 @@ def main():
       sections = split_sections(text)
       for s in sections:
         chunks.extend(chunk_section(s))
+
+    for c in chunks:
+      records.append({"source": title, "chunk": c})
 
 
 if __name__ == "__main__":
