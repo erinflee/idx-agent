@@ -20,7 +20,7 @@
 *.npy
 *.npz
 
-# rag corpus -> licensed source pdfs + rebuildable generated mds
+# rag corpus -> licensed source pdfs + rebuildable generated mds 
 rag_docs/*.pdf
 rag_docs/*.md
 rag_docs/*.jsonl
