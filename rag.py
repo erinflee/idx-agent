@@ -48,7 +48,7 @@ def rag_answer(query):
   - Keep answers to 2-4 sentences in plain language. Expand acronyms once.
   """
   hits = retrieve(query) 
-  if hits["score"][0] < MIN_SCORE:   # return default answer if top embedding doesn't have sufficient score
+  if hits[0]["score"] < MIN_SCORE:   # return default answer if top embedding doesn't have sufficient score
     return "That isn't covered in my source documents."
   context = "\n\n".join(f"Source: {h["source"]}\n{h["chunk"]}" for h in hits) 
 
