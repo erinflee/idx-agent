@@ -28,3 +28,28 @@ def retrieve(query, k=4):
   idx = np.argsort(-scores)[:k]
   top_k = [{**_records[i], "score": float(scores[i])} for i in idx]
   return top_k
+
+
+def rag_answer(query): 
+  client = OpenAI(
+    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    api_key=os.environ["GOOGLE_API_KEY"]
+  )
+
+  prompt = """You are a real-estate knowledge assistant for an MLS data platform. You answer
+  questions using ONLY the source excerpts provided in each message.
+  """
+  hits = retrieve(query) 
+  if hits["score"][0] < MIN_SCORE:   # return default answer if top embedding doesn't have sufficient score
+    return "That isn't covered in my source documents."
+  context = "\n\n".join(f"Source: {h["source"]}\n{h["chunk"]}" for h in hits) 
+
+  response = client.chat.completions.create(
+    model=model,
+    messages = [
+      {"role": "system", "content": prompt},
+      {"role": "user", "content": context}
+    ]
+  )
+
+  return response.choices[0].message.content
