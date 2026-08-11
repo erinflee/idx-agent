@@ -14,13 +14,16 @@ from pathlib import Path
 from pypdf import PdfReader
 import re
 
+from chunking import split_trestle_entries, chunk_group_lines, split_sections, chunk_section
+
+
 ROOT = Path(__file__).parent.parent
 
 SOURCES = [
-  (ROOT / "rag_docs" / "Real_Estate_Primer.pdf", "Real Estate Data Analyst Primer"),
-  (ROOT / "rag_docs" / "Trestle Property MetaData.pdf", "Trestle Property Metadata"),
-  (ROOT / "rag_docs" / "market_summaries.md", "Market Summaries Data"),
-  (ROOT / "rag_docs" / "schema_reference.md", "MLS Schema Reference")
+  (ROOT / "rag_docs" / "Real_Estate_Primer.pdf", "Real Estate Data Analyst Primer", "sections"),
+  (ROOT / "rag_docs" / "Trestle Property MetaData.pdf", "Trestle Property Metadata", "fields"),
+  (ROOT / "rag_docs" / "market_summaries.md", "Market Summaries Data", "sections"),
+  (ROOT / "rag_docs" / "schema_reference.md", "MLS Schema Reference", "sections")
 ]
 
 def load_pdf(path):
@@ -45,12 +48,20 @@ def load_markdown(path):
 def main():
   LOADERS = {".pdf": load_pdf, ".md": load_markdown}
 
-  for path, title in SOURCES:
+  for path, title, strategy in SOURCES:
     suffix = path.suffix
     loader = LOADERS[suffix]
-    document = loader(path)
-    print(title, len(document))
-    print(document[:300])
+    text = loader(path)
+
+    if strategy == "fields":
+      entries = split_trestle_entries(text)
+      chunks = chunk_group_lines(entries, 200)
+
+    if strategy == "sections":
+      chunks = []
+      sections = split_sections(text)
+      for s in sections:
+        chunks.extend(chunk_section(s))
 
 
 if __name__ == "__main__":
