@@ -13,9 +13,11 @@ Run:  python -m scripts.build_rag_index   (no DB; reads off disk)
 from pathlib import Path
 from pypdf import PdfReader
 import re
+import json
+import numpy as np
 
+from embeddings import embed_batch
 from chunking import split_trestle_entries, chunk_group_lines, split_sections, chunk_section
-
 
 ROOT = Path(__file__).parent.parent
 
@@ -66,6 +68,10 @@ def main():
 
     for c in chunks:
       records.append({"source": title, "chunk": c})
+
+  records_chunks = [r["chunks"] for r in records]
+  embeddings = embed_batch(records_chunks)
+  assert len(records) == embeddings.shape[0]
 
 
 if __name__ == "__main__":
