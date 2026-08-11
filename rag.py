@@ -18,7 +18,11 @@ ROOT = Path(__file__).parent
 _records = [json.loads(l) for l in open(ROOT / "rag_docs" / "chunks.jsonl", "r", encoding="utf-8")]
 _embeddings = np.load(ROOT / "rag_docs" / "doc_embeddings.npy")
 
-model = "gemini-2.5-flash"
+CLIENT = OpenAI(
+  base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+  api_key=os.environ["GOOGLE_API_KEY"]
+)
+MODEL = "gemini-2.5-flash"
 MIN_SCORE = 0.3
 
 SYSTEM_PROMPT = """You are a real-estate knowledge assistant for an MLS data platform. You answer
@@ -35,27 +39,22 @@ SYSTEM_PROMPT = """You are a real-estate knowledge assistant for an MLS data pla
 
 
 def retrieve(query, k=4):
-  q = np.array(get_embedding(query)) # converts (384,) -> (384, 1)
-  scores = _embeddings @ q # (133, 384) x (384, 1)
+  q = np.array(get_embedding(query)) # converts (384,) 
+  scores = _embeddings @ q # (133, 384) x (384,)
   idx = np.argsort(-scores)[:k]
   top_k = [{**_records[i], "score": float(scores[i])} for i in idx]
   return top_k
 
 
 def rag_answer(query): 
-  client = OpenAI(
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-    api_key=os.environ["GOOGLE_API_KEY"]
-  )
-
   hits = retrieve(query) 
   if hits[0]["score"] < MIN_SCORE:   # return default answer if top embedding doesn't have sufficient score
     return "That isn't covered in my source documents."
   context = "\n\n".join(f"Source: {h["source"]}\n{h["chunk"]}" for h in hits) 
   context += f"\n\nQuestion: {query}"
 
-  response = client.chat.completions.create(
-    model=model,
+  response = CLIENT.chat.completions.create(
+    model=MODEL,
     messages = [
       {"role": "system", "content": SYSTEM_PROMPT},
       {"role": "user", "content": context}
@@ -63,3 +62,4 @@ def rag_answer(query):
   )
 
   return response.choices[0].message.content
+
