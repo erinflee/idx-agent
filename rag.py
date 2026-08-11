@@ -4,14 +4,22 @@ query -> top-k chunks by cosine -> Gemini answers from them, with sources.
 Thin TS skill calls this over HTTP (same pattern as semantic.py).
 """
 
+import os
 import json
 import numpy as np
 from pathlib import Path
 from embeddings import get_embedding
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ROOT = Path(__file__).parent
 _records = [json.loads(l) for l in open(ROOT / "rag_docs" / "chunks.jsonl", "r", encoding="utf-8")]
 _embeddings = np.load(ROOT / "rag_docs" / "doc_embeddings.npy")
+
+model = "gemini-2.5-flash"
+MIN_SCORE = 0.3
 
 
 def retrieve(query, k=4):
