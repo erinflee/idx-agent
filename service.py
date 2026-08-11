@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException
 from market import get_market_summary, get_price_trend
 from semantic import find_similar_listings
 from recommend import get_recommendations
+from rag import rag_answer
 
 app = FastAPI()
 
@@ -32,3 +33,4 @@ def recommend(listing_id: str, k: int):
 		return get_recommendations(listing_id, k)
 	except ValueError as e:
 		raise HTTPException(status_code=404, detail=str(e)) # 404 error = valid input type, but listing doesn't exist with that id
+
