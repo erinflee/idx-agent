@@ -34,3 +34,6 @@ def recommend(listing_id: str, k: int):
 	except ValueError as e:
 		raise HTTPException(status_code=404, detail=str(e)) # 404 error = valid input type, but listing doesn't exist with that id
 
+@app.get("/rag")
+def rag(query: str):
+	return rag_answer(query)
