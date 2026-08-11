@@ -7,7 +7,7 @@
 
 export function formatRAG(answer: string): string {
   const trimmed = answer.trim()
-  if (!trimmed) return "No answer returned";
+  if (!trimmed) return "No answer returned.";
   return trimmed;
 } 
 
