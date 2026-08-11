@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Wrapper so OpenClaw invokes one stable, allowlistable command.
+# Runs the RAG CLI from the repo root (where .env + node_modules live).
+# $0 is this script's path -> dirname/.. resolves the repo root on any machine.
+# NOTE: needs the FastAPI service running + the rag index already built —
+# the CLI fetches its answer from that service.
+cd "$(dirname "$0")/.." || exit 1
+exec npx tsx skills/rag/rag.cli.ts "$@"
