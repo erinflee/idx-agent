@@ -28,3 +28,21 @@ def chunk_text(text, chunk_size=600, overlap=100):
 def split_sections(text):
   sections = re.split(r"(?=^## )", text, flags=re.MULTILINE)
   return [s for s in sections if s.strip()]
+
+
+def chunk_section(section, max_words=200):
+  if len(section.split()) <= max_words:
+    return [section]
+  
+  if "\n" not in section:
+    return chunk_text(section)
+  
+  header, _, body = section.partition("\n") # splits -> before, separator '\n', after
+  chunks = chunk_text(body)
+  
+  if header.startswith("## "):
+    chunks = [header + "\n" + c for c in chunks]
+
+  return chunks
+
+  
