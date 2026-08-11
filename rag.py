@@ -3,3 +3,8 @@
 query -> top-k chunks by cosine -> Gemini answers from them, with sources.
 Thin TS skill calls this over HTTP (same pattern as semantic.py).
 """
+
+import json
+import numpy as np
+from pathlib import Path
+from embeddings import get_embedding
