@@ -73,6 +73,12 @@ def main():
   embeddings = embed_batch(records_chunks)
   assert len(records) == embeddings.shape[0]
 
+  out = ROOT / "rag_docs"
+  with open(out / "chunks.jsonl", "w", encoding="utf-8") as file:
+    for r in records:
+      file.write(json.dumps(r) + "\n")
+  np.save(out / "doc_embeddings.npy", embeddings)
+  
 
 if __name__ == "__main__":
   main()
