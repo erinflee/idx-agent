@@ -9,6 +9,7 @@ lives in the eval, not the unit suite.
 Run: pytest tests/test_rag.py -v   (loads the embedding model once, ~5s)
 """
 
+import rag
 from rag import retrieve, rag_answer, MIN_SCORE
 
 
@@ -46,3 +47,7 @@ def test_off_corpus_below_threshold():
   assert hits[0]["score"] < MIN_SCORE
 
 
+def test_guard_refuses_offline(monkeypatch):
+  monkeypatch.setattr(rag, "CLIENT", None)
+  query = "How do I book a flight to Paris?"
+  assert rag_answer(query) == "That isn't covered in my source documents."
