@@ -10,7 +10,7 @@
 import { ragAgent } from "./rag"
   
 async function main() {
-  const query = process.argv[2];
+  const query = process.argv.slice(2).join(" ").trim();
   if (!query || typeof query !== "string") {
     console.error("Query must be string");
     process.exit(1);
@@ -20,6 +20,10 @@ async function main() {
   console.log(response);
 }
 
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+})
 
 
 
