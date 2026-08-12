@@ -23,3 +23,10 @@ def test_retrieve_shape():
   assert scores == sorted(scores, reverse=True)
   for h in hits:
     assert KEYS <= h.keys()
+
+
+def test_dom_hits_primer():
+  query = "What does DOM mean?"
+  k = 4
+  hits = retrieve(query, k)
+  assert hits[0]["source"] == "Real Estate Data Analyst Primer"
