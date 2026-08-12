@@ -9,7 +9,7 @@ lives in the eval, not the unit suite.
 Run: pytest tests/test_rag.py -v   (loads the embedding model once, ~5s)
 """
 
-from rag import retrieve, rag_answer
+from rag import retrieve, rag_answer, MIN_SCORE
 
 
 def test_retrieve_shape():
@@ -30,3 +30,19 @@ def test_dom_hits_primer():
   k = 4
   hits = retrieve(query, k)
   assert hits[0]["source"] == "Real Estate Data Analyst Primer"
+
+
+def test_columns_hits_schema():
+  query = "What columns are in california_sold"
+  k = 4
+  hits = retrieve(query, k)
+  assert "MLS Schema Reference" in {h["source"] for h in hits} 
+
+
+def test_off_corpus_below_threshold():
+  query = "How do I book a flight to Paris?"
+  k = 4
+  hits = retrieve(query, k)
+  assert hits[0]["score"] < MIN_SCORE
+
+
