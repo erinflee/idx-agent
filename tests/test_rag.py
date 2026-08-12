@@ -51,3 +51,10 @@ def test_guard_refuses_offline(monkeypatch):
   monkeypatch.setattr(rag, "CLIENT", None)
   query = "How do I book a flight to Paris?"
   assert rag_answer(query) == "That isn't covered in my source documents."
+
+
+def test_list_to_close_hits_primer():
+  query = "What is a list-to-close ratio?"
+  k = 4
+  hits = retrieve(query, k)
+  assert hits[0]["source"] == "Real Estate Data Analyst Primer"
