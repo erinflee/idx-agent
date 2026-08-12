@@ -11,8 +11,8 @@ import { ragAgent } from "./rag"
   
 async function main() {
   const query = process.argv.slice(2).join(" ").trim();
-  if (!query || typeof query !== "string") {
-    console.error("Query must be string");
+  if (!query) {
+    console.error('try: npm run demo-rag -- "What does DOM mean?"');
     process.exit(1);
   }
 
