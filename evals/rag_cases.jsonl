@@ -21,7 +21,7 @@
 {"id": "rk006", "query": "what is price per square foot?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk007", "query": "whats escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk008", "query": "whats a contingency", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
-{"id": "rk009", "query": "explain cap rate", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk009", "query": "explain cap rate", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "near-threshold retrieval (0.335 vs MIN_SCORE 0.3 at labeling time) - most likely false-refusal candidate"}
 {"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "status code — verify primer vs trestle wins"}
 {"id": "rk011", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk012", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
