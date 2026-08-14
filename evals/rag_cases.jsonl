@@ -21,12 +21,12 @@
 {"id": "rk006", "query": "what is price per square foot?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk007", "query": "whats escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk008", "query": "whats a contingency", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
-{"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "primer's MLS Status Codes section defines Pending - verified at labeling time"}
-{"id": "rk011", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
-{"id": "rk012", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
-{"id": "rk013", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "gold Trestle source ranks 3rd-4th behind schema ref — passes recall@4, drags context precision"}
-{"id": "rk014", "query": "what kind of field is ListingKey?", "source": "Trestle Property Metadata", "answerable": true, "note": ""}
-{"id": "rk015", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
+{"id": "rk009", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "primer's MLS Status Codes section defines Pending - verified at labeling time"}
+{"id": "rk010", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk011", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
+{"id": "rk012", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "gold Trestle source ranks 3rd-4th behind schema ref — passes recall@4, drags context precision"}
+{"id": "rk013", "query": "what kind of field is ListingKey?", "source": "Trestle Property Metadata", "answerable": true, "note": ""}
+{"id": "rk014", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
 {"id": "rx001", "query": "can you book me a flight to paris?", "source": null, "answerable": false, "note": "off-corpus, obvious"}
 {"id": "rx002", "query": "whats the weather in irvine tomorrow", "source": null, "answerable": false, "note": "retrieves above MIN_SCORE (market summaries, shared city vocab) — refusal rests on the prompt, not the threshold"}
 {"id": "rx003", "query": "write me a python script to sort a list", "source": null, "answerable": false, "note": "off-corpus"}
