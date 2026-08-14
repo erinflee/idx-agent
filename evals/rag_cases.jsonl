@@ -29,7 +29,7 @@
 {"id": "rk014", "query": "what kind of field is ListingKey?", "source": "Trestle Property Metadata", "answerable": true, "note": ""}
 {"id": "rk015", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
 {"id": "rx001", "query": "can you book me a flight to paris?", "source": null, "answerable": false, "note": "off-corpus, obvious"}
-{"id": "rx002", "query": "whats the weather in irvine tomorrow", "source": null, "answerable": false, "note": "off-corpus but on-domain-adjacent city name"}
+{"id": "rx002", "query": "whats the weather in irvine tomorrow", "source": null, "answerable": false, "note": "retrieves above MIN_SCORE (market summaries, shared city vocab) — refusal rests on the prompt, not the threshold"}
 {"id": "rx003", "query": "write me a python script to sort a list", "source": null, "answerable": false, "note": "off-corpus"}
 {"id": "rx004", "query": "good family area in la", "source": null, "answerable": false, "note": "advice/opinion, from k006 — harder than off-corpus; real-estate words but no doc answers it"}
 {"id": "rx005", "query": "is a condo or sfr better for a family of three?", "source": null, "answerable": false, "note": "advice, from k015 — docs define both terms; guard may leak a definition-shaped answer"}
