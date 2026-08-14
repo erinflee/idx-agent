@@ -25,7 +25,7 @@
 {"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "status code — verify primer vs trestle wins"}
 {"id": "rk011", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk012", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
-{"id": "rk013", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "field-dictionary coverage"}
+{"id": "rk013", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "gold Trestle source ranks 3rd-4th behind schema ref — passes recall@4, drags context precision"}
 {"id": "rk014", "query": "what kind of field is ListingKey?", "source": "Trestle Property Metadata", "answerable": true, "note": ""}
 {"id": "rk015", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
 {"id": "rx001", "query": "can you book me a flight to paris?", "source": null, "answerable": false, "note": "off-corpus, obvious"}
