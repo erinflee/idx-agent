@@ -19,3 +19,9 @@
 {"id": "rk004", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
 {"id": "rk005", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "field-dictionary coverage"}
 {"id": "rk006", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
+{"id": "rx001", "query": "can you book me a flight to paris?", "source": null, "answerable": false, "note": "off-corpus, obvious"}
+{"id": "rx002", "query": "good family area in la", "source": null, "answerable": false, "note": "advice/opinion, from k006 — harder than off-corpus; real-estate words but no doc answers it"}
+{"id": "rx003", "query": "whats a good cap rate", "source": null, "answerable": false, "note": "borderline: primer defines cap rate but 'good' is advice — my call; flip if primer actually states ranges"}
+{"id": "rx004", "query": "good family area in la", "source": null, "answerable": false, "note": "advice/opinion, from k006 — harder than off-corpus; real-estate words but no doc answers it"}
+{"id": "rx005", "query": "is a condo or sfr better for a family of three?", "source": null, "answerable": false, "note": "advice, from k015 — docs define both terms; guard may leak a definition-shaped answer"}
+{"id": "rx006", "query": "whats a good cap rate", "source": null, "answerable": false, "note": "borderline: primer defines cap rate but 'good' is advice — my call; flip if primer actually states ranges"}
