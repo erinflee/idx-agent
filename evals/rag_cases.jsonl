@@ -21,7 +21,7 @@
 {"id": "rk006", "query": "what is price per square foot?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk007", "query": "whats escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk008", "query": "whats a contingency", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
-{"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "status code — verify primer vs trestle wins"}
+{"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "primer's MLS Status Codes section defines Pending - verified at labeling time"}
 {"id": "rk011", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk012", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
 {"id": "rk013", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "gold Trestle source ranks 3rd-4th behind schema ref — passes recall@4, drags context precision"}
