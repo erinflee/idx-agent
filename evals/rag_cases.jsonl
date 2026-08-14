@@ -21,7 +21,6 @@
 {"id": "rk006", "query": "what is price per square foot?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk007", "query": "whats escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk008", "query": "whats a contingency", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
-{"id": "rk009", "query": "explain cap rate", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "near-threshold retrieval (0.335 vs MIN_SCORE 0.3 at labeling time) - most likely false-refusal candidate"}
 {"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "status code — verify primer vs trestle wins"}
 {"id": "rk011", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
 {"id": "rk012", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
@@ -36,3 +35,4 @@
 {"id": "rx006", "query": "whats a good cap rate", "source": null, "answerable": false, "note": "borderline: primer defines cap rate but 'good' is advice — my call; flip if primer actually states ranges"}
 {"id": "rx007", "query": "prices dropping in san diego, should i wait to buy?", "source": null, "answerable": false, "note": "market-timing advice + prediction; market summaries will retrieve hot, but docs describe past data, not the future"}
 {"id": "rx008", "query": "house sat 60 days on market, how much under asking should i offer?", "source": null, "answerable": false, "note": "negotiation advice; primer's DOM + list-to-close sections retrieve strongly — riskiest leak: judge may accept a 'high DOM = leverage' answer as grounded"}
+{"id": "rx009", "query": "explain cap rate", "source": null, "answerable": false, "note": "corpus never defines cap rate - only a passing mention in the income-property row; definition query with no gold content, must refuse; was near-threshold retrieval (0.335 at labeling time)"}
