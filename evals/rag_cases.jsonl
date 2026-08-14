@@ -14,14 +14,23 @@
 # Labels reflect where the answer SHOULD live, not what retrieve() happens to return —
 # a gold source missing from the top-k is a retrieval failure to report, not a label to change.
 {"id": "rk001", "query": "what does days on market mean?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "handbook deliverable q"}
-{"id": "rk002", "query": "what columns are in california_sold?", "source": "MLS Schema Reference", "answerable": true, "note": "handbook deliverable q"}
-{"id": "rk003", "query": "what is a list-to-close ratio?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "handbook deliverable q"}
-{"id": "rk004", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
-{"id": "rk005", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "field-dictionary coverage"}
-{"id": "rk006", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
+{"id": "rk002", "query": "wut is dom?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "typo/shorthand variant of rk001"}
+{"id": "rk003", "query": "what columns are in california_sold?", "source": "MLS Schema Reference", "answerable": true, "note": "handbook deliverable q"}
+{"id": "rk004", "query": "what is a list-to-close ratio?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "handbook deliverable q"}
+{"id": "rk005", "query": "what is a comp in real estate?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk006", "query": "what is price per square foot?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk007", "query": "whats escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk008", "query": "whats a contingency", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk009", "query": "explain cap rate", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk010", "query": "explain pending", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "status code — verify primer vs trestle wins"}
+{"id": "rk011", "query": "difference between condo and townhouse", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": ""}
+{"id": "rk012", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
+{"id": "rk013", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "field-dictionary coverage"}
+{"id": "rk014", "query": "what kind of field is ListingKey?", "source": "Trestle Property Metadata", "answerable": true, "note": ""}
+{"id": "rk015", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
 {"id": "rx001", "query": "can you book me a flight to paris?", "source": null, "answerable": false, "note": "off-corpus, obvious"}
-{"id": "rx002", "query": "good family area in la", "source": null, "answerable": false, "note": "advice/opinion, from k006 — harder than off-corpus; real-estate words but no doc answers it"}
-{"id": "rx003", "query": "whats a good cap rate", "source": null, "answerable": false, "note": "borderline: primer defines cap rate but 'good' is advice — my call; flip if primer actually states ranges"}
+{"id": "rx002", "query": "whats the weather in irvine tomorrow", "source": null, "answerable": false, "note": "off-corpus but on-domain-adjacent city name"}
+{"id": "rx003", "query": "write me a python script to sort a list", "source": null, "answerable": false, "note": "off-corpus"}
 {"id": "rx004", "query": "good family area in la", "source": null, "answerable": false, "note": "advice/opinion, from k006 — harder than off-corpus; real-estate words but no doc answers it"}
 {"id": "rx005", "query": "is a condo or sfr better for a family of three?", "source": null, "answerable": false, "note": "advice, from k015 — docs define both terms; guard may leak a definition-shaped answer"}
 {"id": "rx006", "query": "whats a good cap rate", "source": null, "answerable": false, "note": "borderline: primer defines cap rate but 'good' is advice — my call; flip if primer actually states ranges"}
