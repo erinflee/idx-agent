@@ -1,0 +1,15 @@
+# rag_cases.jsonl — labeled cases for the Week 8 RAG eval
+# One JSON object per line -> lines starting with '#' and blank lines are skipped
+#
+# Fields:
+#   id          unique short id ("rk"=answerable knowledge, "rx"=must-refuse: off-corpus or advice/opinion)
+#   query       the raw user question
+#   source      exact index title the answer should come from; null when the guard must refuse
+#               valid titles (must match build_rag_index.py exactly):
+#                 Real Estate Data Analyst Primer | Trestle Property Metadata |
+#                 Market Summaries Data | MLS Schema Reference
+#   answerable  true -> expect a grounded answer; false -> expect the exact refusal string
+#   note        optional free-text reminder to yourself
+#
+# Labels reflect where the answer SHOULD live, not what retrieve() happens to return —
+# a gold source missing from the top-k is a retrieval failure to report, not a label to change.
