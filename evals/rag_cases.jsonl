@@ -13,3 +13,9 @@
 #
 # Labels reflect where the answer SHOULD live, not what retrieve() happens to return —
 # a gold source missing from the top-k is a retrieval failure to report, not a label to change.
+{"id": "rk001", "query": "what does days on market mean?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "handbook deliverable q"}
+{"id": "rk002", "query": "what columns are in california_sold?", "source": "MLS Schema Reference", "answerable": true, "note": "handbook deliverable q"}
+{"id": "rk003", "query": "what is a list-to-close ratio?", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "handbook deliverable q"}
+{"id": "rk004", "query": "explain diff between preapproval and escrow", "source": "Real Estate Data Analyst Primer", "answerable": true, "note": "two-concept query — check both retrieved"}
+{"id": "rk005", "query": "what does the PoolPrivateYN field mean?", "source": "Trestle Property Metadata", "answerable": true, "note": "field-dictionary coverage"}
+{"id": "rk006", "query": "how do rets_property and california_sold join?", "source": "MLS Schema Reference", "answerable": true, "note": "comp-join, not identity join"}
