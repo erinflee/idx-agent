@@ -40,17 +40,10 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 │   ├── recommendations/        hybrid recommendations + comp validation (Week 7)
 │   ├── rag/                    grounded Q&A over the doc index (Week 8)
 │   └── handlerDemo.ts          keyword→skill message-router scaffold
-├── evals/            Answer key + graders (see evals/README.md)
-│   ├── answers.jsonl           129 labeled query→intent+filter cases
-│   ├── heldout.jsonl           32 held-out cases
-│   ├── rulebook.py             PropertyFilters + SchemaValidator
-│   ├── grader.py               score_case · run_suite · task_success_rate
-│   ├── load_answers.py         answers.jsonl → EvalCase objects
-│   └── score_parser.ts         scores the TS parser against the answer key
 ├── bin/property-search       single-turn wrapper OpenClaw can allowlist
 ├── bin/property-conversation multi-turn wrapper (Week 4 WhatsApp path)
 ├── openclaw/                 OpenClaw skill definitions (SKILL.md per skill)
-├── tests/            pytest checks for the validator, dataset, and grader
+├── tests/            pytest checks for the Python skill backends
 ├── scripts/test-all.sh  full TypeScript suite (npm test)
 ├── db.py             MySQL connection layer
 └── requirements.txt
@@ -61,7 +54,7 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | Week | Deliverable                             | Location                                               | Status      |
 | ---- | --------------------------------------- | ------------------------------------------------------ | ----------- |
 | 0    | Env setup · DB import · WhatsApp · keys | infra (`~/.openclaw`)                                  | done        |
-| 1    | Architecture diagram · eval harness     | `docs/architecture.md` · `evals/`                      | done        |
+| 1    | Architecture diagram                    | `docs/architecture.md`                                 | done        |
 | 2    | NL property-search parser               | `skills/propertySearch/parse.ts`                       | done        |
 | 3    | Parameterized MySQL query layer         | `skills/shared/db.ts` · `db.py`                        | done        |
 | 4    | Multi-turn conversational agent         | `skills/propertySearch/session.ts` · `conversation.ts` · `openclaw/property-conversation/` | done        |
@@ -79,7 +72,7 @@ _(Skill filenames for Weeks 9+ are placeholders for upcoming work.)_
 ## Setup
 
 ```bash
-pip install -r requirements.txt   # Python: eval harness + db.py
+pip install -r requirements.txt   # Python: db.py + skill backends
 npm install                       # TypeScript: tsx runner + mysql2
 cp .env.example .env              # fill in MySQL creds + GOOGLE_API_KEY (Gemini)
 ```
@@ -89,7 +82,7 @@ cp .env.example .env              # fill in MySQL creds + GOOGLE_API_KEY (Gemini
 Two suites, run separately:
 
 ```bash
-pytest        # Python — validator, answer key, and grader. No DB needed.
+pytest        # Python — skill backend tests
 npm test      # TypeScript — full skill suite (scripts/test-all.sh)
 ```
 
@@ -97,12 +90,6 @@ npm test      # TypeScript — full skill suite (scripts/test-all.sh)
 integration tests that hit live MySQL — so it needs `.env` filled in and the
 database running. Individual suites are in `package.json` (e.g.
 `npm run test-property-parse`).
-
-To score the parser against the labeled answer key:
-
-```bash
-npx tsx evals/score_parser.ts
-```
 
 OpenClaw itself is installed separately (`npm install -g openclaw`) and runs as a background
 gateway; see the Week 0 setup notes.
