@@ -35,7 +35,10 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 │   │   └── *.test.ts           co-located tests
 │   ├── marketComps/            market analytics over california_sold (Week 5)
 │   │   ├── comps.ts            comparable sold listings
-│   │   └── stats.ts            aggregate market stats (in progress)
+│   │   └── marketStats.ts      aggregate market stats
+│   ├── semanticSearch/         embedding similarity search over L_Remarks (Week 6)
+│   ├── recommendations/        hybrid recommendations + comp validation (Week 7)
+│   ├── rag/                    grounded Q&A over the doc index (Week 8)
 │   └── handlerDemo.ts          keyword→skill message-router scaffold
 ├── evals/            Answer key + graders (see evals/README.md)
 │   ├── answers.jsonl           129 labeled query→intent+filter cases
@@ -63,16 +66,15 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | 3    | Parameterized MySQL query layer         | `skills/shared/db.ts` · `db.py`                        | done        |
 | 4    | Multi-turn conversational agent         | `skills/propertySearch/session.ts` · `conversation.ts` · `openclaw/property-conversation/` | done        |
 | 5    | Market analytics                        | `skills/marketComps/`                                  | done |
-| 6    | Embeddings & vector search              | local `sentence-transformers`                          | —           |
-| 7    | Recommendation engine                   | `skills/recommend.ts`                                  | —           |
-| 8    | RAG pipeline                            | `skills/rag.ts`                                        | —           |
+| 6    | Embeddings & vector search              | `skills/semanticSearch/` · `semantic.py`               | done        |
+| 7    | Recommendation engine                   | `skills/recommendations/` · `recommend.py`             | done        |
+| 8    | RAG pipeline                            | `skills/rag/` · `rag.py` · `rag_docs/`                 | done        |
 | 9    | Multi-agent orchestration               | `skills/orchestrator.ts`                               | —           |
 | 10   | WhatsApp layer                          | OpenClaw channel                                       | wired       |
 | 11   | Email + safety guardrails               | `skills/email.ts`                                      | —           |
 | 12   | Capstone demo                           | —                                                      | —           |
 
-_(Skill filenames for Weeks 6+ are placeholders for upcoming work. Week 5 is
-partially landed: `comps.ts` works, `stats.ts` is still a stub.)_
+_(Skill filenames for Weeks 9+ are placeholders for upcoming work.)_
 
 ## Setup
 
