@@ -34,3 +34,5 @@
 {"id": "rx004", "query": "good family area in la", "source": null, "answerable": false, "note": "advice/opinion, from k006 — harder than off-corpus; real-estate words but no doc answers it"}
 {"id": "rx005", "query": "is a condo or sfr better for a family of three?", "source": null, "answerable": false, "note": "advice, from k015 — docs define both terms; guard may leak a definition-shaped answer"}
 {"id": "rx006", "query": "whats a good cap rate", "source": null, "answerable": false, "note": "borderline: primer defines cap rate but 'good' is advice — my call; flip if primer actually states ranges"}
+{"id": "rx007", "query": "prices dropping in san diego, should i wait to buy?", "source": null, "answerable": false, "note": "market-timing advice + prediction; market summaries will retrieve hot, but docs describe past data, not the future"}
+{"id": "rx008", "query": "house sat 60 days on market, how much under asking should i offer?", "source": null, "answerable": false, "note": "negotiation advice; primer's DOM + list-to-close sections retrieve strongly — riskiest leak: judge may accept a 'high DOM = leverage' answer as grounded"}
