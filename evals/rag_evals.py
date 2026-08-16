@@ -8,3 +8,11 @@ calls per run, so pace for the free tier (sleep between calls, retry on 429).
 
 Run:  python -m evals.rag_evals   (needs the rag index built; no DB)
 """
+
+import json
+from pathlib import Path
+
+CASES = Path(__file__).parent / "rag_cases.jsonl"
+
+
+  
