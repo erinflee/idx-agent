@@ -20,7 +20,7 @@ def load_rag_cases():
   with open(CASES, "r", encoding="utf-8") as file:
     for line in file:
       line = line.strip()
-      if line.startswith("#"):
+      if not line or line.startswith("#"):
         continue
       cases.append(json.loads(line))
 
