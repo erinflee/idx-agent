@@ -15,4 +15,13 @@ from pathlib import Path
 CASES = Path(__file__).parent / "rag_cases.jsonl"
 
 
-  
+def load_rag_cases():
+  cases = []
+  with open(CASES, "r", encoding="utf-8") as file:
+    for line in file:
+      line = line.strip()
+      if line.startswith("#"):
+        continue
+      cases.append(json.loads(line))
+
+  return cases
