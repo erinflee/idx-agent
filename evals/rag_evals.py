@@ -11,6 +11,7 @@ Run:  python -m evals.rag_evals   (needs the rag index built; no DB)
 
 import json
 from pathlib import Path
+from rag import retrieve, rag_answer
 
 CASES = Path(__file__).parent / "rag_cases.jsonl"
 
@@ -25,3 +26,16 @@ def load_rag_cases():
       cases.append(json.loads(line))
 
   return cases
+
+
+def score_retrieval(case, k=4):
+  query = case["query"]
+  source = case["source"]  
+  predictions = retrieve(query, k)
+  p_sources = [p["source"] for p in predictions]
+  top_score = predictions[0]["score"]
+  if source is None:
+    return {"top_score": top_score}
+  
+  return {"top_score": top_score, "recall": source in p_sources}
+
