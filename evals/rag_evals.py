@@ -37,5 +37,8 @@ def score_retrieval(case, k=4):
   if source is None:
     return {"top_score": top_score}
   
-  return {"top_score": top_score, "recall": source in p_sources}
+  return {"top_score": top_score, "recall": source in p_sources, "precision": p_sources.count(source)/k}
+
+
+
 
