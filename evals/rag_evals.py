@@ -40,5 +40,17 @@ def score_retrieval(case, k=4):
   return {"top_score": top_score, "recall": source in p_sources, "precision": p_sources.count(source)/k}
 
 
+def run_rag_eval():
+  cases = load_rag_cases()
+  rk_cases = []
+  for case in cases:
+    result = score_retrieval(case)
+    print(case["id"], result)
+    if "recall" in result.keys():
+      rk_cases.append(result)
 
-
+  recall_rate = sum(r["recall"] for r in rk_cases) / len(rk_cases)
+  mean_precision = sum(r["precision"] for r in rk_cases) / len(rk_cases)
+  print("recall rate:", recall_rate)
+  print("mean precision:", mean_precision)
+  
