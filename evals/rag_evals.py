@@ -53,4 +53,7 @@ def run_rag_eval():
   mean_precision = sum(r["precision"] for r in rk_cases) / len(rk_cases)
   print("recall rate:", recall_rate)
   print("mean precision:", mean_precision)
-  
+
+
+if __name__ == "__main__":
+  run_rag_eval()
