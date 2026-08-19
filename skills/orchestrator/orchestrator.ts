@@ -53,9 +53,10 @@ export async function orchestrate(query: string): Promise<string> {
         try {
           const listing_id = query.match(/(\d{5,})/);
           if (!listing_id) return "Tell me which listing id";
-          return await recommendAgent(listing_id[0]);
-        } catch {
-          return "I couldn't find a listing with that id"
+          return await recommendAgent(listing_id[1]);
+        } catch (err) {
+          console.error(err);
+          return "I couldn't find a listing with that id";
         }
 
       case "knowledge":
@@ -72,9 +73,8 @@ export async function orchestrate(query: string): Promise<string> {
       default:
         return "I'm not sure how to help with that. Try asking about properties or market trends.";
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
-    return "Something went wrong, try again."
+    return "Something went wrong, try again.";
   }
 }
