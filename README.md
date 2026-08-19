@@ -51,21 +51,21 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 
 ## Week → deliverable map
 
-| Week | Deliverable                             | Location                                               | Status      |
-| ---- | --------------------------------------- | ------------------------------------------------------ | ----------- |
-| 0    | Env setup · DB import · WhatsApp · keys | infra (`~/.openclaw`)                                  | done        |
-| 1    | Architecture diagram                    | `docs/architecture.md`                                 | done        |
-| 2    | NL property-search parser               | `skills/propertySearch/parse.ts`                       | done        |
-| 3    | Parameterized MySQL query layer         | `skills/shared/db.ts` · `db.py`                        | done        |
-| 4    | Multi-turn conversational agent         | `skills/propertySearch/session.ts` · `conversation.ts` · `openclaw/property-conversation/` | done        |
-| 5    | Market analytics                        | `skills/marketComps/`                                  | done |
-| 6    | Embeddings & vector search              | `skills/semanticSearch/` · `semantic.py`               | done        |
-| 7    | Recommendation engine                   | `skills/recommendations/` · `recommend.py`             | done        |
-| 8    | RAG pipeline                            | `skills/rag/` · `rag.py` · `rag_docs/`                 | done        |
-| 9    | Multi-agent orchestration               | `skills/orchestrator.ts`                               | —           |
-| 10   | WhatsApp layer                          | OpenClaw channel                                       | wired       |
-| 11   | Email + safety guardrails               | `skills/email.ts`                                      | —           |
-| 12   | Capstone demo                           | —                                                      | —           |
+| Week | Deliverable                             | Location                                                                                   | Status |
+| ---- | --------------------------------------- | ------------------------------------------------------------------------------------------ | ------ |
+| 0    | Env setup · DB import · WhatsApp · keys | infra (`~/.openclaw`)                                                                      | done   |
+| 1    | Architecture diagram                    | `docs/architecture.md`                                                                     | done   |
+| 2    | NL property-search parser               | `skills/propertySearch/parse.ts`                                                           | done   |
+| 3    | Parameterized MySQL query layer         | `skills/shared/db.ts` · `db.py`                                                            | done   |
+| 4    | Multi-turn conversational agent         | `skills/propertySearch/session.ts` · `conversation.ts` · `openclaw/property-conversation/` | done   |
+| 5    | Market analytics                        | `skills/marketComps/`                                                                      | done   |
+| 6    | Embeddings & vector search              | `skills/semanticSearch/` · `semantic.py`                                                   | done   |
+| 7    | Recommendation engine                   | `skills/recommendations/` · `recommend.py`                                                 | done   |
+| 8    | RAG pipeline                            | `skills/rag/` · `rag.py` · `rag_docs/`                                                     | done   |
+| 9    | Multi-agent orchestration               | `skills/orchestrator.ts`                                                                   | done   |
+| 10   | WhatsApp layer                          | OpenClaw channel                                                                           | wired  |
+| 11   | Email + safety guardrails               | `skills/email.ts`                                                                          | —      |
+| 12   | Capstone demo                           | —                                                                                          | —      |
 
 _(Skill filenames for Weeks 9+ are placeholders for upcoming work.)_
 
