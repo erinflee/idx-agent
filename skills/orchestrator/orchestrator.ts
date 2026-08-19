@@ -7,7 +7,7 @@
 // recommendations, rag) — adds routing only, no new capability
 
 
-type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed";
+type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed" | "unknown";
 const SEARCH = ["show me", "find", "under", "bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa"];
 const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time"];
 const RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than"];
@@ -26,4 +26,5 @@ export function classifyIntent(query: string): Intent {
   if (hasKnowledge) return "knowledge";
   if (hasSearch) return "search";
   if (hasMarket) return "market";
+  return "unknown";
 }
