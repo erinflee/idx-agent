@@ -16,7 +16,8 @@ function assert(condition: boolean, message: string): void {
 
 function main() {
   const searchIntent = classifyIntent("find a 3b2b sfr with a pool in cupertino");
-  const marketIntent = classifyIntent("market trends in palo alto");
+  const marketIntent1 = classifyIntent("market trends in palo alto");
+  const marketIntent2 = classifyIntent("should i buy in irvine right now?");
   const recommendIntent = classifyIntent("show me similar listings");
   const knowledgeIntent = classifyIntent("what is price per square foot?");
   const mixedIntent1 = classifyIntent("find homes in san francisco and tell me if prices are rising");
@@ -25,7 +26,8 @@ function main() {
 
   // mixed -> recommend -> knowledge -> search -> market -> unknown
   assert(searchIntent === "search", `FAIL  expected search, got ${searchIntent}`);
-  assert(marketIntent === "market", `FAIL  expected market, got ${marketIntent}`);
+  assert(marketIntent1 === "market", `FAIL  expected market, got ${marketIntent1}`);
+  assert(marketIntent2 === "market", `FAIL  expected market, got ${marketIntent2}`);
   assert(recommendIntent === "recommend", `FAIL  recommend must beat ${recommendIntent}`);
   assert(knowledgeIntent === "knowledge", `FAIL  knowledge must beat ${knowledgeIntent}`);
   assert(mixedIntent1 === "mixed", `FAIL  expected: mixed, got: ${mixedIntent1}`);
