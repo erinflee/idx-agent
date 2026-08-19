@@ -7,3 +7,13 @@
 // Run:   npm run demo-orchestrator -- "find homes in oroville and are prices rising"
 //       (market/knowledge/recommend arms need the FastAPI service running;
 //        search hits MySQL directly)
+
+import { orchestrate } from "./orchestrator";
+
+async function main() {
+  const query = process.argv.slice(2).join(" ").trim();
+  if (!query) {
+    console.error('try: npm run demo-orchestrator -- "average price in oakland"');
+    process.exit(1);
+  }
+}
