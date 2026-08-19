@@ -8,3 +8,9 @@ queries, so the benchmark grades the router we actually ship.
 
 Contract: classify(query: str) -> intent str, per router_benchmark.
 """
+
+SEARCH = ["show me", "find", "under", "bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa"]
+MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time"]
+RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than"]
+KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is"]
+
