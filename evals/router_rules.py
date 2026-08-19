@@ -10,9 +10,9 @@ Contract: classify(query: str) -> intent str, per router_benchmark.
 """
 
 SEARCH = ["show me", "find", "under", "bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa"]
-MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time"]
+MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time", "how much", "going for", "should i buy", "above asking", "which is cheaper", "comps"]
 RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than"]
-KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is"]
+KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is", "wut is", "whats a", "escrow",]
 
 
 def classify(query):
