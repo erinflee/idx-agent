@@ -15,10 +15,29 @@ from .rulebook import INTENTS
 
 def score_router(router, cases):
   correct = 0
+  per_intent = {} # [correct, total]
+
   for c in cases:
+    if c.intent not in per_intent:
+      per_intent[c.intent] = [0,0]
+  
     output = router(c.query)
     if output == c.intent:
+      per_intent[c.intent][0] += 1 
       correct += 1
+    per_intent[c.intent][1] += 1
 
-  return {"accuracy": correct / len(cases)}
+  return {"accuracy": correct / len(cases), "per_intent": per_intent}
 
+
+def always_search(query):
+  return "search"
+
+
+def main():
+  cases = load_cases()
+  result = score_router(always_search, cases)
+  print(result)
+
+if __name__ == "__main__":
+  main()
