@@ -63,5 +63,8 @@ export async function orchestrate(query: string): Promise<string> {
         marketStatsAgent(filter.city)
       ]);
       return listings + "\n\n" + stats; // "".join("\n\n") is python
+
+    default:
+      return "I'm not sure how to help with that. Try asking about properties or market trends.";
   }
 }
