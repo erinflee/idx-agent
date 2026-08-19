@@ -17,7 +17,7 @@ async function main() {
     process.exit(1);
   }
 
-  const response = orchestrate(query);
+  const response = await orchestrate(query);
   console.log(response);
 }
 
