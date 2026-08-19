@@ -28,3 +28,25 @@ def classify(query):
   if has_search: return "search" 
   if has_market: return "market" 
   return "unknown"
+
+
+def main():
+  search_intent = classify("find a 3b2b sfr with a pool in cupertino")
+  market_intent = classify("market trends in palo alto")
+  recommend_intent = classify("show me similar listings")
+  knowledge_intent = classify("what is price per square foot?")
+  mixed_intent1 = classify("find homes in san francisco and tell me if prices are rising")
+  mixed_intent2 = classify("whats the going rate per sqft in oakland")
+  unknown_intent = classify("i am sad")
+
+  assert search_intent == "search"
+  assert market_intent == "market"
+  assert recommend_intent == "recommend"
+  assert knowledge_intent == "knowledge"
+  assert mixed_intent1 == "mixed"
+  assert mixed_intent2 == "mixed"
+  assert unknown_intent == "unknown"
+
+
+if __name__ == "__main__":
+  main()
