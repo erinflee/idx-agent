@@ -8,3 +8,7 @@ candidate and never tuned against.
 
 Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_API_KEY)
 """
+
+from .load_answers import load_cases
+from .rulebook import INTENTS
+
