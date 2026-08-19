@@ -33,6 +33,7 @@ def classify(query):
 def main():
   search_intent = classify("find a 3b2b sfr with a pool in cupertino")
   market_intent = classify("market trends in palo alto")
+  market_intent = classify("should i buy in irvine right now?")
   recommend_intent = classify("show me similar listings")
   knowledge_intent = classify("what is price per square foot?")
   mixed_intent1 = classify("find homes in san francisco and tell me if prices are rising")
