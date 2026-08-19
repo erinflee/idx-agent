@@ -11,6 +11,7 @@ npx tsx skills/marketComps/format.test.ts
 npx tsx skills/semanticSearch/format.test.ts
 npx tsx skills/recommendations/format.test.ts
 npx tsx skills/rag/format.test.ts
+npx tsx skills/orchestrator/orchestrator.test.ts
 
 # integration tests — hit live MySQL (need .env + the DB running)
 npx tsx skills/propertySearch/search.test.ts
