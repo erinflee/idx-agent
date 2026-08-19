@@ -22,7 +22,8 @@
     "demo-market": "npx tsx skills/marketComps/marketStats.cli.ts",
     "demo-semantic": "npx tsx skills/semanticSearch/semanticSearch.cli.ts",
     "demo-recommend": "npx tsx skills/recommendations/recommend.cli.ts",
-    "demo-rag": "npx tsx skills/rag/rag.cli.ts"
+    "demo-rag": "npx tsx skills/rag/rag.cli.ts",
+    "demo-orchestrator": "npx tsx skills/orchestrator/orchestrator.cli.ts"
   },
   "devDependencies": {
     "tsx": "^4.22.4",
