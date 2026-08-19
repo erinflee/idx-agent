@@ -12,3 +12,13 @@ Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_AP
 from .load_answers import load_cases
 from .rulebook import INTENTS
 
+
+def score_router(router, cases):
+  correct = 0
+  for c in cases:
+    output = router(c.query)
+    if output == c.intent:
+      correct += 1
+
+  return {"accuracy": correct / len(cases)}
+
