@@ -7,6 +7,8 @@
 // recommendations, rag) — adds routing only, no new capability
 
 import { propertySearchSkill } from "../propertySearch/index";
+import { parsePropertyQuery } from "../propertySearch/parse";
+import { formatListing } from "../propertySearch/format";
 import { marketStatsAgent } from "../marketComps/marketStats";
 import { ragAgent } from "../rag/rag";
 import { recommendAgent } from "../recommendations/recommend";
@@ -33,3 +35,33 @@ export function classifyIntent(query: string): Intent {
   return "unknown";
 }
 
+
+export async function orchestrate(query: string): Promise<string> {
+  const intent = classifyIntent(query);
+  const filter = parsePropertyQuery(query);
+
+  switch (intent) {
+    case "search":
+      return await propertySearchSkill(query);
+
+    case "market":
+      if (!filter.city) return "Which city are you asking about?"; 
+      return await marketStatsAgent(filter.city);
+
+    case "recommend":
+      const listing_id = query.match(/(\d{5,})/);
+      if (!listing_id) return "Tell me which listing id";
+      return await recommendAgent(listing_id[0]);
+
+    case "knowledge":
+      return await ragAgent(query);
+
+    case "mixed":
+      if (!filter.city) return propertySearchSkill(query);
+      const [listings, stats] = await Promise.all([
+        propertySearchSkill(query),
+        marketStatsAgent(filter.city)
+      ]);
+      return listings + "\n\n" + stats; // "".join("\n\n") is python
+  }
+}
