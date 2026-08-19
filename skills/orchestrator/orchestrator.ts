@@ -73,7 +73,8 @@ export async function orchestrate(query: string): Promise<string> {
         return "I'm not sure how to help with that. Try asking about properties or market trends.";
     }
   }
-  catch {
-    return "Something went wrong, try again.";
+  catch (err) {
+    console.error(err);
+    return "Something went wrong, try again."
   }
 }
