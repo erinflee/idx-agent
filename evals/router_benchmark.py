@@ -9,6 +9,7 @@ candidate and never tuned against.
 Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_API_KEY)
 """
 
+import time
 from .load_answers import load_cases
 from .rulebook import INTENTS
 
@@ -16,13 +17,16 @@ from .rulebook import INTENTS
 def score_router(router, cases):
   correct = 0
   misroutes = []
+  latencies = []
   per_intent = {} # [correct, total]
 
   for c in cases:
     if c.intent not in per_intent:
       per_intent[c.intent] = [0,0]
   
+    start = time.perf_counter()
     output = router(c.query)
+    latencies.append(time.perf_counter() - start)
     if output == c.intent:
       per_intent[c.intent][0] += 1 
       correct += 1
@@ -30,7 +34,12 @@ def score_router(router, cases):
       misroutes.append((c.query, c.intent, output))
     per_intent[c.intent][1] += 1
 
-  return {"accuracy": correct / len(cases), "per_intent": per_intent, "misroutes": misroutes}
+  return {
+    "accuracy": correct / len(cases), 
+    "per_intent": per_intent, 
+    "misroutes": misroutes, 
+    "mean_latency_s": sum(latencies) / len(latencies)
+  }
 
 
 def always_search(query):
