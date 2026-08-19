@@ -15,6 +15,7 @@ from .rulebook import INTENTS
 
 def score_router(router, cases):
   correct = 0
+  misroutes = []
   per_intent = {} # [correct, total]
 
   for c in cases:
@@ -25,9 +26,11 @@ def score_router(router, cases):
     if output == c.intent:
       per_intent[c.intent][0] += 1 
       correct += 1
+    else:
+      misroutes.append((c.query, c.intent, output))
     per_intent[c.intent][1] += 1
 
-  return {"accuracy": correct / len(cases), "per_intent": per_intent}
+  return {"accuracy": correct / len(cases), "per_intent": per_intent, "misroutes": misroutes}
 
 
 def always_search(query):
