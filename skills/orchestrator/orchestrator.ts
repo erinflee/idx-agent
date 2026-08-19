@@ -15,9 +15,9 @@ import { recommendAgent } from "../recommendations/recommend";
 
 type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed" | "unknown";
 const SEARCH = ["show me", "find", "under", "bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa"];
-const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time"];
+const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time", "how much", "going for", "should i buy", "above asking", "which is cheaper", "comps"];
 const RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than"];
-const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is"];
+const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is", "wut is", "whats a", "escrow",];
 
 
 export function classifyIntent(query: string): Intent {
