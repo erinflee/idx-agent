@@ -16,4 +16,15 @@ async function main() {
     console.error('try: npm run demo-orchestrator -- "average price in oakland"');
     process.exit(1);
   }
+
+  const response = orchestrate(query);
+  console.log(response);
 }
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+})
+
+
+
