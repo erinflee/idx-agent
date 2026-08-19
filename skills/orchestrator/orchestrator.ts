@@ -40,31 +40,40 @@ export async function orchestrate(query: string): Promise<string> {
   const intent = classifyIntent(query);
   const filter = parsePropertyQuery(query);
 
-  switch (intent) {
-    case "search":
-      return await propertySearchSkill(query);
+  try {
+    switch (intent) {
+      case "search":
+        return await propertySearchSkill(query);
 
-    case "market":
-      if (!filter.city) return "Which city are you asking about?"; 
-      return await marketStatsAgent(filter.city);
+      case "market":
+        if (!filter.city) return "Which city are you asking about?"; 
+        return await marketStatsAgent(filter.city);
 
-    case "recommend":
-      const listing_id = query.match(/(\d{5,})/);
-      if (!listing_id) return "Tell me which listing id";
-      return await recommendAgent(listing_id[0]);
+      case "recommend":
+        try {
+          const listing_id = query.match(/(\d{5,})/);
+          if (!listing_id) return "Tell me which listing id";
+          return await recommendAgent(listing_id[0]);
+        } catch {
+          return "I couldn't find a listing with that id"
+        }
 
-    case "knowledge":
-      return await ragAgent(query);
+      case "knowledge":
+        return await ragAgent(query);
 
-    case "mixed":
-      if (!filter.city) return propertySearchSkill(query);
-      const [listings, stats] = await Promise.all([
-        propertySearchSkill(query),
-        marketStatsAgent(filter.city)
-      ]);
-      return listings + "\n\n" + stats; // "".join("\n\n") is python
+      case "mixed":
+        if (!filter.city) return propertySearchSkill(query);
+        const [listings, stats] = await Promise.all([
+          propertySearchSkill(query),
+          marketStatsAgent(filter.city)
+        ]);
+        return listings + "\n\n" + stats; // "".join("\n\n") is python
 
-    default:
-      return "I'm not sure how to help with that. Try asking about properties or market trends.";
+      default:
+        return "I'm not sure how to help with that. Try asking about properties or market trends.";
+    }
+  }
+  catch {
+    return "Something went wrong, try again.";
   }
 }
