@@ -9,6 +9,6 @@
 
 type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed";
 const SEARCH = ["show me", "find", "under", "bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa"];
-const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast"];
-const RECOMMEND = ["similar", "more like", "like this", "compare", "recommend", "cheaper than"];
-const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns"];
+const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time"];
+const RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than"];
+const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is"];
