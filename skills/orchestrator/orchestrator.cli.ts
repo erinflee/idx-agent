@@ -9,6 +9,7 @@
 //        search hits MySQL directly)
 
 import { orchestrate } from "./orchestrator";
+import { closePool } from "../shared/db";
 
 async function main() {
   const query = process.argv.slice(2).join(" ").trim();
@@ -19,6 +20,7 @@ async function main() {
 
   const response = await orchestrate(query);
   console.log(response);
+  await closePool();
 }
 
 main().catch((err) => {
