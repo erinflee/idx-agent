@@ -9,6 +9,8 @@ which is exactly where the ladder's misroutes live.
 Ships only if it beats the keyword ladder (0.712 on answers.jsonl at time of
 writing) on heldout overall AND wins the no-lexical-signal misroutes — bar set
 before training.
+Heldout 2026-08-20: bar not met (0.64 vs 0.62 = statistical tie at n=55; mixed
+collapsed 1/11) — keyword router retained. See evals/README.md.
 
 Contract: classify(query: str) -> intent str, per router_benchmark.
 Train once: python -m evals.router_model   (fits + saves the model artifact)
