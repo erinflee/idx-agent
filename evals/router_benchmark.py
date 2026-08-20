@@ -14,7 +14,7 @@ from .router_rules import classify as classify_intent
 from .router_model import classify as classify_model
 from .router_llm import classify as classify_llm
 from .load_answers import load_cases
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 
 
 def score_router(router, cases):
@@ -70,6 +70,7 @@ def main():
   for label, r in [("keyword", keyword), ("model", model), ("llm", llm)]:
     print(f"\n{label}")
     print(classification_report(r["y_true"], r["y_pred"], zero_division=0))
+    print(confusion_matrix(r["y_true"], r["y_pred"], labels=sorted(set(r["y_true"]) | set(r["y_pred"])))
 
 
 if __name__ == "__main__":
