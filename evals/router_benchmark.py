@@ -20,6 +20,8 @@ def score_router(router, cases):
   correct = 0
   misroutes = []
   latencies = []
+  y_true = []
+  y_pred = []
   per_intent = {} # [correct, total]
 
   for c in cases:
@@ -29,6 +31,9 @@ def score_router(router, cases):
     start = time.perf_counter()
     output = router(c.query)
     latencies.append(time.perf_counter() - start)
+    y_true.append(c.intent)
+    y_pred.append(output)
+    
     if output == c.intent:
       per_intent[c.intent][0] += 1 
       correct += 1
@@ -41,6 +46,8 @@ def score_router(router, cases):
     "per_intent": per_intent, 
     "misroutes": misroutes, 
     "mean_latency_s": sum(latencies) / len(latencies),
+    "y_true": y_true,
+    "y_pred": y_pred
   }
 
 
