@@ -20,3 +20,9 @@ from embeddings import get_embedding, embed_batch
 from .load_answers import load_cases
 from sklearn.linear_model import LogisticRegression
 
+MODEL_FILE = Path(__file__).with_name("router_model.joblib")
+_model = joblib.load(MODEL_FILE)
+
+def build_features(queries):
+  embeddings = embed_batch(queries)
+  return embeddings
