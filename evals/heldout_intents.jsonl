@@ -1,0 +1,58 @@
+# heldout_intents.jsonl — intent-routing HELD-OUT set (router benchmark final exam)
+# DO NOT tune any router — word lists, model, or prompt — to pass these.
+# Same schema as answers.jsonl; ids prefixed h*. ~12 per intent, mixed difficulty.
+{"id": "hs001", "query": "3 bed 2 bath in torrance under 900k", "intent": "search", "filters": {}, "expect": {}, "note": ""}
+{"id": "hs002", "query": "show me townhouses in chula vista with a garage", "intent": "search", "filters": {}, "expect": {}, "note": ""}
+{"id": "hs003", "query": "modesto house big backyard under 500k", "intent": "search", "filters": {}, "expect": {}, "note": "bare-noun shorthand"}
+{"id": "hs004", "query": "condos near downtown san jose", "intent": "search", "filters": {}, "expect": {}, "note": "bare noun, no constraint words"}
+{"id": "hs005", "query": "4br house bakersfield w/ pool", "intent": "search", "filters": {}, "expect": {}, "note": ""}
+{"id": "hs006", "query": "anything with an ocean view in malibu", "intent": "search", "filters": {}, "expect": {}, "note": ""}
+{"id": "hs007", "query": "2bd 2ba fresno move in ready", "intent": "search", "filters": {}, "expect": {}, "note": "shorthand"}
+{"id": "hs008", "query": "single family home in elk grove at least 2000 sqft", "intent": "search", "filters": {}, "expect": {}, "note": ""}
+{"id": "hs009", "query": "cheap fixer upper in stockton", "intent": "search", "filters": {}, "expect": {}, "note": "no keyword signals"}
+{"id": "hs010", "query": "mansion in narnia under 100k", "intent": "search", "filters": {}, "expect": {}, "note": "invalid city, routes search like x-cases"}
+{"id": "hs011", "query": "50 bedroom house in oxnard", "intent": "search", "filters": {}, "expect": {}, "note": "absurd constraint, still search-shaped"}
+{"id": "hs012", "query": "got any listings in temecula rn", "intent": "search", "filters": {}, "expect": {}, "note": "casual phrasing"}
+{"id": "hm001", "query": "whats the median home price in glendale", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm002", "query": "are prices going up in san bernardino", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm003", "query": "is it a buyers or sellers market in ventura rn", "intent": "market", "filters": {}, "expect": {}, "note": "no tuned idiom"}
+{"id": "hm004", "query": "how long do homes sit before selling in riverside", "intent": "market", "filters": {}, "expect": {}, "note": "DOM question without the word"}
+{"id": "hm005", "query": "typical cost per square foot in berkeley", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm006", "query": "did the market cool off in sacramento this year", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm007", "query": "is now a bad time to sell in irvine", "intent": "market", "filters": {}, "expect": {}, "note": "sell-side advice"}
+{"id": "hm008", "query": "santa monica vs culver city price comparison", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm009", "query": "are sellers cutting prices in palm springs", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm010", "query": "wats the avg price for a condo in long beach", "intent": "market", "filters": {}, "expect": {}, "note": "typo"}
+{"id": "hm011", "query": "how competitive is the anaheim market", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hm012", "query": "do homes go over asking in mountain view", "intent": "market", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx001", "query": "show me houses in vallejo and are prices dropping there", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx002", "query": "3bd condos in pasadena and whats the market like", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx003", "query": "find me a house in fontana and tell me if its a good time to buy", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx004", "query": "listings in escondido plus the average price there", "intent": "mixed", "filters": {}, "expect": {}, "note": "plus instead of and"}
+{"id": "hmx005", "query": "whats for sale in davis and how fast do things sell", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx006", "query": "homes under 600k in hemet and the price trend", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx007", "query": "san mateo condos with parking and is the market hot", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx008", "query": "show me oceanside listings and whether prices rose this year", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx009", "query": "2 bed rentals er i mean condos in burbank and avg cost", "intent": "mixed", "filters": {}, "expect": {}, "note": "self-correction noise"}
+{"id": "hmx010", "query": "find corona homes with a pool and hows the market there", "intent": "mixed", "filters": {}, "expect": {}, "note": ""}
+{"id": "hmx011", "query": "murrieta houses under 700k also are they selling above asking", "intent": "mixed", "filters": {}, "expect": {}, "note": "also instead of and"}
+{"id": "hk001", "query": "what does cdom stand for", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk002", "query": "explain what a contingency is", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk003", "query": "whats the difference between list price and close price", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk004", "query": "what is title insurance", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk005", "query": "wut does pending mean on a listing", "intent": "knowledge", "filters": {}, "expect": {}, "note": "typo"}
+{"id": "hk006", "query": "how is days on market calculated", "intent": "knowledge", "filters": {}, "expect": {}, "note": "definitional without what-words"}
+{"id": "hk007", "query": "define escrow for me", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk008", "query": "what fields are in the rets_property table", "intent": "knowledge", "filters": {}, "expect": {}, "note": "schema question"}
+{"id": "hk009", "query": "whats an hoa fee and why do i pay it", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk010", "query": "meaning of list to close ratio", "intent": "knowledge", "filters": {}, "expect": {}, "note": ""}
+{"id": "hk011", "query": "is preapproval the same as prequalification", "intent": "knowledge", "filters": {}, "expect": {}, "note": "comparison definitional"}
+{"id": "hr001", "query": "more like that last one", "intent": "recommend", "filters": {}, "expect": {}, "note": ""}
+{"id": "hr002", "query": "show me similar homes to the second result", "intent": "recommend", "filters": {}, "expect": {}, "note": ""}
+{"id": "hr003", "query": "anything else like listing 1170038764", "intent": "recommend", "filters": {}, "expect": {}, "note": "id reference"}
+{"id": "hr004", "query": "i liked that one, got more", "intent": "recommend", "filters": {}, "expect": {}, "note": "no lexical signal"}
+{"id": "hr005", "query": "find comps to the first listing", "intent": "recommend", "filters": {}, "expect": {}, "note": ""}
+{"id": "hr006", "query": "same vibe but closer to the beach", "intent": "recommend", "filters": {}, "expect": {}, "note": "hard, no signal"}
+{"id": "hr007", "query": "recommend me something like the tarocco place", "intent": "recommend", "filters": {}, "expect": {}, "note": ""}
+{"id": "hr008", "query": "other options in that same neighborhood", "intent": "recommend", "filters": {}, "expect": {}, "note": ""}
+{"id": "hr009", "query": "can you suggest listings like the one i saved", "intent": "recommend", "filters": {}, "expect": {}, "note": ""}
