@@ -11,7 +11,7 @@ Run:  python -m evals.rag_evals   (needs the rag index built; no DB)
 
 import json
 from pathlib import Path
-from rag import retrieve, rag_answer
+from rag import retrieve, rag_answer, CLIENT, MODEL
 
 CASES = Path(__file__).parent / "rag_cases.jsonl"
 
@@ -62,6 +62,32 @@ def check_answerability(case, answer):
     "refused": refused,
     "correct": correct
   }
+
+
+def judge_relevance(query, hits):
+  PROMPT = """You are auditing a retrieval system. Given a user query 
+  and 4 numbered excerpts, decide which excerpts contain information 
+  that helps answer the query. Reply with JSON only, no other text: 
+  {"relevant": [list of excerpt numbers, possibly empty]}
+  """
+  chunks = "\n\n".join(f"[{index}] {h['chunk']}" for index, h in enumerate(hits, 1))
+
+  response = CLIENT.chat.completions.create(
+    model=MODEL,
+    messages=[
+      {"role": "system", "content": PROMPT},
+      {"role": "user", "content": f"Query: {query}\n\nExcepts:\n{chunks}"}
+  ])
+
+  text = (response.choices[0].message.content or "").strip()
+  text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+
+  try:
+    parsed = json.loads(text)["relevant"]
+
+  except (json.JSONDecodeError, KeyError, TypeError):
+    return None
+  return len(parsed) / len(hits)
 
 
 if __name__ == "__main__":
