@@ -17,3 +17,14 @@ import json
 from rag import CLIENT, MODEL
 from .rulebook import INTENTS
 
+PROMPT = """You route real-estate queries to one intent. Reply with JSON only, 
+no other text: {"intent": "<one word>"}
+
+Intents:
+- search: user wants listings matching constraints ("show me 3bd condos in irvine under 800k")
+- market: user wants stats or trends computed from sales data ("avg price in fresno", "should i buy now?")
+- recommend: user wants listings similar to one they've seen ("more like the last one")
+- knowledge: user asks what a term or field means ("what does DOM mean?")
+- mixed: user wants listings AND market stats in one query ("find homes in oroville and are prices rising")
+- unknown: none of the above / not about real estate
+"""
