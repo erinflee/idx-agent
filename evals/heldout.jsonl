@@ -1,4 +1,4 @@
-# HELD-OUT set — queries LLM-generated (NOT authored/tuned against), labeled by meaning
+# HELD-OUT set — labeled by meaning
 # Measures parser generalization -> DO NOT tune the parser to pass these
 {"id": "h001", "query": "3bd 2ba house sacramento w pool < 600k", "intent": "search", "filters": {"city": "Sacramento", "beds": 3, "baths": 2, "property": "SingleFamilyResidence", "pool": "1", "maxPrice": 600000}, "expect": {}}
 {"id": "h002", "query": "la condo 1bd 1ba under 500k no hoa", "intent": "search", "filters": {"city": "Los Angeles", "property": "Condominium", "beds": 1, "baths": 1, "maxPrice": 500000}, "expect": {}}
