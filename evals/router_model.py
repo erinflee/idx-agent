@@ -40,3 +40,12 @@ def train_router():
   print(f"Training Accuracy: {accuracy * 100:.2f}%")
   joblib.dump(model, MODEL_FILE)
 
+
+def classify(query):
+  embedding = get_embedding(query)
+  prediction = _model.predict([embedding])
+  return prediction[0]
+
+
+if __name__ == "__main__":
+  train_router()
