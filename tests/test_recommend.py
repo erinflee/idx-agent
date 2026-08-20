@@ -56,9 +56,9 @@ def test_validate_with_comps():
     price = 1300000
     validated = validate_with_comps(city, sqft, property, price)
     assert validated is not None
-    assert validated.keys() == {"price", "comp_count", "comp_price", "delta_percentage"} # set is orderless
-    assert validated["comp_count"] > 0
-    assert validated["comp_price"] > 0
+    assert validated.keys() == {"price", "compCount", "compPrice", "deltaPercentage"} # set is orderless
+    assert validated["compCount"] > 0
+    assert validated["compPrice"] > 0
 
 
 def test_not_validate_with_comps():
