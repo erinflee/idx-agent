@@ -52,8 +52,9 @@ def test_unrelated_listings():
 def test_validate_with_comps():
     city = "Berkeley"
     sqft = 700
+    property = "SingleFamilyResidence"
     price = 1300000
-    validated = validate_with_comps(city, sqft, price)
+    validated = validate_with_comps(city, sqft, property, price)
     assert validated is not None
     assert validated.keys() == {"price", "comp_count", "comp_price", "delta_percentage"} # set is orderless
     assert validated["comp_count"] > 0
@@ -63,6 +64,7 @@ def test_validate_with_comps():
 def test_not_validate_with_comps():
     city = "Boston"
     sqft = 700
+    property = "SingleFamilyResidence"
     price = 1300000
-    validated = validate_with_comps(city, sqft, price)
+    validated = validate_with_comps(city, sqft, property, price)
     assert validated is None
