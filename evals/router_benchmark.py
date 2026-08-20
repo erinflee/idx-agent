@@ -10,7 +10,8 @@ Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_AP
 """
 
 import time
-from .router_rules import classify
+from .router_rules import classify as classify_intent
+from .router_model import classify as classify_model
 from .load_answers import load_cases
 from .rulebook import INTENTS
 
@@ -50,9 +51,11 @@ def always_search(query):
 def main():
   cases = load_cases()
   baseline = score_router(always_search, cases)
-  keyword = score_router(classify, cases)
-  print("baseline:", baseline)
-  print("keyword:", keyword)
+  keyword = score_router(classify_intent, cases)
+  model = score_router(classify_model, cases)
+  print(f"baseline: {baseline}")
+  print(f"keyword: {keyword}")
+  print(f"model: {model}")
 
 if __name__ == "__main__":
   main()
