@@ -133,6 +133,18 @@ def run_rag_eval():
   print("recall rate:", recall_rate)
   print("mean precision:", mean_precision)
 
+  if judge:
+    acc = sum(a["correct"] for _, a in answerability) / len(answerability)
+    rx = [a for c, a in answerability if not c["answerable"]]
+    rx_acc = sum(a["correct"] for a in rx) / len(rx)
+    judged = [r for r in relevances if r is not None]
+    grounded_known = [g for g in groundedness if g is not None]
+    print("answerability accuracy:", acc)
+    print("refusal accuracy (rx slice):", rx_acc)
+    print("mean judged relevance:", sum(judged) / len(judged))
+    print("groundedness rate:", sum(1 for g in grounded_known if g) / len(grounded_known),
+          f"({len(groundedness) - len(grounded_known)} judge failures)")
+
 
 if __name__ == "__main__":
   run_rag_eval()
