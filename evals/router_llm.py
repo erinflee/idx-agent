@@ -12,3 +12,8 @@ Prompt tuned on answers.jsonl only; heldout stays untouched until the final run.
 Contract: classify(query: str) -> intent str, per router_benchmark.
 Benchmark runs make ~118 flash calls — pace for the free tier or run on paid.
 """
+
+import json
+from rag import CLIENT, MODEL
+from .rulebook import INTENTS
+
