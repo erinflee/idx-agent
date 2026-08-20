@@ -13,7 +13,6 @@ import time
 from .router_rules import classify as classify_intent
 from .router_model import classify as classify_model
 from .load_answers import load_cases
-from .rulebook import INTENTS
 
 
 def score_router(router, cases):
@@ -56,6 +55,7 @@ def main():
   print(f"baseline: {baseline}")
   print(f"keyword: {keyword}")
   print(f"model: {model}")
+
 
 if __name__ == "__main__":
   main()
