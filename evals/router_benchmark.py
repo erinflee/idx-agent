@@ -18,7 +18,7 @@ from .router_llm import classify as classify_llm
 from .load_answers import load_cases
 from sklearn.metrics import classification_report, confusion_matrix
 
-HELDOUT = Path(__file__).parent / "heldout.jsonl"
+HELDOUT = Path(__file__).parent / "heldout_intents.jsonl"
 
 def score_router(router, cases):
   correct = 0
