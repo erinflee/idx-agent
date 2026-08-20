@@ -14,6 +14,7 @@ from .router_rules import classify as classify_intent
 from .router_model import classify as classify_model
 from .router_llm import classify as classify_llm
 from .load_answers import load_cases
+from sklearn.metrics import classification_report
 
 
 def score_router(router, cases):
@@ -33,7 +34,7 @@ def score_router(router, cases):
     latencies.append(time.perf_counter() - start)
     y_true.append(c.intent)
     y_pred.append(output)
-    
+
     if output == c.intent:
       per_intent[c.intent][0] += 1 
       correct += 1
@@ -65,6 +66,10 @@ def main():
   print(f"keyword: {keyword}")
   print(f"model: {model}")
   print(f"llm: {llm}")
+
+  for label, r in [("keyword", keyword), ("model", model), ("llm", llm)]:
+    print(f"\n{label}")
+    print(classification_report(r["y_true"], r["y_pred"], zero_division=0))
 
 
 if __name__ == "__main__":
