@@ -76,7 +76,7 @@ def judge_relevance(query, hits):
     model=MODEL,
     messages=[
       {"role": "system", "content": PROMPT},
-      {"role": "user", "content": f"Query: {query}\n\nExcepts:\n{chunks}"}
+      {"role": "user", "content": f"Query: {query}\n\nExcerpts:\n{chunks}"}
   ])
 
   text = (response.choices[0].message.content or "").strip()
@@ -89,6 +89,33 @@ def judge_relevance(query, hits):
     return None
   return len(parsed) / len(hits)
 
+
+def judge_groundedness(query, answer, hits):
+  PROMPT = """Is every claim in the answer supported by the excerpts?
+  Outside knowledge or advice is not grounded even if true. JSON only:
+  {"grounded": true|false, "reason": "<one sentence>"}
+  """
+
+  chunks = "\n\n".join(f"[{index}] {h["chunk"]}" for index, h in enumerate(hits, 1))
+
+  response = CLIENT.chat.completions.create(
+    model=MODEL,
+    messages=[
+      {"role": "system", "content": PROMPT},
+      {"role": "user", "content": f"Query: {query}\n\nExcerpts:\n{chunks}\n\nAnswer: {answer}"}
+    ]
+  )
+
+  text = (response.choices[0].message.content or "").strip()
+  text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+
+  try:
+    parsed = json.loads(text)
+
+  except (json.JSONDecodeError, KeyError, TypeError):
+    return {"grounded": None}
+  return parsed
+  
 
 if __name__ == "__main__":
   run_rag_eval()
