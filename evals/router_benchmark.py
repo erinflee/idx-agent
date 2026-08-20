@@ -9,13 +9,16 @@ candidate and never tuned against.
 Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_API_KEY)
 """
 
+import sys
 import time
+from pathlib import Path
 from .router_rules import classify as classify_intent
 from .router_model import classify as classify_model
 from .router_llm import classify as classify_llm
 from .load_answers import load_cases
 from sklearn.metrics import classification_report, confusion_matrix
 
+HELDOUT = Path(__file__).parent / "heldout.jsonl"
 
 def score_router(router, cases):
   correct = 0
@@ -57,7 +60,7 @@ def always_search(query):
 
 
 def main():
-  cases = load_cases()
+  cases = load_cases(HELDOUT) if "--heldout" in sys.argv else load_cases()
   baseline = score_router(always_search, cases)
   keyword = score_router(classify_intent, cases)
   model = score_router(classify_model, cases)
@@ -70,7 +73,7 @@ def main():
   for label, r in [("keyword", keyword), ("model", model), ("llm", llm)]:
     print(f"\n{label}")
     print(classification_report(r["y_true"], r["y_pred"], zero_division=0))
-    print(confusion_matrix(r["y_true"], r["y_pred"], labels=sorted(set(r["y_true"]) | set(r["y_pred"])))
+    print(confusion_matrix(r["y_true"], r["y_pred"], labels=sorted(set(r["y_true"]) | set(r["y_pred"]))))
 
 
 if __name__ == "__main__":
