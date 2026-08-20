@@ -28,3 +28,22 @@ Intents:
 - mixed: user wants listings AND market stats in one query ("find homes in oroville and are prices rising")
 - unknown: none of the above / not about real estate
 """
+
+def classify(query):
+  response = CLIENT.chat.completions.create(
+    model=MODEL,
+    messages = [
+      {"role": "system", "content": PROMPT},
+      {"role": "user", "content": query}
+    ]
+  )
+  text = (response.choices[0].message.content or "").strip()
+  text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+
+  try:
+    intent = json.loads(text)["intent"]
+
+  except (json.JSONDecodeError, KeyError, TypeError):
+    return "unknown"
+  
+  return intent if intent in INTENTS or intent == "unknown" else "unknown"
