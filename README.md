@@ -62,7 +62,7 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | 6    | Embeddings & vector search              | `skills/semanticSearch/` · `semantic.py`                                                   | done   |
 | 7    | Recommendation engine                   | `skills/recommendations/` · `recommend.py`                                                 | done   |
 | 8    | RAG pipeline                            | `skills/rag/` · `rag.py` · `rag_docs/`                                                     | done   |
-| 9    | Multi-agent orchestration               | `skills/orchestrator.ts`                                                                   | done   |
+| 9    | Multi-agent orchestration               | `skills/orchestrator/` · `evals/router_*.py`                                               | done   |
 | 10   | WhatsApp layer                          | OpenClaw channel                                                                           | wired  |
 | 11   | Email + safety guardrails               | `skills/email.ts`                                                                          | —      |
 | 12   | Capstone demo                           | —                                                                                          | —      |
