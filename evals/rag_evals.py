@@ -118,15 +118,18 @@ def run_rag_eval():
       rk_cases.append(result)
 
     if judge:
-      answer = rag_answer(case["query"])
-      ans = check_answerability(case, answer)
-      answerability.append((case, ans))
-      print("  ", "refused" if ans["refused"] else "answered", "correct:", ans["correct"])
-      if case["answerable"] and not ans["refused"]:
-        hits = retrieve(case["query"], 4)
-        relevances.append(judge_relevance(case["query"], hits))
-        groundedness.append(judge_groundedness(case["query"], answer, hits)["grounded"])
+      try:      
+        answer = rag_answer(case["query"])
+        ans = check_answerability(case, answer)
+        answerability.append((case, ans))
+        print("  ", "refused" if ans["refused"] else "answered", "correct:", ans["correct"])
+        if case["answerable"] and not ans["refused"]:
+          hits = retrieve(case["query"], 4)
+          relevances.append(judge_relevance(case["query"], hits))
+          groundedness.append(judge_groundedness(case["query"], answer, hits)["grounded"])
 
+      except Exception as err:
+        print(f"Judge pass failed: {err}")
 
   recall_rate = sum(r["recall"] for r in rk_cases) / len(rk_cases)
   mean_precision = sum(r["precision"] for r in rk_cases) / len(rk_cases)
@@ -142,9 +145,8 @@ def run_rag_eval():
     print("answerability accuracy:", acc)
     print("refusal accuracy (rx slice):", rx_acc)
     print("mean judged relevance:", sum(judged) / len(judged))
-    print("groundedness rate:", sum(1 for g in grounded_known if g) / len(grounded_known),
-          f"({len(groundedness) - len(grounded_known)} judge failures)")
-
+    print("groundedness rate:", sum(1 for g in grounded_known if g) / len(grounded_known), f"({len(groundedness) - len(grounded_known)} judge failures)")
+      
 
 if __name__ == "__main__":
   run_rag_eval()
