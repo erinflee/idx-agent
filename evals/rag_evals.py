@@ -55,5 +55,14 @@ def run_rag_eval():
   print("mean precision:", mean_precision)
 
 
+def check_answerability(case, answer):
+  refused = answer == "That isn't covered in my source documents."
+  correct = refused == (not case["answerable"])
+  return {
+    "refused": refused,
+    "correct": correct
+  }
+
+
 if __name__ == "__main__":
   run_rag_eval()
