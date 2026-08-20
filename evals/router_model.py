@@ -26,3 +26,17 @@ _model = joblib.load(MODEL_FILE)
 def build_features(queries):
   embeddings = embed_batch(queries)
   return embeddings
+
+
+def train_router():
+  train = load_cases()
+  train_queries = [t.query for t in train]
+  train_intents = [t.intent for t in train]
+  train_embeddings = build_features(train_queries)
+
+  model = LogisticRegression(max_iter=1000)
+  model.fit(train_embeddings, train_intents)
+  accuracy = model.score(train_embeddings, train_intents)
+  print(f"Training Accuracy: {accuracy * 100:.2f}%")
+  joblib.dump(model, MODEL_FILE)
+
