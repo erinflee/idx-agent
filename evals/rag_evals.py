@@ -9,6 +9,7 @@ calls per run, so pace for the free tier (sleep between calls, retry on 429).
 Run:  python -m evals.rag_evals   (needs the rag index built; no DB)
 """
 
+import sys
 import json
 from pathlib import Path
 from rag import retrieve, rag_answer, CLIENT, MODEL
@@ -38,21 +39,6 @@ def score_retrieval(case, k=4):
     return {"top_score": top_score}
   
   return {"top_score": top_score, "recall": source in p_sources, "precision": p_sources.count(source)/k}
-
-
-def run_rag_eval():
-  cases = load_rag_cases()
-  rk_cases = []
-  for case in cases:
-    result = score_retrieval(case)
-    print(case["id"], result)
-    if "recall" in result.keys():
-      rk_cases.append(result)
-
-  recall_rate = sum(r["recall"] for r in rk_cases) / len(rk_cases)
-  mean_precision = sum(r["precision"] for r in rk_cases) / len(rk_cases)
-  print("recall rate:", recall_rate)
-  print("mean precision:", mean_precision)
 
 
 def check_answerability(case, answer):
@@ -116,6 +102,37 @@ def judge_groundedness(query, answer, hits):
     return {"grounded": None}
   return parsed
   
+
+def run_rag_eval():
+  judge = "--judge" in sys.argv
+  cases = load_rag_cases()
+  rk_cases = []
+  answerability = []
+  relevances = []
+  groundedness = []
+
+  for case in cases:
+    result = score_retrieval(case)
+    print(case["id"], result)
+    if "recall" in result.keys():
+      rk_cases.append(result)
+
+    if judge:
+      answer = rag_answer(case["query"])
+      ans = check_answerability(case, answer)
+      answerability.append((case, ans))
+      print("  ", "refused" if ans["refused"] else "answered", "correct:", ans["correct"])
+      if case["answerable"] and not ans["refused"]:
+        hits = retrieve(case["query"], 4)
+        relevances.append(judge_relevance(case["query"], hits))
+        groundedness.append(judge_groundedness(case["query"], answer, hits)["grounded"])
+
+
+  recall_rate = sum(r["recall"] for r in rk_cases) / len(rk_cases)
+  mean_precision = sum(r["precision"] for r in rk_cases) / len(rk_cases)
+  print("recall rate:", recall_rate)
+  print("mean precision:", mean_precision)
+
 
 if __name__ == "__main__":
   run_rag_eval()
