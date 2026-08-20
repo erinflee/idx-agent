@@ -20,6 +20,9 @@
 *.npy
 *.npz
 
+# week 9 trained router artifact -> rebuild with python -m evals.router_model
+*.joblib
+
 # rag corpus -> licensed source pdfs + rebuildable generated mds 
 rag_docs/*.pdf
 rag_docs/*.md
