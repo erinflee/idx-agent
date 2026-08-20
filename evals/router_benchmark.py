@@ -12,6 +12,7 @@ Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_AP
 import time
 from .router_rules import classify as classify_intent
 from .router_model import classify as classify_model
+from .router_llm import classify as classify_llm
 from .load_answers import load_cases
 
 
@@ -52,9 +53,11 @@ def main():
   baseline = score_router(always_search, cases)
   keyword = score_router(classify_intent, cases)
   model = score_router(classify_model, cases)
+  llm = score_router(classify_llm, cases)
   print(f"baseline: {baseline}")
   print(f"keyword: {keyword}")
   print(f"model: {model}")
+  print(f"llm: {llm}")
 
 
 if __name__ == "__main__":
