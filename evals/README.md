@@ -31,17 +31,46 @@ pytest                            # from the repo root
 
 ---
 
-# Week 8 — RAG Retrieval Eval
+# Week 8 — RAG Eval
 
-`python -m evals.rag_evals` — recall@4 and context precision over
-`rag_cases.jsonl` (23 labeled cases); offline, no API calls, ~10s.
+Two modes, one file (`rag_evals.py`):
 
-Latest run: **recall@4 = 1.00, mean context precision = 0.80** (gold source is
-document-level, so precision undercounts cross-document overlap — e.g. the
-schema reference also describing a Trestle field). Answerability + LLM-judged
-groundedness are planned but deferred; note that only 2 of 9 must-refuse cases
-score below `MIN_SCORE` — the rest rely on the prompt-level guard, which is
-what the LLM-judged half will measure.
+```bash
+python -m evals.rag_evals            # retrieval metrics — offline, free, ~10s
+python -m evals.rag_evals --judge    # + answerability & LLM-judged metrics (~60 flash calls, cents)
+```
+
+## Results (23 cases, --judge run 2026-08-20)
+
+| metric | value | what it measures |
+| --- | --- | --- |
+| recall@4 | 1.00 | gold document reached the top-4 on every answerable case |
+| context precision (doc-level) | 0.80 | fraction of top-4 chunks from the gold document |
+| judged relevance (chunk-level) | 0.46 | fraction of top-4 chunks an LLM judge says actually help |
+| answerability accuracy | 0.87 | answered when it should, refused when it should (20/23) |
+| **refusal accuracy (must-refuse slice)** | **0.89** | the prompt-level guard held on 8 of 9 |
+| groundedness | 1.00 | every answer fully supported by its excerpts (0 judge failures) |
+
+## Findings
+
+1. **The prompt-level guard works where it matters most.** Only 2 of 9
+   must-refuse cases are stopped by the `MIN_SCORE` threshold; the other 7
+   retrieve confidently and rely on the system prompt — which refused all the
+   advice-with-domain-vocabulary cases (market timing, negotiation,
+   condo-vs-SFR). The single leak: "explain cap rate," a definition-shaped
+   query whose corpus coverage is only passing mentions — the model stitched
+   an answer from fragments.
+2. **Doc-level precision flatters retrieval ~2x.** The chunk-reading judge
+   scores relevance at 0.46 vs the 0.80 document-level proxy: coming from the
+   right document does not make a chunk useful. Both numbers are kept — the
+   proxy is free and stable, the judged number is the truer one.
+3. **The failure mode is answering-when-it-shouldn't, never inventing facts.**
+   Groundedness is 1.00 across every answered case; the errors are one refusal
+   leak and two false refusals on answerable cases.
+
+Caveat: relevance and groundedness are LLM-judged (gemini-2.5-flash judging
+its own pipeline's outputs) from a single run over 23 hand-curated cases —
+directional, not precise.
 
 ---
 
