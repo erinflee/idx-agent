@@ -13,3 +13,10 @@ before training.
 Contract: classify(query: str) -> intent str, per router_benchmark.
 Train once: python -m evals.router_model   (fits + saves the model artifact)
 """
+
+import joblib 
+from pathlib import Path
+from embeddings import get_embedding, embed_batch
+from .load_answers import load_cases
+from sklearn.linear_model import LogisticRegression
+
