@@ -27,11 +27,13 @@
     "demo-orchestrator": "npx tsx skills/orchestrator/orchestrator.cli.ts"
   },
   "devDependencies": {
+    "@types/nodemailer": "^8.0.1",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
-    "mysql2": "^3.22.5"
+    "mysql2": "^3.22.5",
+    "nodemailer": "^9.1.0"
   }
 }
