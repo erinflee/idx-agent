@@ -37,3 +37,11 @@ ${draft.body}
 Reply "approve ${draft.id}" to send`;
 }
 
+
+export function approveDraft(id: string) {
+  const d = drafts.get(id);
+  if (!d) throw new Error("draft doesn't exist");
+  d.status = "approved";
+  return d;
+}
+
