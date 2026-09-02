@@ -20,9 +20,35 @@ function assert(condition: boolean, message: string) {
 }
 
 
-// errors if true
+// passes only if function throws
 async function assertThrows(func: () => Promise<void> | void, message: string) {
   try { await func() } 
   catch { return; }
   throw new Error(message);
 }
+
+
+async function main() {
+  const d1 = draftEmail("efl@gmail.com", "this is test subject", "this is the email's body");
+  assert(d1.status === "pending_approval", `email status should be "pending_approval", currently ${d1.status}`);
+
+  const mock = nodemailer.createTransport({ jsonTransport: true });
+  await assertThrows(() => sendApprovedEmail(d1, mock), "unapproved draft was sent");
+
+  approveDraft(d1.id);
+  await sendApprovedEmail(d1, mock);
+  assert(d1.status === "sent", `email status should be "sent", currently ${d1.status}`);
+
+  await assertThrows(() => { approveDraft("nope"); }, "bad id was approved");
+
+  const d2 = draftEmail("efl@gmail.com", "hi", "this is a tester");
+  assert(formatDraftPreview(d2).includes(`approve ${d2.id}`), `preview missing approve instructions`);
+  
+  console.log("email: all tests passed");
+}
+
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
