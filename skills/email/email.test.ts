@@ -20,3 +20,9 @@ function assert(condition: boolean, message: string) {
 }
 
 
+// errors if true
+async function assertThrows(func: () => Promise<void> | void, message: string) {
+  try { await func() } 
+  catch { return; }
+  throw new Error(message);
+}
