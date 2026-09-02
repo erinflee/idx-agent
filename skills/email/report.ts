@@ -20,3 +20,9 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
   const body = sections.join("\n\n---\n\n");
   return draftEmail(to, "Weekly market report", body);
 }
+
+
+export async function buildListingAlert(to: string, query: string): Promise<EmailDraft> {
+  const body = await propertySearchSkill(query);
+  return draftEmail(to, `New Listings: ${query}`, body);
+}
