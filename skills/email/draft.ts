@@ -25,3 +25,15 @@ export function draftEmail(to: string, subject: string, body: string) {
   drafts.set(draft.id, draft);
   return draft
 }
+
+
+export function formatDraftPreview(draft: EmailDraft): string {
+  return `[DRAFT - not sent]
+To: ${draft.to}
+Subject: ${draft.subject}
+  
+${draft.body}
+  
+Reply "approve ${draft.id}" to send`;
+}
+
