@@ -8,3 +8,15 @@
 //
 // run:  npm run test-email
 //      (no DB / server / credentials needed)
+
+import nodemailer from "nodemailer";
+import { draftEmail, approveDraft, formatDraftPreview } from "./draft";
+import { sendApprovedEmail } from "./send";
+
+
+// errors if false
+function assert(condition: boolean, message: string) {
+  if (!condition) throw new Error(message);
+}
+
+
