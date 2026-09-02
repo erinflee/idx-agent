@@ -13,4 +13,15 @@ export function getDraft(id: string): EmailDraft | undefined {
 }
 
 
-
+export function draftEmail(to: string, subject: string, body: string) {
+  const draft: EmailDraft = {
+    id: Date.now().toString(),
+    to,
+    subject,
+    body,
+    status: "pending_approval",
+    createdAt: new Date(),
+  };
+  drafts.set(draft.id, draft);
+  return draft
+}
