@@ -10,3 +10,11 @@
 //        npx tsx skills/email/email.cli.ts alert "3 bed under 900k in Irvine" [--dry-run]
 //       (report needs the FastAPI service: uvicorn service:app --reload;
 //        alert needs MySQL; real send needs EMAIL_USER / EMAIL_PASSWORD in .env)
+
+import nodemailer from "nodemailer";
+import * as readline from "readline/promises";
+import { approveDraft, formatDraftPreview } from "./draft";
+import { sendApprovedEmail } from "./send";
+import { closePool } from "../shared/db";
+import { buildListingAlert, buildWeeklyReport } from "./report";
+import type { EmailDraft } from "./types";
