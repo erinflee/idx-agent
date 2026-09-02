@@ -20,3 +20,11 @@ export function makeTransport(): Transporter {
   });
 }
 
+
+export async function sendApprovedEmail(draft: EmailDraft, transport?: Transporter): Promise<void> {
+  if (draft.status !== "approved") throw new Error("email not approved for sending")
+  const t = transport ?? makeTransport();
+  await t.sendMail({ from: process.env.EMAIL_USER, to: draft.to, subject: draft.subject, text: draft.body }); 
+  draft.status = "sent";
+  console.log(`send draft ${draft.id}: ${draft.subject}`)
+}
