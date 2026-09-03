@@ -31,9 +31,14 @@ async function main() {
   if (mode === "report") {
     draft = await buildWeeklyReport(to, args);
   }
-  
+
   else if (mode === "alert") {
     draft = await buildListingAlert(to, args.join(" "));
+  }
+  
+  else {
+    console.log("npx tsx skills/email/email.cli.ts");
+    process.exit(1);
   }
 
   console.log(formatDraftPreview(draft));
