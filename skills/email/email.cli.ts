@@ -13,7 +13,7 @@
 
 import nodemailer from "nodemailer";
 import * as readline from "readline/promises";
-import { approveDraft, formatDraftPreview } from "./draft";
+import { getDraft, approveDraft, formatDraftPreview } from "./draft";
 import { sendApprovedEmail, makeTransport } from "./send";
 import { closePool } from "../shared/db";
 import { buildListingAlert, buildWeeklyReport } from "./report";
@@ -34,6 +34,18 @@ async function main() {
 
   else if (mode === "alert") {
     draft = await buildListingAlert(to, args.join(" "));
+  }
+
+  else if (mode === "send") {
+    const d = getDraft(args[0]);
+    if (!d) {
+      console.error(`no draft with id ${args[0]}`);
+      process.exit(1);
+    }
+    approveDraft(d.id);
+    await sendApprovedEmail(d, transport);
+    await closePool();
+    return;
   }
   
   else {
