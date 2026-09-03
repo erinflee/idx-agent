@@ -15,7 +15,7 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
   const sections: string[] = [];
   for (const city of cities) {
     const stats = await marketStatsAgent(city);
-    sections.push(`${city}: ${stats}`)
+    sections.push(`${stats}`)
   }
   const body = sections.join("\n\n---\n\n");
   return draftEmail(to, "Weekly market report", body);
