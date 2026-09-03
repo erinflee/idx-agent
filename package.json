@@ -25,7 +25,8 @@
     "demo-semantic": "npx tsx skills/semanticSearch/semanticSearch.cli.ts",
     "demo-recommend": "npx tsx skills/recommendations/recommend.cli.ts",
     "demo-rag": "npx tsx skills/rag/rag.cli.ts",
-    "demo-orchestrator": "npx tsx skills/orchestrator/orchestrator.cli.ts"
+    "demo-orchestrator": "npx tsx skills/orchestrator/orchestrator.cli.ts",
+    "demo-email": "npx tsx skills/email/email.cli.ts"
   },
   "devDependencies": {
     "@types/nodemailer": "^8.0.1",
