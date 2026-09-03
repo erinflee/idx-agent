@@ -14,7 +14,46 @@
 import nodemailer from "nodemailer";
 import * as readline from "readline/promises";
 import { approveDraft, formatDraftPreview } from "./draft";
-import { sendApprovedEmail } from "./send";
+import { sendApprovedEmail, makeTransport } from "./send";
 import { closePool } from "../shared/db";
 import { buildListingAlert, buildWeeklyReport } from "./report";
 import type { EmailDraft } from "./types";
+
+
+async function main() {
+  const mode = process.argv[2];
+  const args = process.argv.slice(3).filter((a) => a !== "--dry-run");
+  const dryRun = process.argv.includes("--dry-run");
+  const to = process.env.EMAIL_USER ?? "demo@gmail.com";
+  const transport = dryRun ? nodemailer.createTransport({ jsonTransport: true }) : makeTransport();
+
+  let draft: EmailDraft;
+  if (mode === "report") {
+    draft = await buildWeeklyReport(to, args);
+  }
+  
+  else if (mode === "alert") {
+    draft = await buildListingAlert(to, args.join(" "));
+  }
+
+  console.log(formatDraftPreview(draft));
+  const rl = readline.createInterface({input: process.stdin, output: process.stdout});
+
+  try {
+    const answer = await rl.question(">");
+    if (answer.trim() === `approve ${draft.id}`) {
+      approveDraft(draft.id);
+      await sendApprovedEmail(draft, transport);
+    }
+  } 
+  finally {
+    rl.close();
+    await closePool();
+  }
+}
+
+
+main().catch((err) => {
+  console.log(err);
+  process.exit(1);
+})
