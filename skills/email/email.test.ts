@@ -37,6 +37,7 @@ async function main() {
 
   approveDraft(d1.id);
   await sendApprovedEmail(d1, mock);
+  await assertThrows(() => { approveDraft(d1.id); }, "sent draft was re-approved");
   assert(d1.status === "sent", `email status should be "sent", currently ${d1.status}`);
 
   await assertThrows(() => { approveDraft("nope"); }, "bad id was approved");
