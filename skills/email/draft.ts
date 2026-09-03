@@ -53,6 +53,7 @@ Reply "approve ${draft.id}" to send`;
 export function approveDraft(id: string) {
   const d = drafts.get(id);
   if (!d) throw new Error("draft doesn't exist");
+  if (d.status !== "pending_approval") throw new Error(`draft already ${d.status}`);
   d.status = "approved";
   saveDrafts(Object.fromEntries(drafts));
   return d;
@@ -61,4 +62,12 @@ export function approveDraft(id: string) {
 
 export function saveDrafts(all: Record<string, EmailDraft>) {
   fs.writeFileSync(DRAFT_FILES, JSON.stringify(all, null, 2));
+}
+
+
+export function markSent(id: string) {
+  const d = drafts.get(id);
+  if (!d) throw new Error("draft doesn't exist");
+  d.status = "sent";
+  saveDrafts(Object.fromEntries(drafts));
 }
