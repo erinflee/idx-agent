@@ -23,6 +23,17 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
 
 
 export async function buildListingAlert(to: string, query: string): Promise<EmailDraft> {
-  const body = await propertySearchSkill(query);
+  const cards = await propertySearchSkill(query);
+  const count = cards.split("\n\n").length;
+  const body = [
+    `Hi,`,
+    ``,
+    `Here are ${count} listings matching ${query} as of ${new Date().toLocaleDateString()};`,
+    ``,
+    cards,
+    ``,
+    `Reply to this email for more info on these listings!`,
+    `-IDX agent`,
+  ].join("\n");
   return draftEmail(to, `New Listings: ${query}`, body);
 }
