@@ -17,8 +17,18 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
     const stats = await marketStatsAgent(city);
     sections.push(`${stats}`)
   }
-  const body = sections.join("\n\n---\n\n");
-  return draftEmail(to, "Weekly market report", body);
+  const data = sections.join("\n\n---\n\n");
+  const body = [
+    `Hi,`,
+    ``,
+    `Here is your weekly market report for ${cities}:`,
+    ``,
+    `${data}`,
+    ``,
+    `Reply to this email for more info!`,
+    `-IDX agent`
+  ].join("\n");
+  return draftEmail(to, `Weekly market report - ${new Date().toLocaleDateString()}`, body);
 }
 
 
