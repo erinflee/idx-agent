@@ -29,7 +29,7 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
     sections.push(`${stats}`)
   }
   const data = sections.join("\n\n---\n\n");
-  const cityList = names.length > 1 ? names.slice(0, -1).join(", ") + ", and " + names[names.length - 1] : names[0];
+  const cityList = names.length === 1 ? names[0] : names.length === 2 ? `${names[0]} and ${names[1]}` : names.slice(0, -1).join(", ") + ", and " + names[names.length - 1];
   const body = [
     `Hi,`,
     ``,
