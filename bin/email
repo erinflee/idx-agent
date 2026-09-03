@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Wrapper so OpenClaw invokes one stable, allowlistable command.
+# Runs the email CLI from the repo root (where .env + node_modules live).
+# $0 is this script's path -> dirname/.. resolves the repo root on any machine.
+# Modes: report <city>... | alert "<query>" | send <draft id>   [--dry-run]
+# NOTE: alert hits MySQL directly; report needs the FastAPI service running
+# (uvicorn service:app --reload). When stdin is not a terminal (the agent's
+# exec), report/alert print the preview and exit — nothing sends until a
+# separate "send <id>" call.
+cd "$(dirname "$0")/.." || exit 1
+exec npx tsx skills/email/email.cli.ts "$@"
