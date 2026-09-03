@@ -4,8 +4,19 @@
 // Drafts live in an in-memory Map (same pattern as propertySearch/session.ts),
 // so approve/send must happen in the same process; fine for the CLI demo.
 
+import * as fs from "fs";
+import * as path from "path";
 import { EmailDraft } from "./types"
+
 const drafts = new Map<string, EmailDraft>(); // keys: string, values: interface
+const DRAFT_FILES = path.join(import.meta.dirname, ".drafts.json");
+
+
+function loadDrafts(): Record<string, EmailDraft> {
+  if (!fs.existsSync(DRAFT_FILES)) return {};
+  const text = fs.readFileSync(DRAFT_FILES, "utf8");
+  return JSON.parse(text);
+}
 
 
 export function getDraft(id: string): EmailDraft | undefined {
