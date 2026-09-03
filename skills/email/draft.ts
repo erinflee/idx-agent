@@ -34,6 +34,7 @@ export function draftEmail(to: string, subject: string, body: string) {
     createdAt: new Date(),
   };
   drafts.set(draft.id, draft);
+  saveDrafts(Object.fromEntries(drafts));
   return draft
 }
 
@@ -53,6 +54,7 @@ export function approveDraft(id: string) {
   const d = drafts.get(id);
   if (!d) throw new Error("draft doesn't exist");
   d.status = "approved";
+  saveDrafts(Object.fromEntries(drafts));
   return d;
 }
 
