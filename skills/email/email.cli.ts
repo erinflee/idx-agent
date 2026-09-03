@@ -47,17 +47,23 @@ async function main() {
     await closePool();
     return;
   }
-  
+
   else {
     console.error(
       `Usage:\n` +
       `  npx tsx skills/email/email.cli.ts report "<city>" ["<city>" ...] [--dry-run]\n` +
-      `  npx tsx skills/email/email.cli.ts alert "<search query>" [--dry-run]`
+      `  npx tsx skills/email/email.cli.ts alert "<search query>" [--dry-run]` + 
+      `  npx tsx skills/email/email.cli.ts send <draft id> [--dry-run]`
     );
     process.exit(1);
   }
 
   console.log(formatDraftPreview(draft));
+  if (!process.stdin.isTTY) { 
+    await closePool(); 
+    return; 
+  }
+  
   const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
   try {
