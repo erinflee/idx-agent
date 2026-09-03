@@ -6,6 +6,7 @@
 // logged; the optional transport param lets tests inject jsonTransport
 // instead of real Gmail.
 
+import { markSent } from "./draft";
 import nodemailer, { Transporter } from "nodemailer";
 import type { EmailDraft } from "./types";
 
@@ -25,6 +26,7 @@ export async function sendApprovedEmail(draft: EmailDraft, transport?: Transport
   if (draft.status !== "approved") throw new Error("email not approved for sending")
   const t = transport ?? makeTransport();
   await t.sendMail({ from: process.env.EMAIL_USER, to: draft.to, subject: draft.subject, text: draft.body }); 
-  draft.status = "sent";
+  markSent(draft.id);
   console.log(`send draft ${draft.id}: ${draft.subject}`)
 }
+
