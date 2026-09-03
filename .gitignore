@@ -28,6 +28,9 @@ rag_docs/*.pdf
 rag_docs/*.md
 rag_docs/*.jsonl
 
+# email -> drafts
+skills/email/.drafts.json
+
 # node / typescript deps
 node_modules/
 
