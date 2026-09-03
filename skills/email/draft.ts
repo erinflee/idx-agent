@@ -8,8 +8,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { EmailDraft } from "./types"
 
-const drafts = new Map<string, EmailDraft>(); // keys: string, values: interface
 const DRAFT_FILES = path.join(import.meta.dirname, ".drafts.json");
+const drafts = new Map(Object.entries(loadDrafts())); // keys: string, values: interface
 
 
 function loadDrafts(): Record<string, EmailDraft> {
