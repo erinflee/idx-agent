@@ -20,6 +20,7 @@ function letterUpperCase(cities: string[]): string[] {
   return cityList;
 }
 
+
 export async function buildWeeklyReport(to: string, cities: string[]): Promise<EmailDraft> {
   const sections: string[] = [];
   const names = letterUpperCase(cities);
