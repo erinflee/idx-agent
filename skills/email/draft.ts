@@ -56,3 +56,7 @@ export function approveDraft(id: string) {
   return d;
 }
 
+
+export function saveDrafts(all: Record<string, EmailDraft>) {
+  fs.writeFileSync(DRAFT_FILES, JSON.stringify(all, null, 2));
+}
