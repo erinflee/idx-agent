@@ -18,10 +18,11 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
     sections.push(`${stats}`)
   }
   const data = sections.join("\n\n---\n\n");
+  const cityList = cities.length > 1 ? cities.slice(0, -1).join(", ") + "and " + cities[cities.length - 1] : cities[0];
   const body = [
     `Hi,`,
     ``,
-    `Here is your weekly market report for ${cities}:`,
+    `Here is your weekly market report for ${cityList}:`,
     ``,
     `${data}`,
     ``,
