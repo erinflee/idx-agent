@@ -37,7 +37,11 @@ async function main() {
   }
   
   else {
-    console.log("npx tsx skills/email/email.cli.ts");
+    console.error(
+      `Usage:\n` +
+      `  npx tsx skills/email/email.cli.ts report "<city>" ["<city>" ...] [--dry-run]\n` +
+      `  npx tsx skills/email/email.cli.ts alert "<search query>" [--dry-run]`
+    );
     process.exit(1);
   }
 
