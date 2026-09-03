@@ -11,14 +11,25 @@ import { draftEmail } from "./draft";
 import type { EmailDraft } from "./types";
 
 
+function letterUpperCase(cities: string[]): string[] {
+  const cityList = [];
+  for (const city of cities) {
+    const fixed = city.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLocaleLowerCase()).join(" ");
+    cityList.push(fixed);
+  }
+  return cityList;
+}
+
 export async function buildWeeklyReport(to: string, cities: string[]): Promise<EmailDraft> {
   const sections: string[] = [];
-  for (const city of cities) {
+  const names = letterUpperCase(cities);
+
+  for (const city of names) {
     const stats = await marketStatsAgent(city);
     sections.push(`${stats}`)
   }
   const data = sections.join("\n\n---\n\n");
-  const cityList = cities.length > 1 ? cities.slice(0, -1).join(", ") + "and " + cities[cities.length - 1] : cities[0];
+  const cityList = names.length > 1 ? names.slice(0, -1).join(", ") + ", and " + names[names.length - 1] : names[0];
   const body = [
     `Hi,`,
     ``,
@@ -39,7 +50,7 @@ export async function buildListingAlert(to: string, query: string): Promise<Emai
   const body = [
     `Hi,`,
     ``,
-    `Here are ${count} listings matching ${query} as of ${new Date().toLocaleDateString()};`,
+    `Here are ${count} listings matching ${query} as of ${new Date().toLocaleDateString()}:`,
     ``,
     cards,
     ``,
