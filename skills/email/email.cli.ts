@@ -49,10 +49,13 @@ async function main() {
   const rl = readline.createInterface({input: process.stdin, output: process.stdout});
 
   try {
-    const answer = await rl.question(">");
+    const answer = await rl.question("> ");
     if (answer.trim() === `approve ${draft.id}`) {
       approveDraft(draft.id);
       await sendApprovedEmail(draft, transport);
+    }
+    else {
+      console.log(`Draft ${draft.id} - not sent`)
     }
   } 
   finally {
