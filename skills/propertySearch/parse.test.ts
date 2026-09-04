@@ -49,7 +49,13 @@ const testCases: [string, PropertyFilter][] = [
   ["4bd/3ba san francisco", { city: "San Francisco", beds: 4, baths: 3 }],
   ["2b / 1ba Stockton", { city: "Stockton", beds: 2, baths: 1 }],
   ["7bd/ 3ba Arcadia", { city: "Arcadia", beds: 7, baths: 3 }],
+
+  // a lone "b" is ambiguous and a slash before "million" is a fraction -> no beds/baths
+  ["4b in Pleasanton", { city: "Pleasanton" }],
+  ["2b apartment in San Mateo", { city: "San Mateo" }],
+  ["homes under 1/2 million in Burlingame", { city: "Burlingame" }],
 ];
+
 
 // compare by stringifying: parser adds keys in interface order, so expected must too
 function main() {
