@@ -34,14 +34,21 @@ const testCases: [string, PropertyFilter][] = [
   ["anything with NaN hoa", {}],
   ["under -1k", {}],
 
-
-
   // weak spots
   ["homes in walnut creek below 500k", { city: "Walnut Creek", maxPrice: 500000 }],
   ["warehouse loft in santa Cruz", { city: "Santa Cruz" }],
   ["condo in Berkeley under 300k with HOA under $500", { city: "Berkeley", maxPrice: 300000, maxHoa: 500, property: "Condominium" }],
   ["sfr w/o a pool", { property: "SingleFamilyResidence" }],
   ["$1,200,000 home in Irvine", { city: "Irvine", maxPrice: 1200000 }],
+
+  // bed/bath slash shorthand
+  ["find me a home 3 b/2b with a nice view in pasadena", { city: "Pasadena", beds: 3, baths: 2, hasView: "1" }],
+  ["3b/2b pasadena", { city: "Pasadena", beds: 3, baths: 2 }],
+  ["3b / 2b pasadena", { city: "Pasadena", beds: 3, baths: 2 }],
+  ["3/2 in pasadena", { city: "Pasadena", beds: 3, baths: 2 }],
+  ["4bd/3ba san francisco", { city: "San Francisco", beds: 4, baths: 3 }],
+  ["2b / 1ba Stockton", { city: "Stockton", beds: 2, baths: 1 }],
+  ["7bd/ 3ba Arcadia", { city: "Arcadia", beds: 7, baths: 3 }],
 ];
 
 // compare by stringifying: parser adds keys in interface order, so expected must too
