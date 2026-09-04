@@ -75,9 +75,9 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const priceBare = (priceMatch ?? priceFallback)
     ? null : query.match(/(?<!-)\b([\d,]+(?:\.\d+)?)\s*(million|mil|m|thousand|k|grand)?\b(?!\s*(?:sq|sqft|ft|bed|beds|bedroom|bedrooms|bd|br|bath|baths|ba)\b)/i);
   const priceSource = priceMatch ?? priceFallback ?? priceBare;
-  const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms|br|brs\b)/i);
-  const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba\b)/i);
-  const slashMatch = query.match(/\b(\d{1,2})\s*\/\s*(\d{1,2}(?:\.\d)?)\b(?!\s*(?:million|mil|thousand|grand))/i); // "3/2" -> 3 bed / 2 bath
+  const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms|br|brs)\b/i);
+  const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba)\b/i);
+const slashMatch = query.match(/\b(\d{1,2})\s*(?:b|bd|bds)?\s*\/\s*(\d{1,2}(?:\.\d)?)\s*(?:b|ba|bas)?\b(?!\s*(?:million|mil|thousand|grand))/i);
   const sqftMatch = query.match(/\b(\d[\d,]*)[\s-]*(?:sqft|sq\s+ft|square\s+(feet|foot)|sq\.\s+ft\.)/i);
   const poolMatch = query.match(/\b(?:swimming\s+)?pools?\b/i);
   const poolNegated = /\b(?:no|without|not|w\/o|sans)\s+(?:a\s+|an\s+)?(?:swimming\s+)?pools?\b/i.test(query);
