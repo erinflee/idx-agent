@@ -42,7 +42,7 @@ def score_retrieval(case, k=4):
 
 
 def check_answerability(case, answer):
-  refused = answer.strip().startswith("That isn't covered in my source documents.")
+  refused = "isn't covered in my source documents" in answer
   correct = refused == (not case["answerable"])
   return {
     "refused": refused,
