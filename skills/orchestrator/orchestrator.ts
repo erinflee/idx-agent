@@ -14,11 +14,16 @@ import { ragAgent } from "../rag/rag";
 import { recommendAgent } from "../recommendations/recommend";
 
 type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed" | "unknown";
-const SEARCH = ["show me", "find", "under", "bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa"];
-const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time", "how much", "going for", "should i buy", "above asking", "which is cheaper", "comps"];
-const RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than"];
-const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is", "wut is", "whats a", "escrow",];
-
+const SEARCH_STRONG = ["show me", "find", "listing", "for sale", "looking for", "got any", "anything", "somewhere", "under", "below", "near", "<", "$"];
+const SEARCH_WEAK = ["bed", "bath", "sqft", "sq ft", "pool", "view", "single family", "townhouse", "hoa",
+                     "home", "house", "condo", "apartment", "townhome", "property", "properties", "sfr", "bd", "ba "];
+const CONJUNCTIONS = [" and ", " plus ", " also ", " & "];
+const MARKET = ["avg", "average", "price", "market", "trend", "deal", "rate", "ratio", "dropping", "overpriced", "how fast", "good time", "how much", "going for", "should i buy", "above asking", "which is cheaper", "comps",
+                "per sqft", "per sq ft", "per square foot", "cost", "how long", "over asking", "time to sell", "time to buy", "sit "];
+const RECOMMEND = ["similar", "more like", "like this", "like that", "like the last", "compare", "recommend", "cheaper than",
+                   "comparable", "like the one", "recs", "next best", "same thing", "anything else", "other options", "suggest", "like listing", "comps to", "more of"];
+const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is", "wut is", "whats a", "escrow",
+                   "how is", "calculated", "what fields", "table", "same as"];
 
 export function classifyIntent(query: string): Intent {
   const q = query.toLowerCase();
