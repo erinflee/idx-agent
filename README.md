@@ -39,10 +39,12 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 │   ├── semanticSearch/         embedding similarity search over L_Remarks (Week 6)
 │   ├── recommendations/        hybrid recommendations + comp validation (Week 7)
 │   ├── rag/                    grounded Q&A over the doc index (Week 8)
+│   ├── orchestrator/           intent router → skill dispatch (Week 9)
+│   ├── email/                  draft → approve → send email workflow (Week 11)
 │   └── handlerDemo.ts          keyword→skill message-router scaffold
-├── bin/property-search       single-turn wrapper OpenClaw can allowlist
-├── bin/property-conversation multi-turn wrapper (Week 4 WhatsApp path)
+├── bin/                      one wrapper per skill that OpenClaw can allowlist + exec
 ├── openclaw/                 OpenClaw skill definitions (SKILL.md per skill)
+├── evals/            router benchmark, RAG LLM-judge eval, safety eval (see evals/README.md)
 ├── tests/            pytest checks for the Python skill backends
 ├── scripts/test-all.sh  full TypeScript suite (npm test)
 ├── db.py             MySQL connection layer
@@ -62,12 +64,10 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | 6    | Embeddings & vector search              | `skills/semanticSearch/` · `semantic.py`                                                   | done   |
 | 7    | Recommendation engine                   | `skills/recommendations/` · `recommend.py`                                                 | done   |
 | 8    | RAG pipeline                            | `skills/rag/` · `rag.py` · `rag_docs/`                                                     | done   |
-| 9    | Multi-agent orchestration               | `skills/orchestrator/` · `evals/router_*.py`                                               | done   |
-| 10   | WhatsApp layer                          | OpenClaw channel                                                                           | wired  |
-| 11   | Email + safety guardrails               | `skills/email.ts`                                                                          | —      |
-| 12   | Capstone demo                           | —                                                                                          | —      |
-
-_(Skill filenames for Weeks 9+ are placeholders for upcoming work.)_
+| 9    | Multi-agent orchestration               | `skills/orchestrator/` · `openclaw/orchestrator/` · `evals/router_*.py`                    | done   |
+| 10   | WhatsApp layer + safety eval            | OpenClaw WhatsApp channel → `bin/*` wrappers · `evals/safety_eval.py` · `safety_cases.jsonl` | done   |
+| 11   | Email + approval guardrails             | `skills/email/` · `bin/email` · `openclaw/email/`                                          | done   |
+| 12   | Capstone demo                           | live WhatsApp demo · backup video · `docs/reflection.md`                                   | —      |
 
 ## Setup
 
