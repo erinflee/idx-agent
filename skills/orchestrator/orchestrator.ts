@@ -27,16 +27,23 @@ const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "colu
 
 export function classifyIntent(query: string): Intent {
   const q = query.toLowerCase();
-  const hasSearch = SEARCH.some((w) => q.includes(w));
+  const strongSearch = SEARCH_STRONG.some((w) => q.includes(w));
+  const weakSearch = SEARCH_WEAK.some((w) => q.includes(w));
+  const conjunction = CONJUNCTIONS.some((w) => q.includes(w));
   const hasMarket = MARKET.some((w) => q.includes(w));
   const hasRecommend = RECOMMEND.some((w) => q.includes(w));
   const hasKnowledge = KNOWLEDGE.some((w) => q.includes(w));
 
-  if (hasSearch && hasMarket) return "mixed";
+  const hasSearch = strongSearch || weakSearch;
+  // weak words (nouns, attributes) show up inside plain market asks, so they only
+  // make a query mixed when a conjunction joins two asks
+  const hasMixed = hasMarket && (strongSearch || (weakSearch && conjunction));
+
+  if (hasMixed) return "mixed";
   if (hasRecommend) return "recommend";
   if (hasKnowledge) return "knowledge";
-  if (hasSearch) return "search";
   if (hasMarket) return "market";
+  if (hasSearch) return "search";
   return "unknown";
 }
 
