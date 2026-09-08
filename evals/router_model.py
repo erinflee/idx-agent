@@ -16,18 +16,22 @@ Contract: classify(query: str) -> intent str, per router_benchmark.
 Train once: python -m evals.router_model   (fits + saves the model artifact)
 """
 
-import joblib 
+import joblib
+import numpy as np
 from pathlib import Path
 from embeddings import get_embedding, embed_batch
 from .load_answers import load_cases
+from .router_rules import keyword_features
 from sklearn.linear_model import LogisticRegression
 
 MODEL_FILE = Path(__file__).with_name("router_model.joblib")
 _model = joblib.load(MODEL_FILE)
 
 def build_features(queries):
+  # embedding + keyword flags — the has_search&has_market column is what the averaged embedding can't see
   embeddings = embed_batch(queries)
-  return embeddings
+  flags = np.array([keyword_features(q) for q in queries], dtype=np.float32)
+  return np.hstack([embeddings, flags])
 
 
 def train_router():
@@ -44,8 +48,8 @@ def train_router():
 
 
 def classify(query):
-  embedding = get_embedding(query)
-  prediction = _model.predict([embedding])
+  features = get_embedding(query) + [float(f) for f in keyword_features(query)]
+  prediction = _model.predict([features])
   return prediction[0]
 
 
