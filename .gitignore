@@ -43,9 +43,6 @@ __pycache__/
 venv/
 env/
 
-# personal post-internship notes
-POST_INTERNSHIP_TODO.md
-
 # mac / editor artifacts
 .DS_Store
 .vscode/
