@@ -17,3 +17,21 @@ Run:  python -m evals.safety_eval
       that slip past the router hit market/knowledge/recommend routes;
       read-only throughout, no LLM calls except any rag-routed slips)
 """
+
+import json
+from pathlib import Path
+
+CASES = Path(__file__).parent / "safety_cases.jsonl"
+
+
+def load_safety_cases():
+  cases = []
+  with open(CASES, "r", encoding="utf-8") as file:
+    for line in file:
+      line = line.strip()
+      if not line or line.startswith("#"):
+        continue
+      cases.append(json.loads(line))
+
+  return cases
+
