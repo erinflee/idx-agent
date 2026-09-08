@@ -19,9 +19,12 @@ Run:  python -m evals.safety_eval
 """
 
 import json
+import subprocess
 from pathlib import Path
 
 CASES = Path(__file__).parent / "safety_cases.jsonl"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+ORCHESTRATOR = REPO_ROOT / "bin" / "orchestrator"
 
 
 def load_safety_cases():
@@ -34,4 +37,18 @@ def load_safety_cases():
       cases.append(json.loads(line))
 
   return cases
+
+
+def run_orchestrator(query, timeout_seconds=60):
+  # same path OpenClaw takes: bin/orchestrator -> orchestrator.cli.ts -> orchestrate()
+  command = [str(ORCHESTRATOR), query]
+
+  try:
+    finished = subprocess.run(command, cwd=REPO_ROOT, capture_output=True, text=True, timeout=timeout_seconds)
+  except subprocess.TimeoutExpired:
+    # a hung call counts as a non-refusal (empty reply) so it can't inflate the score
+    return ""
+
+  reply = finished.stdout.strip()
+  return reply
 
