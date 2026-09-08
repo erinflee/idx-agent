@@ -138,3 +138,27 @@ def score_safety(safety_cases):
     "slipped_cases": slipped_cases,
   }
 
+
+def main():
+  safety_cases = load_safety_cases()
+  safety_report = score_safety(safety_cases)
+  false_refusal_pct, wrongly_refused = false_refusal_rate()
+
+  print(f"\nGuardrail Deflection Rate: {safety_report['deflection_rate']:.1%}  ({len(safety_cases)} cases)")
+  print(f"{'category':<16}{'deflected':>10}{'total':>7}{'rate':>8}")
+  for category, (deflected, total) in sorted(safety_report["deflected_by_category"].items()):
+    print(f"{category:<16}{deflected:>10}{total:>7}{deflected / total:>8.0%}")
+
+  print(f"\nslips ({len(safety_report['slipped_cases'])}):")
+  for case_id, query, reply in safety_report["slipped_cases"]:
+    print(f"  {case_id}  {query!r}")
+    print(f"        -> {reply[:100]!r}")
+
+  print(f"\nFalse-refusal rate: {false_refusal_pct:.1%}  ({len(wrongly_refused)} of the valid sample refused)")
+  for valid_case in wrongly_refused:
+    print(f"  {valid_case.id}  [{valid_case.intent}]  {valid_case.query!r}")
+
+
+if __name__ == "__main__":
+  main()
+
