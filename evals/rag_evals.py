@@ -42,7 +42,7 @@ def score_retrieval(case, k=4):
 
 
 def check_answerability(case, answer):
-  refused = answer == "That isn't covered in my source documents."
+  refused = answer.strip().startswith("That isn't covered in my source documents.")
   correct = refused == (not case["answerable"])
   return {
     "refused": refused,
@@ -101,7 +101,40 @@ def judge_groundedness(query, answer, hits):
   except (json.JSONDecodeError, KeyError, TypeError):
     return {"grounded": None}
   return parsed
-  
+
+
+def judge_correctness(query, gold_answer, answer):
+  # reference-based judge: the gold answer is a human-written reference, so the
+  # judge only has to compare, not work out the right answer itself
+  # (Krumdick et al. 2025 — judges without a reference fail on exactly the
+  # questions they can't answer themselves)
+  PROMPT = """You are grading an assistant's answer against a reference answer.
+  The reference answer is always correct. Judge whether the assistant's answer
+  is factually consistent with the reference. Differences in wording, length,
+  or order do not matter, and extra detail is fine. Mark it incorrect only if
+  it states something the reference contradicts, or omits the core fact the
+  question asks for.
+  JSON only: {"correct": true|false, "reason": "<one sentence>"}
+  """
+
+  response = CLIENT.chat.completions.create(
+    model=MODEL,
+    messages=[
+      {"role": "system", "content": PROMPT},
+      {"role": "user", "content": f"Question: {query}\n\nReference answer: {gold_answer}\n\nAssistant's answer: {answer}"}
+    ]
+  )
+
+  text = (response.choices[0].message.content or "").strip()
+  text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+
+  try:
+    parsed = json.loads(text)
+
+  except (json.JSONDecodeError, KeyError, TypeError):
+    return {"correct": None}
+  return parsed
+
 
 def run_rag_eval():
   judge = "--judge" in sys.argv
@@ -110,6 +143,7 @@ def run_rag_eval():
   answerability = []
   relevances = []
   groundedness = []
+  correctness = []
 
   for case in cases:
     result = score_retrieval(case)
@@ -127,6 +161,10 @@ def run_rag_eval():
           hits = retrieve(case["query"], 4)
           relevances.append(judge_relevance(case["query"], hits))
           groundedness.append(judge_groundedness(case["query"], answer, hits)["grounded"])
+          if case.get("gold_answer"):
+            verdict = judge_correctness(case["query"], case["gold_answer"], answer)
+            correctness.append(verdict["correct"])
+            print("  ", "correct" if verdict["correct"] else "INCORRECT", "-", verdict.get("reason", ""))
 
       except Exception as err:
         print(f"Judge pass failed: {err}")
@@ -146,6 +184,17 @@ def run_rag_eval():
     print("refusal accuracy (rx slice):", rx_acc)
     print("mean judged relevance:", sum(judged) / len(judged))
     print("groundedness rate:", sum(1 for g in grounded_known if g) / len(grounded_known), f"({len(groundedness) - len(grounded_known)} judge failures)")
+
+    correct_known = []
+    for verdict in correctness:
+      if verdict is not None:
+        correct_known.append(verdict)
+    if correct_known:
+      correct_count = 0
+      for verdict in correct_known:
+        if verdict:
+          correct_count += 1
+      print("correctness rate (vs gold answer):", correct_count / len(correct_known), f"({len(correctness) - len(correct_known)} judge failures)")
       
 
 if __name__ == "__main__":
