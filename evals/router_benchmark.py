@@ -12,6 +12,7 @@ Run:  python -m evals.router_benchmark   (offline; LLM candidate needs GOOGLE_AP
 import sys
 import time
 from pathlib import Path
+from .rulebook import INTENTS
 from .router_rules import classify as classify_intent
 from .router_model import classify as classify_model
 from .router_llm import classify as classify_llm
@@ -72,7 +73,7 @@ def main():
 
   for label, r in [("keyword", keyword), ("model", model), ("llm", llm)]:
     print(f"\n{label}")
-    print(classification_report(r["y_true"], r["y_pred"], zero_division=0))
+    print(classification_report(r["y_true"], r["y_pred"], labels=sorted(INTENTS), zero_division=0))
     print(confusion_matrix(r["y_true"], r["y_pred"], labels=sorted(set(r["y_true"]) | set(r["y_pred"]))))
 
 
