@@ -30,7 +30,9 @@ const ANSWER_PREFIX: Partial<Record<keyof PropertyFilter, string>> = {
 const DESCRIBE_FIELD: Partial<Record<keyof PropertyFilter, (value: any) => string>> = {
   city: (value) => `A place in ${String(value)}`,
   maxPrice: (value) => `under $${Number(value).toLocaleString()}`,
-  property: (value) => String(value)
+  property: (value) => String(value),
+  beds: (value) => `${value}+ beds`,
+  baths: (value) => `${value}+ baths`
 };
 
 
@@ -78,6 +80,16 @@ function fillAwaitedField(userId: string, message: string) {
 }
 
 
+function describeSearch(s: UserSession): string {
+  const parts: string[] = [];
+  if (s.city) parts.push(s.city);
+  if (s.maxPrice) parts.push(`under $${s.maxPrice.toLocaleString()}`);
+  if (s.property) parts.push(s.property);
+  if (s.beds) parts.push(`${s.beds}+ bd`);
+  if (s.baths) parts.push(`${s.baths}+ ba`);
+  return parts.join(" • ");
+}
+
 
 // ---- entry point ----
 
@@ -92,28 +104,29 @@ export async function handleTurn(userId: string, message: string): Promise<strin
   const s = getSession(userId);
   if (/\b(more|next|show more|see more)\b/.test(m) && nextQuestion(s) === null) {
     const nextPage = (s.page ?? 1) + 1;
-    const rows = await searchActiveListings(s, nextPage);
+    const rows = await searchActiveListings(s, nextPage, 5);
     if (rows.length === 0) return "No more available listings for your search!";   
     updateSession(userId, { page: nextPage, lastResults: rows });
-    return formatResults(rows);
+    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
   }
 
   const corrections = mergeMessage(userId, message);
   fillAwaitedField(userId, message);
-  const session = getSession(userId)
+  const session = getSession(userId);
 
   // names every switch, or the user keeps answering for the filters they first typed
   const correctionPhrases = (Object.keys(corrections) as (keyof PropertyFilter)[])
     .map((key) => DESCRIBE_FIELD[key]?.(corrections[key]))
     .filter((phrase): phrase is string => phrase !== undefined);
   const acknowledgment = correctionPhrases.length > 0
-    ? `Okok! ${correctionPhrases.join(", ")}. `
+    ? `Okok! ${correctionPhrases.join(", ")}.\n\n`
     : "";
 
   const nq = nextQuestion(session);
   if (nq !== null) return acknowledgment + nq.question;
 
-  const rows = await searchActiveListings(session, 1);
+  const rows = await searchActiveListings(session, 1, 5);
   updateSession(userId, { page: 1, lastResults: rows });
-  return acknowledgment + formatResults(rows);
+  if (rows.length === 0) return acknowledgment + `No listings match: ${describeSearch(session)}. Try a higher budget or another city.`;
+  return acknowledgment + `${describeSearch(session)} — top ${rows.length}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
 }
