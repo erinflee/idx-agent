@@ -36,8 +36,12 @@ tighten wording slightly, but keep the vibe intact:
 
 ## Returning results
 
-- Relay the printed cards to the user as-is — each has a similarity score plus
-  address, price, beds/baths, sqft, and a short description preview.
+- Relay the printed cards to the user VERBATIM — copy the command output
+  exactly, including the description line under each card. Do not reformat
+  into bullets, do not relabel fields ("Similarity Score:", "Description
+  mentions:"), do not shorten or paraphrase the description, and do not retype
+  ids or prices. Each card has a similarity score plus address, price,
+  beds/baths, sqft, id, and the listing description.
 - Scores are relative similarity (higher = closer match), not a guarantee the
   listing has every requested feature. Say so if results look only loosely related.
 - If it prints "No similar listings found", tell the user nothing ranked and
