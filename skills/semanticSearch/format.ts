@@ -6,7 +6,7 @@
 import type { SemanticHit } from "./semanticSearch";
 
 
-function preview(description: string | null, max = 90): string {
+function preview(description: string | null, max = 300): string {
 
     if (!description) return "";
     const d = description.replace(/\s+/g, " ").trim();
