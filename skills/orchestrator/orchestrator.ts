@@ -9,9 +9,13 @@
 import { propertySearchSkill } from "../propertySearch/index";
 import { parsePropertyQuery } from "../propertySearch/parse";
 import { handleTurn } from "../propertySearch/conversation";
-import { marketStatsAgent } from "../marketComps/marketStats";
+import { getSession } from "../propertySearch/session";
+import { searchActiveListings } from "../propertySearch/search";
+import { formatResults } from "../propertySearch/format";
+import { marketStatsAgent, getPriceTrendMonth, type PriceTrendMonth } from "../marketComps/marketStats";
 import { ragAgent } from "../rag/rag";
 import { recommendAgent } from "../recommendations/recommend";
+import { semanticSearchAgent } from "../semanticSearch/semanticSearch";
 
 type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed" | "unknown";
 const SEARCH_STRONG = ["show me", "find", "listing", "for sale", "looking for", "got any", "anything", "somewhere", "under", "below", "near", "<", "$"];
@@ -24,6 +28,12 @@ const RECOMMEND = ["similar", "more like", "like this", "like that", "like the l
                    "comparable", "like the one", "recs", "next best", "same thing", "anything else", "other options", "suggest", "like listing", "comps to", "more of"];
 const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "columns", "what is", "wut is", "whats a", "escrow",
                    "how is", "calculated", "what fields", "table", "same as"];
+
+// MULTI_TURN words go straight to the session (paginate / reset)
+// FOLLOW_UP pointer words reuse the last search's top result, anything else is a description -> semantic search
+const MULTI_TURN = /\b(show more|see more|next|start over|restart|new search)\b/i;
+const FOLLOW_UP = /\b(last|first|second|third|that one|the one|those|these|recs|like (this|that|it))\b/i;
+
 
 export function classifyIntent(query: string): Intent {
   const q = query.toLowerCase();
@@ -48,10 +58,33 @@ export function classifyIntent(query: string): Intent {
 }
 
 
+// one-line answer to "are prices rising?" from the monthly trend: first month vs last month
+function trendVerdict(trend: PriceTrendMonth[] | null): string {
+  if (!trend || trend.length < 2) return "Not enough monthly sales to call a trend.";
+  const first = trend[0];
+  const last = trend[trend.length - 1];
+  const pct = (last.avgPrice - first.avgPrice) / first.avgPrice * 100;
+  const direction = pct > 2 ? "rising" : pct < -2 ? "falling" : "flat";
+  const sign = pct >= 0 ? "+" : "";
+  return `Prices are ${direction}: avg sale price $${first.avgPrice.toLocaleString()} (${first.month}) -> $${last.avgPrice.toLocaleString()} (${last.month}), ${sign}${pct.toFixed(1)}%`;
+}
+
+
 export async function orchestrate(query: string, userId?: string): Promise<string> {
+  if (userId && MULTI_TURN.test(query)) {
+    return await handleTurn(userId, query);
+  }
+  // mid-conversation: the last reply was a question, so this message is the answer
+  if (userId && getSession(userId).conversationStep === 1) {
+    return await handleTurn(userId, query);
+  }
   const intent = classifyIntent(query);
   const filter = parsePropertyQuery(query);
 
+  if (userId && intent === "unknown" && getSession(userId).city && Object.keys(filter).length > 0) {
+    return await handleTurn(userId, query);
+  }
+  
   try {
     switch (intent) {
       case "search":
@@ -65,9 +98,16 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
 
       case "recommend":
         try {
+          // 1. an explicit id in the message wins
           const listing_id = query.match(/(\d{5,})/);
-          if (!listing_id) return "Tell me which listing id";
-          return await recommendAgent(listing_id[1]);
+          if (listing_id) return await recommendAgent(listing_id[1]);
+
+          // 2. a follow-up that points back at an earlier result -> first result of the last search
+          const last = userId ? getSession(userId).lastResults?.[0] : undefined;
+          if (FOLLOW_UP.test(query) && last?.id) return await recommendAgent(String(last.id));
+          
+          // 3. otherwise the user is describing what they want -> semantic search
+          return await semanticSearchAgent(query);
         } catch (err) {
           console.error(err);
           return "I couldn't find a listing with that id";
@@ -76,13 +116,18 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
       case "knowledge":
         return await ragAgent(query);
 
-      case "mixed":
+      case "mixed": {
         if (!filter.city) return propertySearchSkill(query);
-        const [listings, stats] = await Promise.all([
-          propertySearchSkill(query),
-          marketStatsAgent(filter.city)
+        const [rows, stats, trend] = await Promise.all([
+          searchActiveListings(filter, 1, 5),
+          marketStatsAgent(filter.city),
+          getPriceTrendMonth(filter.city),
         ]);
-        return listings + "\n\n" + stats; // "".join("\n\n") is python
+        // numbered cards, then a one-line answer to the market half, then the stats block
+        const priceNote = filter.maxPrice ? ` under $${filter.maxPrice.toLocaleString()}` : "";
+        return `Top 5 listings in ${filter.city}${priceNote}\n\n${formatResults(rows, 0)}\n\n` +
+               `${trendVerdict(trend)}\n\n${stats}`;
+      }
 
       default:
         return "I'm not sure how to help with that. Try asking about properties or market trends.";
