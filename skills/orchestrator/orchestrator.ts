@@ -8,7 +8,7 @@
 
 import { propertySearchSkill } from "../propertySearch/index";
 import { parsePropertyQuery } from "../propertySearch/parse";
-import { formatListing } from "../propertySearch/format";
+import { handleTurn } from "../propertySearch/conversation";
 import { marketStatsAgent } from "../marketComps/marketStats";
 import { ragAgent } from "../rag/rag";
 import { recommendAgent } from "../recommendations/recommend";
@@ -48,13 +48,15 @@ export function classifyIntent(query: string): Intent {
 }
 
 
-export async function orchestrate(query: string): Promise<string> {
+export async function orchestrate(query: string, userId?: string): Promise<string> {
   const intent = classifyIntent(query);
   const filter = parsePropertyQuery(query);
 
   try {
     switch (intent) {
       case "search":
+        // on WhatsApp we know the sender -> multi-turn session
+        if (userId) return await handleTurn(userId, query);
         return await propertySearchSkill(query);
 
       case "market":

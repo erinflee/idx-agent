@@ -2,8 +2,7 @@
 name: orchestrator
 description: The default entry point for ANY real-estate question — routes it to the right capability automatically. Handles listing search ("3 bed condos in Irvine under 800k"), market stats ("average price in Fresno"), recommendations ("more like id 1170038764"), terminology and schema questions ("what does DOM mean?"), and mixed queries ("find homes in Oroville and tell me if prices are rising"). Prefer this over the individual skills unless the user explicitly names one.
 user-invocable: true
-metadata:
-  { "openclaw": { "emoji": "🎛️" } }
+metadata: { "openclaw": { "emoji": "🎛️" } }
 ---
 
 # Orchestrator
@@ -18,9 +17,11 @@ parallel and return both blocks.
 Pass the user's message as a single quoted argument:
 
 ```
-/Users/erinlee/Desktop/nlp-internship/bin/orchestrator "<question>"
+/Users/erinlee/Desktop/nlp-internship/bin/orchestrator --user "<sender id>" "<question>"
 ```
 
+- Always pass the WhatsApp sender's id as `--user` — property searches then remember city,
+  budget, and type across messages and ask follow-up questions when something is missing.
 - Pass ONE quoted string — the user's message, lightly cleaned up is fine.
 - Keep listing ids intact when the user references one ("more like id
   1170038764") — the recommend route extracts the id from the text.
@@ -30,9 +31,9 @@ Pass the user's message as a single quoted argument:
 - Relay the output as-is — property cards, market stats, and knowledge
   answers arrive pre-formatted (knowledge answers end with a "Source:" line;
   keep it).
-- If it prints a clarifying question ("Which city are you asking about?",
-  "Tell me which listing id"), relay that question to the user and re-run
-  with their answer appended.
+- If it prints a clarifying question ("What is your budget?", "Which city are
+  you asking about?"), relay it to the user, then pass their next message as
+  the new question. The session remembers earlier answers.
 - If it prints "I'm not sure how to help with that...", relay it — do NOT
   answer from your own knowledge.
 
