@@ -77,7 +77,8 @@ export function parsePropertyQuery(query: string): PropertyFilter {
   const priceSource = priceMatch ?? priceFallback ?? priceBare;
   const bedMatch = query.match(/\b(\d+)[\s-]*(?:room|rooms|bed|beds|bedroom|bedrooms|bd|bds|bdrm|bdrms|br|brs)\b/i);
   const bathMatch = query.match(/\b(\d+(?:\.\d+)?)[\s-]*(?:bath|baths|bathroom|bathrooms|ba)\b/i);
-const slashMatch = query.match(/\b(\d{1,2})\s*(?:b|bd|bds)?\s*\/\s*(\d{1,2}(?:\.\d)?)\s*(?:b|ba|bas)?\b(?!\s*(?:million|mil|thousand|grand))/i);
+  const slashMatch = query.match(/\b(\d{1,2})\s*(?:b|bd|bds)?\s*\/\s*(\d{1,2}(?:\.\d)?)\s*(?:b|ba|bas)?\b(?!\s*(?:million|mil|thousand|grand))/i);
+  const compactMatch = query.match(/\b(\d{1,2})\s*(?:b|bd|br)\s*(\d{1,2}(?:\.\d)?)\s*(?:b|ba)\b/i);
   const sqftMatch = query.match(/\b(\d[\d,]*)[\s-]*(?:sqft|sq\s+ft|square\s+(feet|foot)|sq\.\s+ft\.)/i);
   const poolMatch = query.match(/\b(?:swimming\s+)?pools?\b/i);
   const poolNegated = /\b(?:no|without|not|w\/o|sans)\s+(?:a\s+|an\s+)?(?:swimming\s+)?pools?\b/i.test(query);
@@ -99,9 +100,9 @@ const slashMatch = query.match(/\b(\d{1,2})\s*(?:b|bd|bds)?\s*\/\s*(\d{1,2}(?:\.
     if (Number.isFinite(maxPrice) && maxPrice > 0 && maxPrice <= 100_000_000 && (suffix || maxPrice >= 10_000)) filter.maxPrice = maxPrice;
   }
 
-  const beds = toFinitePositive(bedMatch?.[1] ?? slashMatch?.[1]);
+  const beds = toFinitePositive(bedMatch?.[1] ?? slashMatch?.[1] ?? compactMatch?.[1]);
   if (beds !== undefined) filter.beds = beds;
-  const baths = toFinitePositive(bathMatch?.[1] ?? slashMatch?.[2]);
+  const baths = toFinitePositive(bathMatch?.[1] ?? slashMatch?.[2] ?? compactMatch?.[2]);
   if (baths !== undefined) filter.baths = baths;
   const sqft = toFinitePositive(sqftMatch?.[1]);
   if (sqft !== undefined) filter.sqft = sqft;
