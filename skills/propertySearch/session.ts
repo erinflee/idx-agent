@@ -2,6 +2,7 @@
 //
 // Typed slots your code fills as the user talks -> checked to decide the next follow-up question
 
+import * as fs from "fs";
 import type { ListingRow } from "./search"; 
 
 export interface UserSession {
@@ -19,19 +20,26 @@ export interface UserSession {
   conversationStep: number;
 }
 
-const sessions = new Map<string, UserSession>();
+const SESSION_DIR = `${process.env.HOME}/.openclaw/property-sessions`;
+
+function sessionFile(userId: string): string {
+  return `${SESSION_DIR}/${userId}.json`;
+}
 
 export function getSession(userId: string): UserSession {
-  if (!sessions.has(userId)) { sessions.set(userId, { conversationStep: 0 }); }
-
-  return sessions.get(userId)!;
+  try {
+    return JSON.parse(fs.readFileSync(sessionFile(userId), "utf8"));
+  } catch {
+    return { conversationStep: 0 };
+  }
 }
 
 export function updateSession(userId: string, updates: Partial<UserSession>): void {
-  const session = getSession(userId);
-  sessions.set(userId, { ...session, ...updates });
+  const session = { ...getSession(userId), ...updates };
+  fs.mkdirSync(SESSION_DIR, { recursive: true });
+  fs.writeFileSync(sessionFile(userId), JSON.stringify(session));
 }
 
 export function clearSession(userId: string): void {
-  sessions.delete(userId);
+  fs.rmSync(sessionFile(userId), { force: true });
 }
