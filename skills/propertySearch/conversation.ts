@@ -98,6 +98,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
   const m = message.toLowerCase();
   if (m.includes("restart") || m.includes("start over") || m.includes("new search")) {
     clearSession(userId);
+    updateSession(userId, { conversationStep: 1 });   // 1 = waiting for an answer
     return nextQuestion(getSession(userId))!.question;
   }
 
@@ -106,8 +107,8 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     const nextPage = (s.page ?? 1) + 1;
     const rows = await searchActiveListings(s, nextPage, 5);
     if (rows.length === 0) return "No more available listings for your search!";   
-    updateSession(userId, { page: nextPage, lastResults: rows });
-    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
+    updateSession(userId, { page: nextPage, lastResults: rows, conversationStep: 0 });
+    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows, (nextPage - 1) * 5) + `\n\nReply "show more" for the next 5.`;
   }
 
   const corrections = mergeMessage(userId, message);
@@ -123,10 +124,13 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     : "";
 
   const nq = nextQuestion(session);
-  if (nq !== null) return acknowledgment + nq.question;
+  if (nq !== null) {
+    updateSession(userId, { conversationStep: 1 });   // 1 = waiting for an answer
+    return acknowledgment + nq.question;
+  }
 
   const rows = await searchActiveListings(session, 1, 5);
-  updateSession(userId, { page: 1, lastResults: rows });
+  updateSession(userId, { page: 1, lastResults: rows, conversationStep: 0 });   // 0 = search complete
   if (rows.length === 0) return acknowledgment + `No listings match: ${describeSearch(session)}. Try a higher budget or another city.`;
-  return acknowledgment + `${describeSearch(session)} — top ${rows.length}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
+  return acknowledgment + `${describeSearch(session)} — top ${rows.length}:\n\n` + formatResults(rows, 0) + `\n\nReply "show more" for the next 5.`;
 }
