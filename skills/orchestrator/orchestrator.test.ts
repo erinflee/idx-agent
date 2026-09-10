@@ -48,6 +48,12 @@ async function main() {
   assert(vagueReply === "Which city and what budget are you looking at?", `FAIL  vague search should ask for city/budget, got: ${vagueReply}`);
   assert(!vagueReply.includes("id:"), "FAIL  vague search returned a listing card");
 
+  // same guard on the mixed arm: market words but no city and no budget
+  const vagueMixed = "show me homes and tell me if prices are rising";
+  assert(classifyIntent(vagueMixed) === "mixed", `FAIL  guard test query must route to mixed, got ${classifyIntent(vagueMixed)}`);
+  const vagueMixedReply = await orchestrate(vagueMixed);
+  assert(vagueMixedReply === "Which city and what budget are you looking at?", `FAIL  vague mixed should ask for city/budget, got: ${vagueMixedReply}`);
+
   console.log("PASS -- all orchestrator tests ran")
 }
 
