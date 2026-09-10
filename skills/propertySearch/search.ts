@@ -27,7 +27,6 @@ export interface ListingRow {
   hoaFreq: string | null;
   prevPrice: number | null;
   priceChange: string | null;
-  photoCount: number | null;
 }
 
 // Search active listings matching the filter, with pagination.
@@ -53,7 +52,10 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       AssociationFeeFrequency as hoaFreq,
       PreviousListPrice as prevPrice,
       PriceChangeTimestamp as priceChange,
-      PhotoCount as photoCount
+      ROW_NUMBER() OVER (
+        PARTITION BY L_Address, L_City, L_Zip, L_SystemPrice, L_Keyword2, LM_Int2_3
+        ORDER BY ModificationTimestamp DESC, L_ListingID DESC
+      ) as dupRank
     FROM rets_property
     WHERE L_Status = 'Active'
     `;
@@ -77,7 +79,16 @@ export async function searchActiveListings(filter: PropertyFilter, page = 1, lim
       ELSE AssociationFee
     END) <= ?`; params.push(filter.maxHoa)}; // normalize fee to monthly before comparing
   sql += ` AND L_SystemPrice >= 10000`;
-  sql += ` ORDER BY L_SystemPrice DESC, L_ListingID DESC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`;
 
-  return query<ListingRow>(sql, params);
+  // a pulled-and-relisted home leaves a stale Active row behind with the same
+  // address/price/specs -> keep only the most recently modified row per group,
+  // and dedupe inside the query so every page still comes back full
+  sql = `SELECT * FROM (${sql}) AS listings WHERE dupRank = 1`;
+  sql += ` ORDER BY price DESC, id DESC LIMIT ${Number(limit)} OFFSET ${Number(offset)}`;
+
+  const rows = await query<ListingRow & { dupRank?: number }>(sql, params);
+  for (const row of rows) {
+    delete row.dupRank;   // internal to the query, not part of ListingRow
+  }
+  return rows;
 }
