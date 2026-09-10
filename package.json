@@ -2,7 +2,7 @@
   "name": "nlp-internship-skills",
   "private": true,
   "type": "module",
-  "description": "TypeScript OpenClaw skills for the MLS assistant (parser tests run via tsx).",
+  "description": "TypeScript OpenClaw skills for the MLS assistant",
   "scripts": {
     "test": "sh scripts/test-all.sh",
     "test-property-parse": "tsx skills/propertySearch/parse.test.ts",
@@ -19,6 +19,7 @@
     "test-recommend-format": "npx tsx skills/recommendations/format.test.ts",
     "test-rag-format": "npx tsx skills/rag/format.test.ts",
     "test-orchestrator": "npx tsx skills/orchestrator/orchestrator.test.ts",
+    "test-orchestrator-format": "npx tsx skills/orchestrator/format.test.ts",
     "test-email": "npx tsx skills/email/email.test.ts",
     "demo-conversation": "npx tsx skills/propertySearch/conversation.cli.ts",
     "demo-market": "npx tsx skills/marketComps/marketStats.cli.ts",
@@ -26,7 +27,8 @@
     "demo-recommend": "npx tsx skills/recommendations/recommend.cli.ts",
     "demo-rag": "npx tsx skills/rag/rag.cli.ts",
     "demo-orchestrator": "npx tsx skills/orchestrator/orchestrator.cli.ts",
-    "demo-email": "npx tsx skills/email/email.cli.ts"
+    "demo-email": "npx tsx skills/email/email.cli.ts",
+    "dump-system": "npx tsx evals/dump_system.ts"
   },
   "devDependencies": {
     "@types/nodemailer": "^8.0.1",
