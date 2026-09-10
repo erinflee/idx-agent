@@ -44,8 +44,9 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 │   └── handlerDemo.ts          keyword→skill message-router scaffold
 ├── bin/                      one wrapper per skill that OpenClaw can allowlist + exec
 ├── openclaw/                 OpenClaw skill definitions (SKILL.md per skill)
-├── evals/            router benchmark, RAG LLM-judge eval, safety eval (see evals/README.md)
-├── tests/            pytest checks for the Python skill backends
+├── evals/            answer key, router benchmark, RAG LLM-judge eval, safety eval,
+│                     end-to-end task-success harness (see evals/README.md)
+├── tests/            pytest checks for the Python skill backends + task-success floors
 ├── scripts/test-all.sh  full TypeScript suite (npm test)
 ├── db.py             MySQL connection layer
 └── requirements.txt
@@ -67,7 +68,18 @@ evolves. Git history records the timeline; the table below maps weeks → files.
 | 9    | Multi-agent orchestration               | `skills/orchestrator/` · `openclaw/orchestrator/` · `evals/router_*.py`                    | done   |
 | 10   | WhatsApp layer + safety eval            | OpenClaw WhatsApp channel → `bin/*` wrappers · `evals/safety_eval.py` · `safety_cases.jsonl` | done   |
 | 11   | Email + approval guardrails             | `skills/email/` · `bin/email` · `openclaw/email/`                                          | done   |
-| 12   | Capstone demo                           | live WhatsApp demo · backup video · `docs/reflection.md`                                   | —      |
+| 12   | Capstone demo + end-to-end task success | `evals/dump_system.ts` · `evals/replay_system.py` · `tests/test_task_success.py` · live WhatsApp demo · backup video · `docs/reflection.md` | in progress |
+
+## Capstone deliverables
+
+| Deliverable                 | Where                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| Architecture diagram        | `docs/architecture.md` (mermaid, both databases) · `docs/lifecycle.md` (query lifecycle) |
+| Schema annotation           | `rag_docs/schema_reference.md` — field-usage notes for `rets_property` / `california_sold`, verified against the Trestle RESO metadata; also indexed by the RAG skill |
+| Live demo                   | 5-minute WhatsApp walkthrough: multi-turn search → mixed intent (search + market) → semantic → recommend → RAG → email draft & approve |
+| Demo video (backup)         | recorded after the live run; link added here                                            |
+| Written reflection          | `docs/reflection.md`                                                                    |
+| Evals                       | `evals/README.md` — router benchmark, RAG judge, safety suite, end-to-end task success  |
 
 ## Setup
 
@@ -90,6 +102,10 @@ npm test      # TypeScript — full skill suite (scripts/test-all.sh)
 integration tests that hit live MySQL — so it needs `.env` filled in and the
 database running. Individual suites are in `package.json` (e.g.
 `npm run test-property-parse`).
+
+`pytest` includes `tests/test_task_success.py`, which scores the real pipeline
+end-to-end from a recording. Regenerate the recording after a pipeline change
+with `npm run dump-system` (needs the DB); see `evals/README.md`.
 
 OpenClaw itself is installed separately (`npm install -g openclaw`) and runs as a background
 gateway; see the Week 0 setup notes.
