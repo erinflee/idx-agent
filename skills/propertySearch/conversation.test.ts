@@ -5,8 +5,13 @@
 // Run:  npm run test-property-conversation
 
 import { mergeMessage, nextQuestion, handleTurn } from "./conversation";
-import { getSession, updateSession } from "./session";
+import { getSession, updateSession, clearSession } from "./session";
 import { closePool } from "../shared/db";
+
+// sessions persist to disk now, so every test user must start clean
+const TEST_USERS = ["ht1", "ht2", "ht3", "ht4", "nq1", "nq2", "nq3", "nq4", "tcf1", "tet1", "tr1", "u1"];
+for (const userId of TEST_USERS) clearSession(userId);
+
 
 function testMergeMessage() {
   let failed = 0;
@@ -38,6 +43,7 @@ function testMergeMessage() {
   }
   return failed;
 }
+
 
 function testNextQuestion() {
   let failed = 0;
@@ -73,6 +79,7 @@ function testNextQuestion() {
   return failed;
 }
 
+
 async function testHandleTurn() {
   let failed = 0
   const ht1 = await handleTurn("ht1", "find something");
@@ -103,6 +110,7 @@ async function testHandleTurn() {
   return failed
 }
 
+
 async function testReset() {
   let failed = 0;
   const tr1 = await handleTurn("tr1", "i want to live in malibu");
@@ -128,6 +136,7 @@ async function testReset() {
   return failed;
 }
 
+
 async function testEmptyTurn() {
   let failed = 0;
   const tet1 = await handleTurn("tet1", "asdf");
@@ -144,9 +153,6 @@ async function testEmptyTurn() {
   }
   return failed;
 }
-
-
-
 
 
 async function testConversationFlow() {
