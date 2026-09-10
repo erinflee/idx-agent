@@ -1,7 +1,8 @@
 """The grader - pass/fail scoring of an agent's output against the answer key
 
-This defines end-to-end task success NOW (Week 1) even though no agent exists
-yet. Later weeks plug a real system in; Week 12 reports the aggregate rate.
+This defined end-to-end task success in Week 1, before any agent existed.
+Week 12 plugs the real pipeline in via evals/replay_system.py (fed by
+evals/dump_system.ts) and reports the aggregate rate in tests/test_task_success.py.
 
 A "system under test" is any callable: query (str) -> output (dict) shaped like
     {"intent": str, "filters": dict, "errored": bool, "results": list}
@@ -24,7 +25,7 @@ class ScoreResult:
     reasons: list[str]  # why it failed (empty when passed)
 
 
-def score_case(expected: EvalCase, actual: dict) -> ScoreResult:
+def score_case(expected: EvalCase, actual: dict):
     """Decide pass/fail for one case. This is THE definition of task success
 
     Collect failure reasons into ScoreResult.reasons
@@ -56,14 +57,14 @@ def score_case(expected: EvalCase, actual: dict) -> ScoreResult:
     return ScoreResult(expected, passed=not reasons, reasons=reasons)
 
 
-def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None) -> list[ScoreResult]:
+def run_suite(system: SystemFn, cases: Optional[list[EvalCase]] = None):
     """Run every case through `system` and score it."""
     if cases is None:
         cases = load_cases()
     return [score_case(expected, system(expected.query)) for expected in cases]
 
 
-def task_success_rate(results: list[ScoreResult]) -> float:
+def task_success_rate(results: list[ScoreResult]):
     """Fraction of cases that passed (0.0 .. 1.0). The headline Week-12 number."""
     
     if not results:
@@ -75,7 +76,7 @@ def task_success_rate(results: list[ScoreResult]) -> float:
     return passed / len(results)
 
 
-def oracle_system(validator) -> SystemFn:
+def oracle_system(validator):
     """A perfect test-double used to sanity-check the GRADER itself.
 
     It looks up each query's gold labels and returns them, but still runs the
