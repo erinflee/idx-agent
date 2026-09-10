@@ -25,9 +25,14 @@ export interface SemanticHit {
     description: string | null;
 }
 
-export async function semanticSearchAgent(query: string): Promise<string> {
+// raw hits, so the orchestrator can remember what was shown (for "more like the first one")
+export async function fetchSemanticHits(query: string): Promise<SemanticHit[]> {
     const response = await fetch(`${BASE}/search/semantic?query=${encodeURIComponent(query)}&k=5`);
-    const hits: SemanticHit[] = await response.json();
+    return response.json();
+}
+
+export async function semanticSearchAgent(query: string): Promise<string> {
+    const hits = await fetchSemanticHits(query);
     return formatSemanticHits(query, hits);
 }
 
