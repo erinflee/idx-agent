@@ -43,6 +43,18 @@ function main() {
   assert(partialCard.includes("N/A sqft"), "null sqft should show N/A");
   assert(!partialCard.includes("null"), "null field leaked into the card");
 
+  // a missing lot is omitted entirely, not printed as "N/A sqft lot"
+  const noLot: ListingRow = { ...sample, lotSqft: null };
+  const noLotCard = formatListing(noLot);
+  assert(!noLotCard.includes("sqft lot"), "null lot should be omitted");
+  assert(noLotCard.includes("1,500 sqft\n"), "sqft should end the line when lot is missing");
+
+  // SingleFamilyResidence renders as Single Family; other types pass through as-is
+  const sfr: ListingRow = { ...sample, property: "SingleFamilyResidence" };
+  assert(formatListing(sfr).includes("Single Family •"), "SingleFamilyResidence should read Single Family");
+  const other: ListingRow = { ...sample, property: "Townhouse" };
+  assert(formatListing(other).includes("Townhouse •"), "other property types should pass through unchanged");
+
   // empty result set -> the friendly no-matches message
   assert(formatResults([]) === "No matching listings found", "empty case wrong");
 
