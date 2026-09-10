@@ -22,18 +22,26 @@ Pass the user's message as a single quoted argument:
 
 - Always pass the WhatsApp sender's id as `--user` — property searches then remember city,
   budget, and type across messages and ask follow-up questions when something is missing.
+  Use the sender's phone number if you know it; otherwise use the fixed id `whatsapp-user`
+  for every message in this chat. Never pass the literal text `<sender id>`.
 - Pass ONE quoted string — the user's message, lightly cleaned up is fine.
 - Keep listing ids intact when the user references one ("more like id
   1170038764") — the recommend route extracts the id from the text.
 
 ## Returning results
 
-- Relay the output as-is — property cards, market stats, and knowledge
-  answers arrive pre-formatted (knowledge answers end with a "Source:" line;
-  keep it).
+- Relay the output VERBATIM — copy the command's stdout exactly, first line to
+  last. Property cards, market stats, and knowledge answers arrive
+  pre-formatted. Do NOT add an intro sentence, do NOT number or bullet the
+  cards, do NOT drop the header line (e.g. "Concord • under $1,400,000 — top
+  5:") or the trailer ("Reply \"show more\"..."), and keep the "Source:" line
+  on knowledge answers.
 - If it prints a clarifying question ("What is your budget?", "Which city are
   you asking about?"), relay it to the user, then pass their next message as
   the new question. The session remembers earlier answers.
+- "start over", "restart", "new search": ALWAYS run the command with that exact
+  message. Never answer these yourself — the command clears the saved search
+  and prints the first question ("Which city?"), which you relay verbatim.
 - If it prints "I'm not sure how to help with that...", relay it — do NOT
   answer from your own knowledge.
 
