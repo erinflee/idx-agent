@@ -96,19 +96,20 @@ function main() {
   const withCap = formatMixed("San Diego", 1000000, rows, rising, stats);
   const lines = withCap.split("\n");
 
-  assert(lines[0] === "Top 2 listings in San Diego under $1,000,000", "bad header with price cap");
-  assert(lines[1] === "-----------------------", "divider missing after header");
-  assert(withCap.includes("1. 1 Main St, San Diego, CA 92101"), "first card not numbered 1");
+  assert(lines[0] === "Top 2 listings in San Diego under $1,000,000:", "bad header with price cap");
+  assert(lines[1] === "", "blank line missing after header");
+  assert(lines[2].startsWith("1. 1 Main St, San Diego, CA 92101"), "first card should follow the header directly");
   assert(withCap.includes("2. 2 Oak Ave, San Diego, CA 92101"), "second card not numbered 2");
   assert(withCap.includes("id: 11111") && withCap.includes("id: 22222"), "listing ids missing from cards");
-  assert(withCap.split("-----------------------").length === 3, "expected exactly two dividers");
+  assert(withCap.split("-----------------------").length === 2, "expected exactly one divider, before the verdict");
+  assert(withCap.indexOf("2. 2 Oak Ave") < withCap.indexOf("-----------------------"), "divider should come after the cards");
   assert(withCap.includes("Prices are rising"), "verdict line missing");
   assert(withCap.endsWith(stats), "stats block should be the last thing in the reply");
   assert(withCap.indexOf("1. 1 Main St") < withCap.indexOf("Prices are rising"), "cards should come before the verdict");
   assert(withCap.indexOf("Prices are rising") < withCap.indexOf(stats), "verdict should come before the stats block");
 
   const noCap = formatMixed("San Diego", undefined, rows, rising, stats);
-  assert(noCap.split("\n")[0] === "Top 2 listings in San Diego", "header should have no price note without a cap");
+  assert(noCap.split("\n")[0] === "Top 2 listings in San Diego:", "header should have no price note without a cap");
   assert(!noCap.includes("under $"), "price note leaked without a cap");
 
   const noRows = formatMixed("San Diego", undefined, [], null, stats);
