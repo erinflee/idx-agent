@@ -21,7 +21,7 @@ export function formatListing(row: ListingRow): string {
   const hoa = monthlyHoa(row.hoa, row.hoaFreq);
   const lot = row.lotSqft == null ? null : Number(row.lotSqft);
 
-  return `${row.address ?? "Address not available"}, ${row.city}, CA ${row.zip} • id: ${row.id}
+  return `${row.address ?? "Address not available"}, ${row.city}, CA ${row.zip} • id: ${row.id}
 $${row.price?.toLocaleString() ?? "N/A"} • ${row.beds ?? "N/A"} bd / ${row.baths != null ? Number(row.baths) + 0.5 * (row.halfBaths ?? 0) : "N/A"} ba • ${row.sqft?.toLocaleString() ?? "N/A"} sqft • ${lot ? lot.toLocaleString() : "N/A"} sqft lot
 ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"} days on market${hoa != null ? ` • HOA $${Math.round(hoa).toLocaleString()}/mo` : ""} • ${row.photoCount ?? "N/A"} Photos`;
 
@@ -29,8 +29,10 @@ ${row.property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N
 
 // format entire result set and handle the empty case 
 // otherwise join each formatted card
-export function formatResults(rows: ListingRow[]): string {
+// `start` numbers the cards from start+1, so page 2 of 5 reads 6..10 (default: unnumbered)
+export function formatResults(rows: ListingRow[], start?: number): string {
   if (rows.length === 0) {return "No matching listings found"};
-  return rows.map(formatListing).join("\n\n");
+  if (start === undefined) return rows.map(formatListing).join("\n\n");
+  return rows.map((row, i) => `${start + i + 1}. ` + formatListing(row)).join("\n\n");
 }
 
