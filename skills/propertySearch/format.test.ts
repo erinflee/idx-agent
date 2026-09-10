@@ -62,6 +62,12 @@ function main() {
   assert(joined.includes("\n\n"), "cards should be separated by a blank line");
   assert(joined.split("Condominium").length === 3, "should render exactly two cards");
 
+  // numbered from 1 by default; start=5 (page 2 of 5) continues 6., 7.
+  assert(joined.startsWith("1. "), "first card should be numbered 1.");
+  assert(joined.includes("\n\n2. "), "second card should be numbered 2.");
+  const page2 = formatResults([sample, sample], 5);
+  assert(page2.startsWith("6. ") && page2.includes("\n\n7. "), "page 2 should continue numbering from 6.");
+
   console.log("PASS - format functions produce correct card strings");
 }
 
