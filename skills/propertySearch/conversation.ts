@@ -5,7 +5,7 @@
 
 import { parsePropertyQuery, type PropertyFilter } from "./parse";
 import { searchActiveListings } from "./search";
-import { formatResults } from "./format";
+import { formatResults, propertyLabel } from "./format";
 import { getSession, updateSession, type UserSession, clearSession } from "./session";
 
 
@@ -30,7 +30,7 @@ const ANSWER_PREFIX: Partial<Record<keyof PropertyFilter, string>> = {
 const DESCRIBE_FIELD: Partial<Record<keyof PropertyFilter, (value: any) => string>> = {
   city: (value) => `A place in ${String(value)}`,
   maxPrice: (value) => `under $${Number(value).toLocaleString()}`,
-  property: (value) => String(value),
+  property: (value) => propertyLabel(String(value)) ?? String(value),
   beds: (value) => `${value}+ beds`,
   baths: (value) => `${value}+ baths`
 };
@@ -84,7 +84,7 @@ function describeSearch(s: UserSession): string {
   const parts: string[] = [];
   if (s.city) parts.push(s.city);
   if (s.maxPrice) parts.push(`under $${s.maxPrice.toLocaleString()}`);
-  if (s.property) parts.push(s.property);
+  if (s.property) parts.push(propertyLabel(s.property) ?? s.property);
   if (s.beds) parts.push(`${s.beds}+ bd`);
   if (s.baths) parts.push(`${s.baths}+ ba`);
   return parts.join(" • ");
