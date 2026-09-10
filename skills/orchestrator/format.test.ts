@@ -34,7 +34,6 @@ function makeRow(id: string, address: string, price: number): ListingRow {
     hoaFreq: null,
     prevPrice: null,
     priceChange: null,
-    photoCount: 20,
   };
 }
 
