@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# One command to run before any WhatsApp test or the live demo:
+#   - copies every SKILL.md into the OpenClaw workspace (the gateway reads copies, not the repo)
+#   - clears the demo phone's property-search session so the follow-up questions appear
+#   - restarts the FastAPI service (picks up rag.py / service.py changes)
+#   - restarts the OpenClaw gateway and prints the WhatsApp channel status
+cd "$(dirname "$0")/.." || exit 1
+
+for skill_dir in openclaw/*/; do
+  name=$(basename "$skill_dir")
+  if [ -f "$skill_dir/SKILL.md" ]; then
+    mkdir -p ~/.openclaw/workspace/skills/"$name"
+    cp "$skill_dir/SKILL.md" ~/.openclaw/workspace/skills/"$name"/SKILL.md
+  fi
+done
+echo "skills synced"
+
+rm -f ~/.openclaw/property-sessions/+19255674154.json
+echo "session cleared"
+
+pkill -f "uvicorn service:app" 2>/dev/null
+sleep 1
+(uvicorn service:app --host 127.0.0.1 --port 8000 > /tmp/uvicorn.log 2>&1 &)
+echo "service restarting"
+
+launchctl kickstart -k gui/$(id -u)/ai.openclaw.gateway
+echo "gateway restarting, waiting 20s..."
+sleep 20
+
+curl -s -m 5 http://localhost:8000/health && echo " <- service"
+/opt/anaconda3/bin/node /opt/anaconda3/lib/node_modules/openclaw/dist/index.js channels status 2>/dev/null | grep -i "whatsapp default" | cut -c1-110
