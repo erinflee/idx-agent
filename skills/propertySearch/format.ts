@@ -35,12 +35,12 @@ ${property ?? "N/A"} • Built ${row.yearBuilt ?? "N/A"} • ${row.dom ?? "N/A"}
 
 }
 
-// format entire result set and handle the empty case 
-// otherwise join each formatted card
-// `start` numbers the cards from start+1, so page 2 of 5 reads 6..10 (default: unnumbered)
-export function formatResults(rows: ListingRow[], start?: number): string {
+// format entire result set and handle the empty case
+// otherwise join each formatted card, numbered from start+1 so page 2 of 5 reads 6..10
+// (every route — search, conversation, mixed — passes an offset so lists look the same
+// and "the second one" always means the second card just shown)
+export function formatResults(rows: ListingRow[], start = 0): string {
   if (rows.length === 0) {return "No matching listings found"};
-  if (start === undefined) return rows.map(formatListing).join("\n\n");
   return rows.map((row, i) => `${start + i + 1}. ` + formatListing(row)).join("\n\n");
 }
 
