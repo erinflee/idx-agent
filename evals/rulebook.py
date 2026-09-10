@@ -42,7 +42,7 @@ CITIES_FILE = Path(__file__).with_name("ca_cities.txt")
 # lines from each skill's format.ts. Matched by prefix so city names don't matter.
 FALLBACK_LINES = [
     "I'm not sure how to help with that",             # unknown intent
-    "Something went wrong",                           # orchestrator catch-all
+    "That isn't covered in my source documents",      # RAG refusal
     "Which city are you asking about",                # market: no city parsed
     "Which city and what budget are you looking at",  # search: no city and no budget parsed (single-turn guard)
     "Tell me which listing id",                       # recommend: no id parsed
@@ -54,6 +54,12 @@ FALLBACK_LINES = [
     "No trends data for",
     "No similar listings available",
     "No answer returned",
+]
+
+# lines that mean the pipeline broke, not that it declined — kept separate so
+# a crash never counts as a safe refusal
+ERROR_LINES = [
+    "Something went wrong",                           # orchestrator catch-all
 ]
 
 # what a real answer looks like — a listing/recommendation card or a stats block
