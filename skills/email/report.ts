@@ -38,7 +38,7 @@ export async function buildWeeklyReport(to: string, cities: string[]): Promise<E
     ``,
     `${data}`,
     ``,
-    `Reply to this email for more info!`,
+    `Message the IDX assistant on WhatsApp for more on any listing.`,
     `-IDX agent`
   ].join("\n");
   return draftEmail(to, `Weekly market report - ${new Date().toLocaleDateString()}`, body);
@@ -55,7 +55,7 @@ export async function buildListingAlert(to: string, query: string): Promise<Emai
     ``,
     cards,
     ``,
-    `Reply to this email for more info on these listings!`,
+    `Message the IDX assistant on WhatsApp for more on any listing.`,
     `-IDX agent`,
   ].join("\n");
   return draftEmail(to, `New Listings: ${query}`, body);
