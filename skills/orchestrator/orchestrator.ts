@@ -78,6 +78,7 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
       case "search":
         // on WhatsApp we know the sender -> multi-turn session
         if (userId) return await handleTurn(userId, query);
+        if (!filter.city && !filter.maxPrice) return "Which city and what budget are you looking at?";
         return await propertySearchSkill(query);
 
       case "market":
