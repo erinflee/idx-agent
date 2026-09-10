@@ -9,6 +9,7 @@ import { getSession, updateSession, clearSession } from "./session";
 
 function main() {
   let failed = 0
+  clearSession("u1");                       // sessions persist to disk now — start clean
   const a = getSession("u1");
   const b = getSession("u1");
   updateSession("u2", { city: "Concord", beds: 3 });
@@ -18,7 +19,8 @@ function main() {
   clearSession("u3");
   const d = getSession("u3");
 
-  if (a !== b) {
+  // same user -> same session contents (file-backed, so compare values, not object identity)
+  if (JSON.stringify(a) !== JSON.stringify(b)) {
     failed++;
     console.error(`New session created for same userId`);
   }
