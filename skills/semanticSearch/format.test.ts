@@ -24,7 +24,7 @@ const sample1: SemanticHit = {
   year: 2011,
   price: 900830,
   description:
-    "Bright New Zealand-inspired condo with mountain views, hardwood floors, and a sunny open kitchen that flows into a cozy living room perfect for entertaining friends and family on weekends.",
+    "Bright New Zealand-inspired condo with mountain views, a wraparound deck facing the ridgeline, dual-pane windows throughout, a detached studio wired for a home office, drought-tolerant landscaping with drip irrigation, and an oversized two-car garage with built-in storage, hardwood floors, and a sunny open kitchen that flows into a cozy living room perfect for entertaining friends and family on weekends.",
 };
 
 
