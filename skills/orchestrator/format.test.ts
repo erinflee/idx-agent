@@ -65,3 +65,63 @@ const oneMonth: PriceTrendMonth[] = [
 
 const stats = "San Diego - single family homes, last 7 months\n1,234 sales • 28 days on market";
 
+
+function assert(condition: boolean, message: string): void {
+  if (!condition) throw new Error(message);
+}
+
+
+function main() {
+  // --- trendVerdict ---
+  const up = trendVerdict(rising);
+  assert(up.startsWith("Prices are rising"), "rising trend not called rising");
+  assert(up.includes("$900,000 (2025-12) -> $950,000 (2026-02)"), "first/last month not used for the verdict");
+  assert(up.includes("+5.6%"), "gain missing explicit +");
+
+  const down = trendVerdict(falling);
+  assert(down.startsWith("Prices are falling"), "falling trend not called falling");
+  assert(down.includes("-5.6%"), "drop missing -");
+  assert(!down.includes("+-"), "drop got both + and -");
+
+  const steady = trendVerdict(flat);
+  assert(steady.startsWith("Prices are flat"), "change inside +/-2% not called flat");
+  assert(steady.includes("+1.0%"), "flat change not shown with one decimal");
+
+  const fallback = "Not enough monthly sales to call a trend.";
+  assert(trendVerdict(null) === fallback, "null trend should hit the fallback");
+  assert(trendVerdict([]) === fallback, "empty trend should hit the fallback");
+  assert(trendVerdict(oneMonth) === fallback, "one month should hit the fallback");
+
+  // --- formatMixed ---
+  const withCap = formatMixed("San Diego", 1000000, rows, rising, stats);
+  const lines = withCap.split("\n");
+
+  assert(lines[0] === "Top 2 listings in San Diego under $1,000,000", "bad header with price cap");
+  assert(lines[1] === "-----------------------", "divider missing after header");
+  assert(withCap.includes("1. 1 Main St, San Diego, CA 92101"), "first card not numbered 1");
+  assert(withCap.includes("2. 2 Oak Ave, San Diego, CA 92101"), "second card not numbered 2");
+  assert(withCap.includes("id: 11111") && withCap.includes("id: 22222"), "listing ids missing from cards");
+  assert(withCap.split("-----------------------").length === 3, "expected exactly two dividers");
+  assert(withCap.includes("Prices are rising"), "verdict line missing");
+  assert(withCap.endsWith(stats), "stats block should be the last thing in the reply");
+  assert(withCap.indexOf("1. 1 Main St") < withCap.indexOf("Prices are rising"), "cards should come before the verdict");
+  assert(withCap.indexOf("Prices are rising") < withCap.indexOf(stats), "verdict should come before the stats block");
+
+  const noCap = formatMixed("San Diego", undefined, rows, rising, stats);
+  assert(noCap.split("\n")[0] === "Top 2 listings in San Diego", "header should have no price note without a cap");
+  assert(!noCap.includes("under $"), "price note leaked without a cap");
+
+  const noRows = formatMixed("San Diego", undefined, [], null, stats);
+  assert(noRows.startsWith("Top 0 listings in San Diego"), "count should come from rows, not a fixed 5");
+  assert(noRows.includes("No matching listings found"), "empty rows should show the no-results line");
+  assert(noRows.includes(fallback), "null trend should show the fallback inside the mixed reply");
+  assert(noRows.endsWith(stats), "stats block still last when there are no rows");
+
+  assert(!withCap.includes("null"), "null leaked into mixed reply");
+  assert(!withCap.includes("undefined"), "undefined leaked into mixed reply");
+
+  console.log("PASS - mixed-intent formatters produce the expected reply");
+}
+
+
+main();
