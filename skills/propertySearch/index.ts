@@ -11,6 +11,6 @@ import { formatResults } from "./format";
 export async function propertySearchSkill(query: string, page = 1, limit = 10): Promise<string> {
   const filter = parsePropertyQuery(query);
   const rows = await searchActiveListings(filter, page, limit);
-  const cards = formatResults(rows);
+  const cards = formatResults(rows, (page - 1) * limit);
   return cards; 
 }
