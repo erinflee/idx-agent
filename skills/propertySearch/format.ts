@@ -17,7 +17,8 @@ function monthlyHoa(fee: number | null, freq: string | null): number | null {
 }
 
 // this L_Type_ value reads badly raw, so fix display
-function propertyLabel(property: string | null): string | null {
+// (also used by conversation.ts for the search header + acknowledgment lines)
+export function propertyLabel(property: string | null): string | null {
   if (property === "SingleFamilyResidence") return "Single Family";
   return property;
 }
