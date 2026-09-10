@@ -108,7 +108,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     const rows = await searchActiveListings(s, nextPage, 5);
     if (rows.length === 0) return "No more available listings for your search!";   
     updateSession(userId, { page: nextPage, lastResults: rows, lastShownIds: rows.map((r) => String(r.id)), conversationStep: 0 });
-    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
+    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows, (nextPage - 1) * 5) + `\n\nReply "show more" for the next 5.`;
   }
 
   const corrections = mergeMessage(userId, message);
