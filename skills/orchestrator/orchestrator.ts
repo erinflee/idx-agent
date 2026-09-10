@@ -106,7 +106,8 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
         return await ragAgent(query);
 
       case "mixed": {
-        if (!filter.city) return propertySearchSkill(query);
+        if (!filter.city && !filter.maxPrice) return "Which city and what budget are you looking at?";
+        if (!filter.city) return await propertySearchSkill(query);
         const [rows, stats, trend] = await Promise.all([
           searchActiveListings(filter, 1, 5),
           marketStatsAgent(filter.city),
