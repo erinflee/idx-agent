@@ -107,7 +107,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     const nextPage = (s.page ?? 1) + 1;
     const rows = await searchActiveListings(s, nextPage, 5);
     if (rows.length === 0) return "No more available listings for your search!";   
-    updateSession(userId, { page: nextPage, lastResults: rows, conversationStep: 0 });
+    updateSession(userId, { page: nextPage, lastResults: rows, lastShownIds: rows.map((r) => String(r.id)), conversationStep: 0 });
     return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
   }
 
@@ -130,7 +130,9 @@ export async function handleTurn(userId: string, message: string): Promise<strin
   }
 
   const rows = await searchActiveListings(session, 1, 5);
-  updateSession(userId, { page: 1, lastResults: rows });
+  // the search ran, so we're no longer waiting on an answer -> back to 0 or the
+  // next message (a mixed / market / knowledge ask) gets swallowed as a reply
+  updateSession(userId, { page: 1, lastResults: rows, lastShownIds: rows.map((r) => String(r.id)), conversationStep: 0 });
   if (rows.length === 0) return acknowledgment + `No listings match: ${describeSearch(session)}. Try a higher budget or another city.`;
   return acknowledgment + `${describeSearch(session)} — top ${rows.length}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
 }
