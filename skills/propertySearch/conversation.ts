@@ -108,7 +108,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
     const rows = await searchActiveListings(s, nextPage, 5);
     if (rows.length === 0) return "No more available listings for your search!";   
     updateSession(userId, { page: nextPage, lastResults: rows, conversationStep: 0 });
-    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows, (nextPage - 1) * 5) + `\n\nReply "show more" for the next 5.`;
+    return `${describeSearch(s)} — page ${nextPage}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
   }
 
   const corrections = mergeMessage(userId, message);
@@ -130,7 +130,7 @@ export async function handleTurn(userId: string, message: string): Promise<strin
   }
 
   const rows = await searchActiveListings(session, 1, 5);
-  updateSession(userId, { page: 1, lastResults: rows, conversationStep: 0 });   // 0 = search complete
+  updateSession(userId, { page: 1, lastResults: rows });
   if (rows.length === 0) return acknowledgment + `No listings match: ${describeSearch(session)}. Try a higher budget or another city.`;
-  return acknowledgment + `${describeSearch(session)} — top ${rows.length}:\n\n` + formatResults(rows, 0) + `\n\nReply "show more" for the next 5.`;
+  return acknowledgment + `${describeSearch(session)} — top ${rows.length}:\n\n` + formatResults(rows) + `\n\nReply "show more" for the next 5.`;
 }
