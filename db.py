@@ -33,7 +33,10 @@ DATABASE_URL = (
 )
 
 # pre_ping tests a connection before handing it out -> dodges "server has gone away" on idle
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+# use_pure: the connector's C extension segfaults (mysql_real_connect) when several
+# threads open their first connections at once -- exactly what a cold pool sees when
+# the mixed route fires summary + trends in parallel. The pure-Python driver can't.
+engine = create_engine(DATABASE_URL, pool_pre_ping=True, connect_args={"use_pure": True})
 
 
 def get_connection():
@@ -47,6 +50,7 @@ def get_connection():
         user=MYSQL_USER,
         password=MYSQL_PASSWORD,
         database=MYSQL_DATABASE,
+        use_pure=True,   # same C-extension segfault risk as the engine above
     )
 
 
