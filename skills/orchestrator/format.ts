@@ -17,8 +17,7 @@ export function trendVerdict(trend: PriceTrendMonth[] | null): string {
   const last = trend[trend.length - 1];
   const pct = (last.avgPrice - first.avgPrice) / first.avgPrice * 100;
   const direction = pct > 2 ? "rising" : pct < -2 ? "falling" : "flat";
-  const sign = pct >= 0 ? "+" : "";
-  return `Prices are ${direction}: avg sale price $${first.avgPrice.toLocaleString()} (${first.month}) -> $${last.avgPrice.toLocaleString()} (${last.month}), ${sign}${pct.toFixed(1)}%`;
+  return `Prices are ${direction}:`;
 }
 
 
