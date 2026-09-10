@@ -11,8 +11,8 @@ import { parsePropertyQuery } from "../propertySearch/parse";
 import { handleTurn } from "../propertySearch/conversation";
 import { getSession } from "../propertySearch/session";
 import { searchActiveListings } from "../propertySearch/search";
-import { formatResults } from "../propertySearch/format";
-import { marketStatsAgent, getPriceTrendMonth, type PriceTrendMonth } from "../marketComps/marketStats";
+import { marketStatsAgent, getPriceTrendMonth } from "../marketComps/marketStats";
+import { formatMixed } from "./format";
 import { ragAgent } from "../rag/rag";
 import { recommendAgent } from "../recommendations/recommend";
 import { semanticSearchAgent } from "../semanticSearch/semanticSearch";
@@ -55,18 +55,6 @@ export function classifyIntent(query: string): Intent {
   if (hasMarket) return "market";
   if (hasSearch) return "search";
   return "unknown";
-}
-
-
-// one-line answer to "are prices rising?" from the monthly trend: first month vs last month
-function trendVerdict(trend: PriceTrendMonth[] | null): string {
-  if (!trend || trend.length < 2) return "Not enough monthly sales to call a trend.";
-  const first = trend[0];
-  const last = trend[trend.length - 1];
-  const pct = (last.avgPrice - first.avgPrice) / first.avgPrice * 100;
-  const direction = pct > 2 ? "rising" : pct < -2 ? "falling" : "flat";
-  const sign = pct >= 0 ? "+" : "";
-  return `Prices are ${direction}: avg sale price $${first.avgPrice.toLocaleString()} (${first.month}) -> $${last.avgPrice.toLocaleString()} (${last.month}), ${sign}${pct.toFixed(1)}%`;
 }
 
 
@@ -121,12 +109,9 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
         const [rows, stats, trend] = await Promise.all([
           searchActiveListings(filter, 1, 5),
           marketStatsAgent(filter.city),
-          getPriceTrendMonth(filter.city),
+          getPriceTrendMonth(filter.city)
         ]);
-        // numbered cards, then a one-line answer to the market half, then the stats block
-        const priceNote = filter.maxPrice ? ` under $${filter.maxPrice.toLocaleString()}` : "";
-        return `Top 5 listings in ${filter.city}${priceNote}\n\n${formatResults(rows, 0)}\n\n` +
-               `${trendVerdict(trend)}\n\n${stats}`;
+        return formatMixed(filter.city, filter.maxPrice, rows, trend, stats);
       }
 
       default:
