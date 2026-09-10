@@ -44,6 +44,7 @@ FALLBACK_LINES = [
     "I'm not sure how to help with that",             # unknown intent
     "Something went wrong",                           # orchestrator catch-all
     "Which city are you asking about",                # market: no city parsed
+    "Which city and what budget are you looking at",  # search: no city and no budget parsed (single-turn guard)
     "Tell me which listing id",                       # recommend: no id parsed
     "I couldn't find a listing with that id",
     "No matching listings found",                     # search: empty result
