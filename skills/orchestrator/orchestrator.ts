@@ -9,13 +9,14 @@
 import { propertySearchSkill } from "../propertySearch/index";
 import { parsePropertyQuery } from "../propertySearch/parse";
 import { handleTurn } from "../propertySearch/conversation";
-import { getSession } from "../propertySearch/session";
+import { getSession, updateSession } from "../propertySearch/session";
 import { searchActiveListings } from "../propertySearch/search";
 import { marketStatsAgent, getPriceTrendMonth } from "../marketComps/marketStats";
 import { formatMixed } from "./format";
 import { ragAgent } from "../rag/rag";
 import { recommendAgent } from "../recommendations/recommend";
-import { semanticSearchAgent } from "../semanticSearch/semanticSearch";
+import { fetchSemanticHits } from "../semanticSearch/semanticSearch";
+import { formatSemanticHits } from "../semanticSearch/format";
 
 type Intent = "search" | "market" | "recommend" | "knowledge" | "mixed" | "unknown";
 const SEARCH_STRONG = ["show me", "find", "listing", "for sale", "looking for", "got any", "anything", "somewhere", "under", "below", "near", "<", "$"];
@@ -33,6 +34,16 @@ const KNOWLEDGE = ["what does", "explain", "mean", "difference", "define", "colu
 // FOLLOW_UP pointer words reuse the last search's top result, anything else is a description -> semantic search
 const MULTI_TURN = /\b(show more|see more|next|start over|restart|new search)\b/i;
 const FOLLOW_UP = /\b(last|first|second|third|that one|the one|those|these|recs|like (this|that|it))\b/i;
+
+// which entry of the last shown list a pointer word means (default: the first)
+const ORDINAL: Record<string, number> = { first: 0, "1st": 0, second: 1, "2nd": 1, third: 2, "3rd": 2, fourth: 3, "4th": 3, fifth: 4, "5th": 4 };
+function pointedId(query: string, shown: string[] | undefined): string | undefined {
+  if (!shown || shown.length === 0) return undefined;
+  const q = query.toLowerCase();
+  if (/\blast\b/.test(q)) return shown[shown.length - 1];
+  const m = q.match(/\b(first|second|third|fourth|fifth|1st|2nd|3rd|4th|5th)\b/);
+  return shown[m ? ORDINAL[m[1]] : 0];
+}
 
 
 export function classifyIntent(query: string): Intent {
@@ -91,12 +102,19 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
           const listing_id = query.match(/(\d{5,})/);
           if (listing_id) return await recommendAgent(listing_id[1]);
 
-          // 2. a follow-up that points back at an earlier result -> first result of the last search
-          const last = userId ? getSession(userId).lastResults?.[0] : undefined;
-          if (FOLLOW_UP.test(query) && last?.id) return await recommendAgent(String(last.id));
-          
+          // 2. a follow-up that points back at an earlier result -> that entry of the last list
+          //    shown (any route: search page, mixed, semantic); older sessions fall back to lastResults
+          if (userId && FOLLOW_UP.test(query)) {
+            const session = getSession(userId);
+            const shown = session.lastShownIds ?? session.lastResults?.map((r) => String(r.id));
+            const target = pointedId(query, shown);
+            if (target) return await recommendAgent(target);
+          }
+
           // 3. otherwise the user is describing what they want -> semantic search
-          return await semanticSearchAgent(query);
+          const hits = await fetchSemanticHits(query);
+          if (userId) updateSession(userId, { lastShownIds: hits.map((h) => String(h.id)) });
+          return formatSemanticHits(query, hits);
         } catch (err) {
           console.error(err);
           return "I couldn't find a listing with that id";
@@ -113,6 +131,7 @@ export async function orchestrate(query: string, userId?: string): Promise<strin
           marketStatsAgent(filter.city),
           getPriceTrendMonth(filter.city)
         ]);
+        if (userId) updateSession(userId, { lastShownIds: rows.map((r) => String(r.id)) });
         return formatMixed(filter.city, filter.maxPrice, rows, trend, stats);
       }
 
