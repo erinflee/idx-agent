@@ -17,6 +17,8 @@ export interface UserSession {
   maxHoa?: number;
   page?: number;
   lastResults?: ListingRow[];
+  lastShownIds?: string[];     // ids of the most recent list the user saw, from ANY route
+                               // (search page, mixed, semantic) -> what "the first one" points at
   conversationStep: number;
 }
 
