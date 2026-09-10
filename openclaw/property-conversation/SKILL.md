@@ -44,12 +44,16 @@ Examples:
 
 ## Returning results
 
-- Relay stdout to the user as-is.
+- Relay stdout to the user VERBATIM — first line to last. Do NOT add an intro
+  sentence, do NOT number or bullet the cards, do NOT drop the header line
+  (e.g. "Concord • under $1,400,000 — top 5:") or the trailer ("Reply \"show
+  more\"...").
 - If stdout is a question, send only that question — do not run a separate
   property-search command in the same turn.
-- If stdout contains property cards, relay them unchanged.
-- Saying "start over", "restart", or "new search" clears the user's session
-  and begins a fresh search.
+- "start over", "restart", "new search": ALWAYS run the command with that exact
+  message. Never answer these yourself — the command clears the user's saved
+  search and prints the first question ("Which city?"), which you relay
+  verbatim.
 - "show more" / "next" paginates the last search when results exist.
 - Never invent listings — report only what the command prints.
 
