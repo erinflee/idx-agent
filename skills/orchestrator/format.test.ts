@@ -73,19 +73,16 @@ function assert(condition: boolean, message: string): void {
 
 function main() {
   // --- trendVerdict ---
+  // the verdict is a one-line headline: direction only, no figures
   const up = trendVerdict(rising);
   assert(up.startsWith("Prices are rising"), "rising trend not called rising");
-  assert(up.includes("$900,000 (2025-12) -> $950,000 (2026-02)"), "first/last month not used for the verdict");
-  assert(up.includes("+5.6%"), "gain missing explicit +");
+  assert(!up.includes("$"), "verdict should not repeat the dollar figures");
 
   const down = trendVerdict(falling);
   assert(down.startsWith("Prices are falling"), "falling trend not called falling");
-  assert(down.includes("-5.6%"), "drop missing -");
-  assert(!down.includes("+-"), "drop got both + and -");
 
   const steady = trendVerdict(flat);
   assert(steady.startsWith("Prices are flat"), "change inside +/-2% not called flat");
-  assert(steady.includes("+1.0%"), "flat change not shown with one decimal");
 
   const fallback = "Not enough monthly sales to call a trend.";
   assert(trendVerdict(null) === fallback, "null trend should hit the fallback");
