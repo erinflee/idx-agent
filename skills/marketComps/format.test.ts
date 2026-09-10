@@ -32,9 +32,14 @@ function assert(condition: boolean, message: string): void {
 }
 
 
+// fixed "today" so the month window is deterministic: 7 months ending 2026-03
+// -> 2025-09 .. 2026-03, of which only 2025-12 .. 2026-02 have data
+const NOW = new Date(2026, 2, 15);
+
+
 function main() {
   const validSummary = formatMarketSummary("Los Angeles", 7, summary);
-  const validTrend = formatPriceTrendMonth("Los Angeles", 7, trend);
+  const validTrend = formatPriceTrendMonth("Los Angeles", 7, trend, NOW);
 
   const invalidSummary = formatMarketSummary("Boston", 7, null);
   const invalidTrend = formatPriceTrendMonth("Boston", 7, null);
@@ -49,8 +54,21 @@ function main() {
   assert(!validSummary.includes("null"), "null leaked into summary");
 
   assert(validTrend.includes("Price trend (month • sales • avg price • vs. prior)"), "bad trend header");
-  assert(validTrend.split("\n").length === 4, "expected header + 3 rows");
+  assert(validTrend.split("\n").length === 8, "expected header + 7 rows (every month in the window)");
   assert(validTrend.includes("$900,000"), "avgPrice not comma-formatted");
+
+  // months with no sales get a placeholder row, in order, with the same bullet count
+  const trendLines = validTrend.split("\n");
+  assert(trendLines[1] === "2025-09 • 0 • no sales recorded • n/a", "first empty month missing its placeholder");
+  assert(trendLines[3] === "2025-11 • 0 • no sales recorded • n/a", "gap before the data missing its placeholder");
+  assert(trendLines[4].startsWith("2025-12 • 90"), "data rows should sit in month order among the placeholders");
+  assert(trendLines[7] === "2026-03 • 0 • no sales recorded • n/a", "current month missing its placeholder");
+
+  // a month outside the window (partial first month at the SQL boundary) is kept, not dropped
+  const early: PriceTrendMonth[] = [{ month: "2025-08", sales: 5, avgPrice: 800000, priceChangePct: null }, ...trend];
+  const withEarly = formatPriceTrendMonth("Los Angeles", 7, early, NOW);
+  assert(withEarly.split("\n").length === 9, "out-of-window month should be added, not dropped");
+  assert(withEarly.split("\n")[1].startsWith("2025-08 • 5"), "out-of-window month should sort first");
 
   // magnitude keeps its own minus, gains get an explicit "+"
   assert(validTrend.includes("+2.8%"), "gain missing +");
