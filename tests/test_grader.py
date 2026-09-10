@@ -2,8 +2,8 @@
 
 Run - python3 -m pytest tests/ -q
 
-If the oracle does not score 1.0, the bug is in your scorer/validator — there
-is no agent yet to blame.
+If the oracle does not score 1.0, the bug is in the scorer/validator, not the
+pipeline. The real pipeline is scored in test_task_success.py.
 """
 
 from evals.grader import run_suite, task_success_rate, oracle_system
