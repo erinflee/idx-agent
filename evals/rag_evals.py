@@ -2,7 +2,7 @@
 
 Most must-refuse cases in rag_cases.jsonl retrieve above MIN_SCORE, so refusing
 them rests on the system prompt. The deterministic metrics (recall@k, context
-precision) are free and offline; --judge adds answerability plus LLM-judged
+precision) are free and offline. --judge adds answerability plus LLM-judged
 relevance, groundedness, and reference-based correctness — ~200 flash calls
 per run over the 60-case set (cents on paid billing).
 
