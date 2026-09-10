@@ -1,5 +1,5 @@
 #!/bin/sh
-# run the full test suite (Weeks 3-7), one test per line
+# run the full test suite (Weeks 3-11), one test per line
 # invoked via:  npm test  (see package.json) — or directly:  sh scripts/test-all.sh
 set -e   # stop at the first failing test (same short-circuit as &&)
 
