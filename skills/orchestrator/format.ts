@@ -24,6 +24,6 @@ export function trendVerdict(trend: PriceTrendMonth[] | null): string {
 // header + numbered cards, divider, verdict line, then the market stats block as printed by marketStatsAgent
 export function formatMixed(city: string, maxPrice: number | undefined, rows: ListingRow[], trend: PriceTrendMonth[] | null, stats: string): string {
   const priceNote = maxPrice ? ` under $${maxPrice.toLocaleString()}` : "";
-  return `Top ${rows.length} listings in ${city}${priceNote}:\n\n${formatResults(rows, 0)}\n\n` +
+  return `Top ${rows.length} listings in ${city}${priceNote}:\n\n${formatResults(rows)}\n\n` +
          `${DIVIDER}\n\n${trendVerdict(trend)}\n\n${stats}`;
 }
