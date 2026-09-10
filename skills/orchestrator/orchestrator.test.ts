@@ -6,15 +6,19 @@
 // silently misrouting. Also pins one known-wrong case ("per sqft" collides
 // with the search word "sqft") so a behavior change is noticed.
 //
+// also pins the single-turn empty-filter guard: a vague search with no city
+// and no budget must get a clarifying question, never a statewide search
+// (the guard returns before any DB call, so this still needs no server)
+//
 // run:  npm run test-orchestrator
 
-import { classifyIntent } from "./orchestrator";
+import { classifyIntent, orchestrate } from "./orchestrator";
 
 function assert(condition: boolean, message: string): void {
   if (!condition) throw new Error(message);
 }
 
-function main() {
+async function main() {
   const searchIntent = classifyIntent("find a 3b2b sfr with a pool in cupertino");
   const weakMarketIntent = classifyIntent("whats the going rate per sqft in oakland");
   const marketIntent1 = classifyIntent("market trends in palo alto");
@@ -36,6 +40,13 @@ function main() {
   assert(mixedIntent1 === "mixed", `FAIL  expected: mixed, got: ${mixedIntent1}`);
   assert(mixedIntent2 === "mixed", `FAIL  expected: mixed, got: ${mixedIntent2}`);
   assert(unknownIntent === "unknown", `FAIL  expected: unknown, got: ${unknownIntent}`);
+
+  // empty-filter guard (single-turn path only: no userId)
+  const vague = "show me something nice";
+  assert(classifyIntent(vague) === "search", `FAIL  guard test query must route to search, got ${classifyIntent(vague)}`);
+  const vagueReply = await orchestrate(vague);
+  assert(vagueReply === "Which city and what budget are you looking at?", `FAIL  vague search should ask for city/budget, got: ${vagueReply}`);
+  assert(!vagueReply.includes("id:"), "FAIL  vague search returned a listing card");
 
   console.log("PASS -- all orchestrator tests ran")
 }
