@@ -12,9 +12,7 @@
 *.json
 !package.json
 !package-lock.json
-!baseline.json
 !tsconfig.json
-!.prettierrc.json
 # city lookup table the property-search parser depends on
 !skills/propertySearch/cities.json
 
